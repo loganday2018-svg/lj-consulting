@@ -37,11 +37,11 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <LogoTicker />
+
       <StatStrip />
 
       {/* Value Propositions */}
-      <section className="bg-slate-50 py-16 md:py-24">
+      <section className="py-16 md:py-24">
         <div className="mx-auto max-w-6xl px-6">
           <div className="text-center">
             <h2 className="text-3xl font-semibold text-foreground md:text-4xl">
@@ -56,6 +56,8 @@ export default function HomePage() {
           <ValueProps items={VALUE_PROPS} />
         </div>
       </section>
+
+      <LogoTicker />
 
       <CTASection heading="Ready to Accelerate Your Portfolio's AI Adoption?" />
     </>

@@ -49,7 +49,11 @@ export function TeamMember({
           ))}
         </div>
 
-        <p className="mt-4 leading-relaxed text-slate-700">{bio}</p>
+        <div className="mt-4 space-y-3">
+          {bio.split("\n\n").map((paragraph, i) => (
+            <p key={i} className="leading-relaxed text-slate-700">{paragraph}</p>
+          ))}
+        </div>
       </div>
     </div>
   )

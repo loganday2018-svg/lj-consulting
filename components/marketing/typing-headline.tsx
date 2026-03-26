@@ -13,7 +13,7 @@ export function TypingHeadline({ text, className }: TypingHeadlineProps) {
   const [done, setDone] = useState(false)
 
   useEffect(() => {
-    const speed = 35 // ms per character
+    const speed = 20 // ms per character
     let i = 0
 
     const timer = setInterval(() => {

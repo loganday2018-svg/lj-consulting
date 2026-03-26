@@ -33,7 +33,7 @@ export function HeroSection() {
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 2.5 }}
+            transition={{ duration: 0.6, delay: 1.5 }}
             className="mt-6 max-w-2xl text-lg text-slate-300 md:text-xl"
           >
             We&apos;re Logan & James. We help PE-backed teams deploy Claude,
@@ -43,7 +43,7 @@ export function HeroSection() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 2.8 }}
+            transition={{ duration: 0.6, delay: 1.8 }}
             className="mt-10 flex flex-wrap items-center gap-6"
           >
             <Button size="lg" variant="secondary" render={<a href={CTA.primary.href} />}>
