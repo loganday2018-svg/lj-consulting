@@ -38,17 +38,17 @@ export default function HomePage() {
       {/* Stat Strip */}
       <section className="bg-slate-800 py-10">
         <div className="mx-auto max-w-6xl px-6">
-          <div className="grid grid-cols-3 divide-x divide-slate-600">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-0 md:divide-x md:divide-slate-600">
             <div className="px-8 text-center">
-              <p className="text-3xl font-bold text-white md:text-4xl">World&apos;s Largest Retailer</p>
+              <p className="text-2xl font-bold text-white md:text-4xl">World&apos;s Largest Retailer</p>
               <p className="mt-2 text-sm text-slate-400">Where we built our operator experience</p>
             </div>
             <div className="px-8 text-center">
-              <p className="text-3xl font-bold text-white md:text-4xl">2</p>
+              <p className="text-2xl font-bold text-white md:text-4xl">2</p>
               <p className="mt-2 text-sm text-slate-400">Top-10 MBA programs</p>
             </div>
             <div className="px-8 text-center">
-              <p className="text-3xl font-bold text-white md:text-4xl">2</p>
+              <p className="text-2xl font-bold text-white md:text-4xl">2</p>
               <p className="mt-2 text-sm text-slate-400">Portfolio companies onboarded</p>
             </div>
           </div>
