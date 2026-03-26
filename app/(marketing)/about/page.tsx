@@ -3,6 +3,8 @@ import { BRAND } from "@/lib/constants"
 import { TeamMember } from "@/components/marketing/team-member"
 import { CTASection } from "@/components/marketing/cta-section"
 import { PageHeader } from "@/components/marketing/page-header"
+import { AnimatedSection } from "@/components/marketing/animated-section"
+import { AnimatedTeam } from "@/components/marketing/animated-team"
 
 export const metadata: Metadata = {
   title: "About",
@@ -49,31 +51,33 @@ export default function AboutPage() {
       {/* Why We Exist — with left accent bar */}
       <section className="py-16">
         <div className="mx-auto max-w-4xl px-6">
-          <div className="border-l-4 border-primary pl-8">
-            <h2 className="mb-6 text-3xl font-semibold">Why We Exist</h2>
-            <p className="mb-4 leading-relaxed text-slate-700">
-              PE-backed portfolio companies are under constant pressure to do more
-              with less. AI tools like Claude, Codex, and Copilot can deliver that
-              leverage — but only if they&apos;re actually adopted by real teams
-              doing real work. Most AI initiatives die in the pilot stage because
-              they&apos;re led by people who&apos;ve never used the tools
-              themselves.
-            </p>
-            <p className="mb-4 leading-relaxed text-slate-700">
-              We started {BRAND.name} because we saw the gap firsthand. As
-              operators at a Fortune 1 company, we adopted AI tools before anyone
-              asked us to — and watched our own productivity transform. Now we
-              help other portfolio companies do the same thing, without the
-              six-month consulting engagement or the 50-slide deck that gathers
-              dust.
-            </p>
-            <p className="leading-relaxed text-slate-700">
-              Our approach is simple: we show up, we set up the tools, we train
-              your teams, and we stay until it&apos;s working. No theory, no
-              frameworks, no jargon. Just working AI tools in the hands of the
-              people who need them.
-            </p>
-          </div>
+          <AnimatedSection>
+            <div className="border-l-4 border-primary pl-8">
+              <h2 className="mb-6 text-3xl font-semibold">Why We Exist</h2>
+              <p className="mb-4 leading-relaxed text-slate-700">
+                PE-backed portfolio companies are under constant pressure to do more
+                with less. AI tools like Claude, Codex, and Copilot can deliver that
+                leverage — but only if they&apos;re actually adopted by real teams
+                doing real work. Most AI initiatives die in the pilot stage because
+                they&apos;re led by people who&apos;ve never used the tools
+                themselves.
+              </p>
+              <p className="mb-4 leading-relaxed text-slate-700">
+                We started {BRAND.name} because we saw the gap firsthand. As
+                operators at a Fortune 1 company, we adopted AI tools before anyone
+                asked us to — and watched our own productivity transform. Now we
+                help other portfolio companies do the same thing, without the
+                six-month consulting engagement or the 50-slide deck that gathers
+                dust.
+              </p>
+              <p className="leading-relaxed text-slate-700">
+                Our approach is simple: we show up, we set up the tools, we train
+                your teams, and we stay until it&apos;s working. No theory, no
+                frameworks, no jargon. Just working AI tools in the hands of the
+                people who need them.
+              </p>
+            </div>
+          </AnimatedSection>
         </div>
       </section>
 
@@ -83,11 +87,11 @@ export default function AboutPage() {
           <h2 className="mb-12 text-center text-3xl font-semibold">
             Meet the Team
           </h2>
-          <div className="space-y-12">
+          <AnimatedTeam>
             {team.map((member) => (
               <TeamMember key={member.name} {...member} />
             ))}
-          </div>
+          </AnimatedTeam>
         </div>
       </section>
 

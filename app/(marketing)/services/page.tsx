@@ -3,6 +3,8 @@ import { GraduationCap, Terminal, Headphones, Workflow } from "lucide-react"
 import { ServiceCard } from "@/components/marketing/service-card"
 import { CTASection } from "@/components/marketing/cta-section"
 import { PageHeader } from "@/components/marketing/page-header"
+import { AnimatedServicesGrid } from "@/components/marketing/animated-services-grid"
+import { AnimatedSteps } from "@/components/marketing/animated-steps"
 
 export const metadata: Metadata = {
   title: "Services",
@@ -100,30 +102,20 @@ export default function ServicesPage() {
 
       {/* Services Grid */}
       <section className="py-12">
-        <div className="mx-auto grid max-w-6xl gap-8 px-6 md:grid-cols-2">
+        <AnimatedServicesGrid>
           {services.map((service) => (
             <ServiceCard key={service.title} {...service} />
           ))}
-        </div>
+        </AnimatedServicesGrid>
       </section>
 
-      {/* How We Engage */}
+      {/* How It Works */}
       <section className="bg-slate-50 py-16">
         <div className="mx-auto max-w-4xl px-6">
           <h2 className="mb-8 text-center text-3xl font-semibold">
             How It Works
           </h2>
-          <div className="grid gap-8 text-center md:grid-cols-3">
-            {steps.map((step) => (
-              <div key={step.number}>
-                <div className="mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
-                  {step.number}
-                </div>
-                <h3 className="mb-2 font-semibold">{step.title}</h3>
-                <p className="text-sm text-slate-700">{step.description}</p>
-              </div>
-            ))}
-          </div>
+          <AnimatedSteps steps={steps} />
         </div>
       </section>
 
