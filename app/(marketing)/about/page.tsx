@@ -21,11 +21,15 @@ const team = [
     initials: "LD",
   },
   {
-    name: "James [Last Name]",
+    name: "James McManus",
     title: "Co-Founder",
-    credentials: ["[Credentials TBD]", "AI Implementation Specialist"],
-    bio: `James brings [background TBD] experience to ${BRAND.name}. His expertise in [area TBD] ensures that every engagement delivers measurable value to portfolio company operations.`,
-    initials: "J",
+    credentials: [
+      "MBA - Kellogg School of Management (Northwestern)",
+      "Walmart — Finance & Operations",
+      "AI Implementation Specialist",
+    ],
+    bio: "James brings a rare combination of Fortune 500 operational rigor and top-tier academic training to every engagement. An MBA graduate from Northwestern's Kellogg School of Management — where he graduated Summa Cum Laude and ranked in the top 10% of his class — James has spent his career driving strategic and operational improvements at scale. At Walmart, he works across finance and operations, giving him firsthand insight into the process inefficiencies that AI tools eliminate fastest. He specializes in identifying high-leverage automation opportunities and building the business case that gets PE partners and portfolio operators aligned.",
+    initials: "JM",
   },
 ]
 
