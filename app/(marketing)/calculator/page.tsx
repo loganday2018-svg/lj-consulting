@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
 import { PageHeader } from "@/components/marketing/page-header"
 import { EbitdaCalculator } from "@/components/marketing/ebitda-calculator"
+import { UseCaseBreakdown } from "@/components/marketing/use-case-breakdown"
+import { CTASection } from "@/components/marketing/cta-section"
 
 export const metadata: Metadata = {
   title: "AI Impact Calculator",
@@ -21,6 +23,17 @@ export default function CalculatorPage() {
           <EbitdaCalculator />
         </div>
       </section>
+
+      <section className="border-t border-slate-200 bg-slate-50 py-16">
+        <div className="mx-auto max-w-4xl px-6">
+          <UseCaseBreakdown />
+        </div>
+      </section>
+
+      <CTASection
+        heading="Want to see which workflows fit your portfolio?"
+        description="We'll map the highest-impact AI opportunities specific to your portfolio companies."
+      />
     </>
   )
 }

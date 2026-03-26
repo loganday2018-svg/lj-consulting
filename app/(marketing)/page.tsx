@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import { GraduationCap, Wrench, Headphones } from "lucide-react"
 import { HeroSection } from "@/components/marketing/hero"
 import { CTASection } from "@/components/marketing/cta-section"
 import { StatStrip } from "@/components/marketing/stat-strip"
@@ -14,22 +13,40 @@ export const metadata: Metadata = {
 
 const VALUE_PROPS = [
   {
-    icon: "GraduationCap" as const,
-    title: "AI Training Programs",
+    icon: "TrendingUp" as const,
+    title: "Your Sales Team Closes Faster",
     description:
-      "Hands-on training for operators and teams. From prompt engineering to building custom workflows — we get your people productive with AI in days, not months.",
+      "AI handles the grunt work so your team spends time selling, not researching.",
+    useCases: [
+      "Prospect research pulled in seconds, not hours",
+      "Custom proposals drafted from templates and CRM data",
+      "Cold outreach personalized at scale",
+      "CRM cleanup and deal scoring on autopilot",
+    ],
   },
   {
-    icon: "Wrench" as const,
-    title: "Tool Setup & Integration",
+    icon: "Clock" as const,
+    title: "Your Finance Team Does in Hours What Took Days",
     description:
-      "Claude Code, GitHub Copilot, Cursor, Codex — we configure and deploy the right AI tools for each portfolio company's tech stack and workflows.",
+      "DCFs, board decks, variance reports — AI builds the first draft so your team focuses on the analysis.",
+    useCases: [
+      "DCF models and scenario analysis built in minutes",
+      "Month-end close accelerated — reconciliations, commentary, journal entries",
+      "Board deck narratives drafted from raw data",
+      "Audit prep and workpaper organization automated",
+    ],
   },
   {
-    icon: "Headphones" as const,
-    title: "Retainer Support",
+    icon: "Cog" as const,
+    title: "Your Ops Team Stops Drowning in Manual Work",
     description:
-      "Stuck on a prompt? Tool acting weird? New hire needs onboarding? That's what we're here for — a dedicated AI partner your teams can actually reach.",
+      "Contract reviews, compliance checks, inventory — AI handles the repetitive stuff so your operators can operate.",
+    useCases: [
+      "Vendor contracts analyzed and renegotiation opportunities flagged",
+      "Quality and compliance monitoring in real-time",
+      "HR docs, job postings, and onboarding materials generated instantly",
+      "Support ticket triage and auto-response",
+    ],
   },
 ] as const
 
@@ -45,11 +62,11 @@ export default function HomePage() {
         <div className="mx-auto max-w-6xl px-6">
           <div className="text-center">
             <h2 className="text-3xl font-semibold text-foreground md:text-4xl">
-              How We Create Value
+              What Changes When AI Actually Works
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-slate-700">
-              Three ways we help portfolio companies capture AI-driven operating
-              leverage.
+              Not theory. These are the workflows we set up at real portfolio
+              companies.
             </p>
           </div>
 

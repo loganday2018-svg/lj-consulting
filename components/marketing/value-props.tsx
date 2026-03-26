@@ -1,12 +1,12 @@
 "use client"
 
-import { GraduationCap, Wrench, Headphones } from "lucide-react"
+import { TrendingUp, Clock, Cog } from "lucide-react"
 import { StaggeredCards } from "@/components/marketing/staggered-cards"
 
 const ICONS = {
-  GraduationCap,
-  Wrench,
-  Headphones,
+  TrendingUp,
+  Clock,
+  Cog,
 } as const
 
 interface ValuePropsProps {
@@ -14,6 +14,7 @@ interface ValuePropsProps {
     icon: keyof typeof ICONS
     title: string
     description: string
+    useCases: readonly string[]
   }[]
 }
 
@@ -31,9 +32,17 @@ export function ValueProps({ items }: ValuePropsProps) {
             <h3 className="mb-3 text-xl font-semibold text-foreground">
               {prop.title}
             </h3>
-            <p className="text-sm leading-relaxed text-slate-700 md:text-base">
+            <p className="mb-4 text-sm leading-relaxed text-slate-700 md:text-base">
               {prop.description}
             </p>
+            <ul className="space-y-2">
+              {prop.useCases.map((useCase) => (
+                <li key={useCase} className="flex items-start gap-2 text-sm text-slate-600">
+                  <span className="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary/60" />
+                  {useCase}
+                </li>
+              ))}
+            </ul>
           </div>
         )
       })}
