@@ -1,0 +1,93 @@
+import type { Metadata } from "next"
+import { BRAND } from "@/lib/constants"
+import { TeamMember } from "@/components/marketing/team-member"
+import { CTASection } from "@/components/marketing/cta-section"
+
+export const metadata: Metadata = {
+  title: "About",
+  description: `Meet the team behind ${BRAND.name}. MBA-credentialed operators with hands-on PE experience who use AI tools every day.`,
+}
+
+const team = [
+  {
+    name: "Logan Day",
+    title: "Co-Founder",
+    credentials: [
+      "MBA - Darden School of Business",
+      "Finance Leadership Development Program",
+      "AI Implementation Specialist",
+    ],
+    bio: "Logan brings hands-on AI implementation experience from his work at Fortune 500 companies. He specializes in deploying Claude Code and AI-powered automation across finance and operations teams, with a focus on translating complex AI capabilities into practical tools that non-technical operators can use immediately.",
+    initials: "LD",
+  },
+  {
+    name: "James [Last Name]",
+    title: "Co-Founder",
+    credentials: ["[Credentials TBD]", "AI Implementation Specialist"],
+    bio: `James brings [background TBD] experience to ${BRAND.name}. His expertise in [area TBD] ensures that every engagement delivers measurable value to portfolio company operations.`,
+    initials: "J",
+  },
+]
+
+export default function AboutPage() {
+  return (
+    <>
+      {/* Page Header */}
+      <section className="py-16 text-center md:py-24">
+        <div className="mx-auto max-w-4xl px-6">
+          <h1 className="text-4xl font-bold md:text-5xl">About Us</h1>
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-slate-700">
+            We&apos;re operators, not theorists. Every recommendation we make
+            comes from tools we use ourselves, every day.
+          </p>
+        </div>
+      </section>
+
+      {/* Firm Positioning */}
+      <section className="py-12">
+        <div className="mx-auto max-w-4xl px-6">
+          <h2 className="mb-6 text-3xl font-semibold">Why We Exist</h2>
+          <p className="mb-4 leading-relaxed text-slate-800">
+            PE-backed portfolio companies are under constant pressure to do more
+            with less. AI tools like Claude, Codex, and Copilot can deliver that
+            leverage -- but only if they&apos;re actually adopted by real teams
+            doing real work. Most AI initiatives die in the pilot stage because
+            they&apos;re led by people who&apos;ve never used the tools
+            themselves.
+          </p>
+          <p className="mb-4 leading-relaxed text-slate-800">
+            We started {BRAND.name} because we saw the gap firsthand. As
+            operators at PE-backed companies, we adopted AI tools before anyone
+            asked us to -- and watched our own productivity transform. Now we
+            help other portfolio companies do the same thing, without the
+            six-month consulting engagement or the 50-slide deck that gathers
+            dust.
+          </p>
+          <p className="leading-relaxed text-slate-800">
+            Our approach is simple: we show up, we set up the tools, we train
+            your teams, and we stay until it&apos;s working. No theory, no
+            frameworks, no jargon. Just working AI tools in the hands of the
+            people who need them.
+          </p>
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <section className="bg-slate-50 py-16">
+        <div className="mx-auto max-w-4xl px-6">
+          <h2 className="mb-12 text-center text-3xl font-semibold">
+            Meet the Team
+          </h2>
+          <div className="space-y-12">
+            {team.map((member) => (
+              <TeamMember key={member.name} {...member} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <CTASection />
+    </>
+  )
+}
