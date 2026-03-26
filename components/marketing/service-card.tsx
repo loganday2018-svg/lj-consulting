@@ -16,7 +16,7 @@ export function ServiceCard({
   timeline,
 }: ServiceCardProps) {
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-8">
+    <div className="rounded-lg border border-slate-200 bg-white p-8 transition-all duration-200 hover:border-primary/40 hover:shadow-lg hover:-translate-y-0.5">
       <div className="mb-4 text-primary">{icon}</div>
       <h3 className="mb-3 text-xl font-semibold">{title}</h3>
       <p className="mb-6 leading-relaxed text-slate-700">{description}</p>

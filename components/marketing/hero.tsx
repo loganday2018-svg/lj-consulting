@@ -4,19 +4,26 @@ import Link from "next/link"
 
 export function HeroSection() {
   return (
-    <section className="bg-primary py-24 md:py-32 lg:py-40">
+    <section
+      className="bg-primary py-24 md:py-32 lg:py-40"
+      style={{
+        backgroundImage:
+          "radial-gradient(circle, oklch(1 0 0 / 0.07) 1px, transparent 1px)",
+        backgroundSize: "24px 24px",
+      }}
+    >
       <div className="mx-auto max-w-6xl px-6">
         <div className="max-w-3xl">
           <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-slate-400">
             AI Implementation for PE Portfolio Companies
           </p>
-          <h1 className="text-4xl font-bold tracking-tight text-primary-foreground md:text-5xl lg:text-6xl">
-            AI Implementation That Drives Portfolio Company Value Creation
+          <h1 className="font-display text-4xl font-bold tracking-tight text-primary-foreground md:text-5xl lg:text-6xl">
+            Two Operators Who Got Obsessed With AI — Now We Set Up Yours
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-slate-300 md:text-xl">
-            We help PE-backed operators deploy Claude, Codex, and Copilot across
-            their portfolio companies — turning AI from a buzzword into
-            measurable operating leverage.
+            We&apos;re Logan & James. We help PE-backed teams deploy Claude,
+            Codex, and Copilot — then stick around to make sure they actually
+            use them.
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-6">
             <Button size="lg" variant="secondary" render={<a href={CTA.primary.href} />}>
