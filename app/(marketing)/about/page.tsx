@@ -13,11 +13,11 @@ const team = [
     name: "Logan Day",
     title: "Co-Founder",
     credentials: [
-      "MBA - Darden School of Business",
-      "Finance Leadership Development Program",
-      "AI Implementation Specialist",
+      "MBA - UVA Darden School of Business",
+      "Walmart Finance Leadership Development Program",
+      "U.S. Army Captain (Reserve)",
     ],
-    bio: "Logan brings hands-on AI implementation experience from his work at Fortune 500 companies. He specializes in deploying Claude Code and AI-powered automation across finance and operations teams, with a focus on translating complex AI capabilities into practical tools that non-technical operators can use immediately.",
+    bio: "Logan brings an operator's mindset to every AI engagement — built through a career that spans the U.S. Army, Fortune 1 finance, and the Darden MBA program at UVA. As a Company Commander in the Army Reserve, he learned to execute under pressure with limited resources, a skillset that translates directly to fast-moving portfolio company environments. At Walmart's Finance Leadership Development Program, he works at the intersection of large-scale operations and financial performance — exactly where AI automation delivers the most leverage. A Duke graduate, Logan adopted Claude Code and AI tooling before anyone told him to, and immediately saw the productivity impact firsthand. He co-founded L&J to give every PE-backed operator access to the same edge.",
     initials: "LD",
   },
   {
