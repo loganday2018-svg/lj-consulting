@@ -15,6 +15,7 @@ export const NAV_LINKS = [
 export const CTA = {
   primary: {
     label: 'Book a Discovery Call',
-    href: `mailto:${BRAND.email}?subject=Discovery Call Request`,
+    // TODO: Replace with real Cal.com link once account is created
+    href: 'https://cal.com/lj-consulting/discovery',
   },
 } as const

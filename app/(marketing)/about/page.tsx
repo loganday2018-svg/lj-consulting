@@ -21,6 +21,7 @@ const team = [
     bio: "Logan brings an operator's mindset to every AI engagement — built through a career that spans the U.S. Army, Fortune 1 finance, and the Darden MBA program at UVA.\n\nAs a Company Commander in the Army Reserve, he learned to execute under pressure with limited resources — a skillset that translates directly to fast-moving portfolio company environments. At Walmart's Finance Leadership Development Program, he works at the intersection of large-scale operations and financial performance, exactly where AI automation delivers the most leverage.\n\nA Duke graduate, Logan adopted Claude Code and AI tooling before anyone told him to, and immediately saw the productivity impact firsthand. He co-founded L&J to give every PE-backed operator access to the same edge.",
     initials: "LD",
     imageSrc: "/images/logan.jpg",
+    linkedIn: "https://linkedin.com/in/loganday1",
   },
   {
     name: "James McManus",
@@ -33,6 +34,7 @@ const team = [
     bio: "James brings a rare combination of Fortune 500 operational rigor and top-tier academic training to every engagement. An MBA graduate from Northwestern's Kellogg School of Management — where he graduated Summa Cum Laude and ranked in the top 10% of his class.\n\nAt Walmart, he works across finance and operations, giving him firsthand insight into the process inefficiencies that AI tools eliminate fastest.\n\nHe specializes in identifying high-leverage automation opportunities and building the business case that gets PE partners and portfolio operators aligned.",
     initials: "JM",
     imageSrc: "/images/james.jpg",
+    linkedIn: "https://linkedin.com/in/james-mcmanus06",
   },
 ]
 

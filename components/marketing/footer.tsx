@@ -10,9 +10,8 @@ export function Footer() {
           <div className="space-y-4">
             <p className="text-lg font-bold text-white">{BRAND.name}</p>
             <p className="text-sm leading-relaxed text-slate-400">
-              AI implementation for PE portfolio companies. Hands-on training,
-              tool setup, and retainer support that drives measurable value
-              creation.
+              We help PE-backed teams deploy AI tools — then stick around to
+              make sure they actually use them.
             </p>
             <a
               href={`mailto:${BRAND.email}`}
