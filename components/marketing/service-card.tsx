@@ -6,6 +6,7 @@ interface ServiceCardProps {
   description: string
   scope: string[]
   timeline?: string
+  price?: string
 }
 
 export function ServiceCard({
@@ -14,6 +15,7 @@ export function ServiceCard({
   description,
   scope,
   timeline,
+  price,
 }: ServiceCardProps) {
   return (
     <div className="rounded-lg border border-slate-200 bg-white p-8 transition-all duration-200 hover:border-primary/40 hover:shadow-lg hover:-translate-y-0.5">
@@ -35,11 +37,18 @@ export function ServiceCard({
         </ul>
       </div>
 
-      {timeline && (
-        <span className="mt-4 inline-block rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600">
-          {timeline}
-        </span>
-      )}
+      <div className="mt-6 flex flex-wrap items-center gap-3">
+        {price && (
+          <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+            {price}
+          </span>
+        )}
+        {timeline && (
+          <span className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600">
+            {timeline}
+          </span>
+        )}
+      </div>
     </div>
   )
 }

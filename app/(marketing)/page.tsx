@@ -59,7 +59,10 @@ export default function HomePage() {
 
       <LogoTicker />
 
-      <CTASection heading="Ready to Accelerate Your Portfolio's AI Adoption?" />
+      <CTASection
+        heading="Ready to Accelerate Your Portfolio's AI Adoption?"
+        description="30-minute call. We'll map out where AI fits in your portfolio companies and what to do first."
+      />
     </>
   )
 }

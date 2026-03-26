@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { GraduationCap, Terminal, Headphones, Workflow } from "lucide-react"
 import { ServiceCard } from "@/components/marketing/service-card"
 import { CTASection } from "@/components/marketing/cta-section"
+import { PageHeader } from "@/components/marketing/page-header"
 
 export const metadata: Metadata = {
   title: "Services",
@@ -14,7 +15,7 @@ const services = [
     icon: <GraduationCap size={32} />,
     title: "AI Training Programs",
     description:
-      "Hands-on training that gets your teams productive with AI tools in days. We teach real workflows, not theory -- from prompt engineering to building custom automations.",
+      "We sit with your teams and teach them real workflows — prompt engineering, custom automations, the tools they'll actually use tomorrow. Not a lecture. Not a PDF.",
     scope: [
       "Team-wide prompt engineering workshops",
       "Tool-specific training (Claude, Codex, Copilot, Cursor)",
@@ -22,25 +23,27 @@ const services = [
       "Recorded sessions for onboarding new hires",
     ],
     timeline: "1-2 weeks per program",
+    price: "From $5,000",
   },
   {
     icon: <Terminal size={32} />,
     title: "Claude Code & Codex Setup",
     description:
-      "We configure and deploy AI coding assistants across your engineering teams. Proper setup means 2-3x faster development from day one.",
+      "We configure AI coding assistants for your engineering teams — proper API keys, custom instructions, IDE integration. Set up right means productive from day one.",
     scope: [
       "Environment configuration and API key management",
-      "Custom instruction files and coding standards integration",
-      "Team onboarding and best practices documentation",
+      "Custom instruction files and coding standards",
+      "Team onboarding and best practices docs",
       "IDE and workflow integration (VS Code, Cursor)",
     ],
     timeline: "2-4 weeks",
+    price: "From $8,000",
   },
   {
     icon: <Headphones size={32} />,
-    title: "Ongoing Retainer Support",
+    title: "Ongoing Retainer",
     description:
-      "A dedicated AI implementation partner on call. We handle troubleshooting, new tool rollouts, and continuous optimization so your teams stay productive.",
+      "Stuck on a prompt? New hire needs onboarding? Tool update broke something? We're a Slack message away. Think of us as your AI help desk.",
     scope: [
       "Dedicated Slack/Teams channel for AI support",
       "Monthly tool audits and optimization reviews",
@@ -48,19 +51,21 @@ const services = [
       "Priority response for production issues",
     ],
     timeline: "Ongoing monthly",
+    price: "From $2,500/mo",
   },
   {
     icon: <Workflow size={32} />,
     title: "Custom AI Automation",
     description:
-      "We build AI-powered automations that eliminate manual work across your portfolio companies. From document processing to reporting pipelines.",
+      "We find the manual work that's eating your team's time and build AI-powered automations to kill it. Document processing, reporting pipelines, data entry — the boring stuff.",
     scope: [
-      "Workflow analysis and automation opportunity mapping",
+      "Workflow analysis and automation mapping",
       "Custom Claude/GPT-powered automation builds",
       "Integration with existing tools (Excel, Salesforce, ERP)",
       "Monitoring, maintenance, and iteration",
     ],
     timeline: "4-8 weeks per automation",
+    price: "From $15,000",
   },
 ]
 
@@ -69,17 +74,17 @@ const steps = [
     number: 1,
     title: "Discovery Call",
     description:
-      "30-minute call to understand your portfolio companies' needs and identify quick wins.",
+      "30 minutes. We learn what your teams do, where they're stuck, and where AI fits.",
   },
   {
     number: 2,
     title: "Scoped Proposal",
     description:
-      "Detailed proposal with timeline, deliverables, and investment. No surprises.",
+      "Clear deliverables, timeline, and price. No 50-page deck. No surprises.",
   },
   {
     number: 3,
-    title: "Implementation",
+    title: "We Show Up and Set It Up",
     description:
       "Hands-on deployment with your teams. We stay until it's working.",
   },
@@ -88,17 +93,10 @@ const steps = [
 export default function ServicesPage() {
   return (
     <>
-      {/* Page Header */}
-      <section className="py-16 text-center md:py-24">
-        <div className="mx-auto max-w-4xl px-6">
-          <h1 className="text-4xl font-bold md:text-5xl">Our Services</h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-slate-700">
-            Practical AI implementation tailored to PE-backed portfolio
-            companies. Every engagement is scoped to deliver measurable
-            operating leverage.
-          </p>
-        </div>
-      </section>
+      <PageHeader
+        title="What We Do"
+        description="Every engagement is scoped, priced, and built to get your teams using AI — not talking about it."
+      />
 
       {/* Services Grid */}
       <section className="py-12">
@@ -113,7 +111,7 @@ export default function ServicesPage() {
       <section className="bg-slate-50 py-16">
         <div className="mx-auto max-w-4xl px-6">
           <h2 className="mb-8 text-center text-3xl font-semibold">
-            How We Engage
+            How It Works
           </h2>
           <div className="grid gap-8 text-center md:grid-cols-3">
             {steps.map((step) => (
@@ -129,8 +127,10 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <CTASection />
+      <CTASection
+        heading="Not sure which service fits?"
+        description="Tell us what your teams are doing manually. We'll tell you what AI can take off their plate."
+      />
     </>
   )
 }

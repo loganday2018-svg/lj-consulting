@@ -2,7 +2,6 @@
 
 import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
-import { AnimatedCounter } from "@/components/marketing/animated-counter"
 
 export function StatStrip() {
   const ref = useRef(null)
@@ -27,9 +26,7 @@ export function StatStrip() {
             transition={{ duration: 0.5, delay: 0.15 }}
             className="px-8 text-center"
           >
-            <p className="text-2xl font-bold text-foreground md:text-4xl">
-              <AnimatedCounter value={2} />
-            </p>
+            <p className="text-2xl font-bold text-foreground md:text-4xl">2</p>
             <p className="mt-2 text-sm text-slate-500">Top-10 MBA programs</p>
           </motion.div>
           <motion.div
@@ -38,9 +35,7 @@ export function StatStrip() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="px-8 text-center"
           >
-            <p className="text-2xl font-bold text-foreground md:text-4xl">
-              <AnimatedCounter value={2} />
-            </p>
+            <p className="text-2xl font-bold text-foreground md:text-4xl">2</p>
             <p className="mt-2 text-sm text-slate-500">Portfolio companies onboarded</p>
           </motion.div>
         </div>
