@@ -22,35 +22,49 @@ function formatPercent(value: number): string {
 const SCENARIOS = [
   {
     label: "Conservative",
-    description: "Basic reporting, data entry, and document processing automated with AI.",
+    costDescription: "Automate reporting, data entry, and document processing.",
+    revenueDescription: "Faster proposals and analysis — win deals you were too slow for.",
     sgaReduction: 0.025,
     cogsReduction: 0,
+    revenueLift: 0.01,
+    saasReplacement: 0.15,
   },
   {
     label: "Moderate",
-    description: "AI-powered automation across ops, plus procurement and supply chain gains.",
+    costDescription: "AI across ops, procurement, and supply chain workflows.",
+    revenueDescription: "AI-powered lead scoring, competitive analysis, and sales productivity.",
     sgaReduction: 0.065,
     cogsReduction: 0.015,
+    revenueLift: 0.02,
+    saasReplacement: 0.30,
   },
   {
     label: "Aggressive",
-    description: "Full AI integration — custom automations, workflow transformation, team-wide adoption.",
+    costDescription: "Full AI integration — custom automations and team-wide adoption.",
+    revenueDescription: "New revenue streams from AI-enabled services, market insights, and speed to market.",
     sgaReduction: 0.10,
     cogsReduction: 0.04,
+    revenueLift: 0.035,
+    saasReplacement: 0.50,
   },
 ] as const
 
 const PE_MULTIPLE = 10
 
+type View = "combined" | "cost" | "revenue"
+
 export function EbitdaCalculator() {
   const [revenue, setRevenue] = useState<string>("")
   const [cogs, setCogs] = useState<string>("")
   const [sga, setSga] = useState<string>("")
+  const [saasSpend, setSaasSpend] = useState<string>("")
   const [submitted, setSubmitted] = useState(false)
+  const [view, setView] = useState<View>("combined")
 
   const revNum = parseFloat(revenue.replace(/,/g, "")) || 0
   const cogsNum = parseFloat(cogs.replace(/,/g, "")) || 0
   const sgaNum = parseFloat(sga.replace(/,/g, "")) || 0
+  const saasNum = parseFloat(saasSpend.replace(/,/g, "")) || 0
 
   const isValid = revNum > 0 && cogsNum > 0 && sgaNum > 0 && revNum > cogsNum + sgaNum
 
@@ -61,20 +75,40 @@ export function EbitdaCalculator() {
     const currentMargin = (currentEbitda / revNum) * 100
 
     return SCENARIOS.map((scenario) => {
+      // Cost savings
       const sgaSavings = sgaNum * scenario.sgaReduction
       const cogsSavings = cogsNum * scenario.cogsReduction
-      const totalSavings = sgaSavings + cogsSavings
-      const newEbitda = currentEbitda + totalSavings
-      const newMargin = (newEbitda / revNum) * 100
+      const saasSavings = saasNum * scenario.saasReplacement
+      const costSavings = sgaSavings + cogsSavings + saasSavings
+
+      // Revenue acceleration
+      const revenueGain = revNum * scenario.revenueLift
+      // New revenue flows through at current gross margin
+      const grossMarginPct = (revNum - cogsNum) / revNum
+      const revenueEbitdaImpact = revenueGain * grossMarginPct
+
+      // Combined
+      const totalImpact = view === "cost" ? costSavings
+        : view === "revenue" ? revenueEbitdaImpact
+        : costSavings + revenueEbitdaImpact
+
+      const newEbitda = currentEbitda + totalImpact
+      const newRevenue = view === "cost" ? revNum : revNum + revenueGain
+      const newMargin = (newEbitda / newRevenue) * 100
       const marginImprovement = newMargin - currentMargin
-      const evImpact = totalSavings * PE_MULTIPLE
+      const evImpact = totalImpact * PE_MULTIPLE
 
       return {
         ...scenario,
         sgaSavings,
         cogsSavings,
-        totalSavings,
+        saasSavings,
+        costSavings,
+        revenueGain,
+        revenueEbitdaImpact,
+        totalImpact,
         newEbitda,
+        newRevenue,
         newMargin,
         marginImprovement,
         evImpact,
@@ -82,7 +116,7 @@ export function EbitdaCalculator() {
         currentMargin,
       }
     })
-  }, [isValid, revNum, cogsNum, sgaNum])
+  }, [isValid, revNum, cogsNum, sgaNum, saasNum, view])
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -144,6 +178,27 @@ export function EbitdaCalculator() {
               className="w-full rounded-lg border border-slate-300 px-4 py-3 text-lg transition-colors focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
             />
           </div>
+          <div>
+            <label htmlFor="saas" className="mb-2 block text-sm font-medium text-slate-700">
+              Annual SaaS Spend ($)
+              <span className="ml-2 font-normal text-slate-400">optional</span>
+            </label>
+            <input
+              id="saas"
+              type="text"
+              inputMode="numeric"
+              placeholder="e.g. 500,000"
+              value={saasSpend}
+              onChange={(e) => {
+                setSaasSpend(e.target.value)
+                setSubmitted(false)
+              }}
+              className="w-full rounded-lg border border-slate-300 px-4 py-3 text-lg transition-colors focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+            />
+            <p className="mt-1 text-xs text-slate-400">
+              AI tools can replace or consolidate existing software subscriptions.
+            </p>
+          </div>
         </div>
 
         {revNum > 0 && cogsNum > 0 && sgaNum > 0 && !isValid && (
@@ -168,6 +223,31 @@ export function EbitdaCalculator() {
           transition={{ duration: 0.5 }}
           className="mt-12"
         >
+          {/* View Toggle */}
+          <div className="mb-8 flex justify-center">
+            <div className="inline-flex rounded-lg bg-slate-100 p-1">
+              {(
+                [
+                  { key: "combined", label: "Combined" },
+                  { key: "cost", label: "Cost Savings" },
+                  { key: "revenue", label: "Revenue Growth" },
+                ] as const
+              ).map((tab) => (
+                <button
+                  key={tab.key}
+                  onClick={() => setView(tab.key)}
+                  className={`rounded-md px-4 py-2 text-sm font-medium transition-all ${
+                    view === tab.key
+                      ? "bg-white text-foreground shadow-sm"
+                      : "text-slate-500 hover:text-foreground"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Current state */}
           <div className="mb-8 rounded-lg bg-slate-100 p-6 text-center">
             <p className="text-sm font-medium text-slate-500">Current EBITDA</p>
@@ -175,7 +255,7 @@ export function EbitdaCalculator() {
               {formatDollars(results[0].currentEbitda)}
             </p>
             <p className="mt-1 text-sm text-slate-500">
-              {formatPercent(results[0].currentMargin)} margin
+              {formatPercent(results[0].currentMargin)} margin on {formatDollars(revNum)} revenue
             </p>
           </div>
 
@@ -183,7 +263,7 @@ export function EbitdaCalculator() {
           <div className="grid gap-6 md:grid-cols-3">
             {results.map((r, i) => (
               <motion.div
-                key={r.label}
+                key={`${r.label}-${view}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.1 + i * 0.15 }}
@@ -199,21 +279,44 @@ export function EbitdaCalculator() {
                   </span>
                 )}
                 <h3 className="text-lg font-semibold text-foreground">{r.label}</h3>
-                <p className="mt-1 text-sm text-slate-500">{r.description}</p>
+                <p className="mt-1 text-sm text-slate-500">
+                  {view === "revenue" ? r.revenueDescription
+                    : view === "cost" ? r.costDescription
+                    : r.costDescription}
+                </p>
 
                 <div className="mt-6 space-y-4">
-                  <div>
-                    <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
-                      Annual Savings
-                    </p>
-                    <p className="mt-1 text-2xl font-bold text-foreground">
-                      {formatDollars(r.totalSavings)}
-                    </p>
-                    <div className="mt-1 flex gap-3 text-xs text-slate-500">
-                      {r.sgaSavings > 0 && <span>SG&A: {formatDollars(r.sgaSavings)}</span>}
-                      {r.cogsSavings > 0 && <span>COGS: {formatDollars(r.cogsSavings)}</span>}
+                  {/* Cost Savings — show in cost and combined views */}
+                  {view !== "revenue" && (
+                    <div>
+                      <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                        Cost Savings
+                      </p>
+                      <p className="mt-1 text-2xl font-bold text-foreground">
+                        {formatDollars(r.costSavings)}
+                      </p>
+                      <div className="mt-1 flex flex-wrap gap-3 text-xs text-slate-500">
+                        {r.sgaSavings > 0 && <span>SG&A: {formatDollars(r.sgaSavings)}</span>}
+                        {r.cogsSavings > 0 && <span>COGS: {formatDollars(r.cogsSavings)}</span>}
+                        {r.saasSavings > 0 && <span>SaaS: {formatDollars(r.saasSavings)}</span>}
+                      </div>
                     </div>
-                  </div>
+                  )}
+
+                  {/* Revenue Growth — show in revenue and combined views */}
+                  {view !== "cost" && (
+                    <div>
+                      <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                        Revenue Acceleration
+                      </p>
+                      <p className="mt-1 text-2xl font-bold text-foreground">
+                        +{formatDollars(r.revenueGain)}
+                      </p>
+                      <p className="mt-1 text-xs text-slate-500">
+                        {formatPercent(r.revenueLift * 100)} lift — EBITDA impact: {formatDollars(r.revenueEbitdaImpact)}
+                      </p>
+                    </div>
+                  )}
 
                   <div>
                     <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
@@ -247,7 +350,8 @@ export function EbitdaCalculator() {
           <div className="mt-10 text-center">
             <p className="mx-auto max-w-xl text-xs text-slate-400">
               Estimates based on industry benchmarks for AI implementation across
-              PE-backed portfolio companies. Actual results vary by company size,
+              PE-backed portfolio companies. Revenue lift assumes new revenue flows
+              through at current gross margin. Actual results vary by company size,
               industry, and implementation scope.
             </p>
             <div className="mt-6">
