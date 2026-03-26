@@ -1,9 +1,12 @@
+import Image from "next/image"
+
 interface TeamMemberProps {
   name: string
   title: string
   credentials: string[]
   bio: string
   initials: string
+  imageSrc?: string
 }
 
 export function TeamMember({
@@ -12,13 +15,24 @@ export function TeamMember({
   credentials,
   bio,
   initials,
+  imageSrc,
 }: TeamMemberProps) {
   return (
     <div className="flex flex-col items-start gap-8 md:flex-row">
-      {/* Placeholder avatar -- replace with next/image headshots later */}
-      <div className="flex h-32 w-32 shrink-0 items-center justify-center rounded-full bg-primary text-3xl font-bold text-primary-foreground">
-        {initials}
-      </div>
+      {imageSrc ? (
+        <Image
+          src={imageSrc}
+          alt={name}
+          width={128}
+          height={128}
+          className="h-32 w-32 shrink-0 rounded-full object-cover object-top"
+          preload
+        />
+      ) : (
+        <div className="flex h-32 w-32 shrink-0 items-center justify-center rounded-full bg-primary text-3xl font-bold text-primary-foreground">
+          {initials}
+        </div>
+      )}
 
       <div>
         <h3 className="text-2xl font-semibold">{name}</h3>
