@@ -41,7 +41,7 @@ const VALUE_PROPS = [
       "Contract reviews, compliance checks, inventory. AI handles the repetitive stuff so your operators can operate.",
     useCases: [
       "Vendor contracts analyzed and renegotiation opportunities flagged",
-      "Turn messy operational data into dashboards your team actually uses. Same day.",
+      "Transform raw, messy data into clear options your operators can act on immediately",
       "Benchmark every cost line against industry data without hiring a consultant",
     ],
   },
