@@ -120,8 +120,10 @@ export default function ServicesPage() {
       </section>
 
       <CTASection
-        heading="Not sure which service fits?"
+        heading="Not Sure Which Service Fits?"
         description="Tell us what your teams are doing manually. We'll tell you what AI can take off their plate."
+        secondaryLabel="See the EBITDA impact →"
+        secondaryHref="/calculator"
       />
     </>
   )

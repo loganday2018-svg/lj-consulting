@@ -96,8 +96,10 @@ export default function AboutPage() {
       </section>
 
       <CTASection
-        heading="Want to work with us?"
-        description="We keep things simple. 30-minute call, clear proposal, hands-on delivery."
+        heading="Want to Work With Us?"
+        description="30-minute call. We'll tell you exactly what AI can do for your portfolio and what it costs."
+        secondaryLabel="See what we do →"
+        secondaryHref="/services"
       />
     </>
   )

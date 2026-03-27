@@ -1,14 +1,19 @@
 import { Button } from "@/components/ui/button"
 import { CTA } from "@/lib/constants"
+import Link from "next/link"
 
 interface CTASectionProps {
   heading?: string
   description?: string
+  secondaryLabel?: string
+  secondaryHref?: string
 }
 
 export function CTASection({
-  heading = "Ready to bring AI to your portfolio?",
-  description = "Book a discovery call to learn how we can help your portfolio companies.",
+  heading = "30 Minutes. A Clear Plan. No Slide Deck.",
+  description = "Tell us what your portfolio companies are doing manually. We'll show you what AI can take off their plate and what it means for EBITDA.",
+  secondaryLabel,
+  secondaryHref,
 }: CTASectionProps) {
   return (
     <section className="bg-primary py-16 text-center md:py-24">
@@ -17,10 +22,18 @@ export function CTASection({
           {heading}
         </h2>
         <p className="mt-4 text-lg text-slate-300">{description}</p>
-        <div className="mt-8">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-6">
           <Button size="lg" variant="secondary" render={<a href={CTA.primary.href} />}>
             {CTA.primary.label}
           </Button>
+          {secondaryLabel && secondaryHref && (
+            <Link
+              href={secondaryHref}
+              className="text-sm text-slate-300 underline-offset-4 hover:text-white hover:underline"
+            >
+              {secondaryLabel}
+            </Link>
+          )}
         </div>
       </div>
     </section>

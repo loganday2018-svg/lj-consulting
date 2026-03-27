@@ -31,8 +31,10 @@ export default function CalculatorPage() {
       </section>
 
       <CTASection
-        heading="Want to see which workflows fit your portfolio?"
-        description="We'll map the highest-impact AI opportunities specific to your portfolio companies."
+        heading="Like What You See?"
+        description="These are estimates. We'll build the real numbers with you on a 30-minute call."
+        secondaryLabel="Learn about our services →"
+        secondaryHref="/services"
       />
     </>
   )
