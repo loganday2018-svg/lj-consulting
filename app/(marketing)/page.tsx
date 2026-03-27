@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import { HeroSection } from "@/components/marketing/hero"
 import { CTASection } from "@/components/marketing/cta-section"
-import { StatStrip } from "@/components/marketing/stat-strip"
 import { LogoTicker } from "@/components/marketing/logo-ticker"
 import { ValueProps } from "@/components/marketing/value-props"
 
@@ -54,8 +53,6 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-
-      <StatStrip />
 
       {/* Value Propositions */}
       <section className="py-16 md:py-24">
