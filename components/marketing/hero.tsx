@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { CTA } from "@/lib/constants"
-import { TypingHeadline } from "@/components/marketing/typing-headline"
+import { RotatingHeadline } from "@/components/marketing/rotating-headline"
 import { motion } from "framer-motion"
 import Link from "next/link"
 
@@ -26,14 +26,13 @@ export function HeroSection() {
           >
             AI Implementation for PE Portfolio Companies
           </motion.p>
-          <TypingHeadline
-            text="Two Operators Who Got Obsessed With AI — Now We Set Up Yours"
-            className="font-display text-4xl font-bold tracking-tight text-primary-foreground md:text-5xl lg:text-6xl"
+          <RotatingHeadline
+            className="font-display text-4xl font-bold tracking-tight text-primary-foreground md:text-5xl lg:text-6xl min-h-[1.2em] md:min-h-[1.2em] lg:min-h-[1.2em]"
           />
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.5 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
             className="mt-6 max-w-2xl text-lg text-slate-300 md:text-xl"
           >
             We&apos;re Logan & James. We help PE-backed teams deploy Claude,
@@ -43,17 +42,17 @@ export function HeroSection() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.8 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
             className="mt-10 flex flex-wrap items-center gap-6"
           >
             <Button size="lg" variant="secondary" render={<a href={CTA.primary.href} />}>
               {CTA.primary.label}
             </Button>
             <Link
-              href="/services"
+              href="/calculator"
               className="text-sm text-slate-300 underline-offset-4 hover:text-white hover:underline"
             >
-              View Our Services →
+              See Your EBITDA Impact →
             </Link>
           </motion.div>
         </div>
