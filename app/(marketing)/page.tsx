@@ -19,9 +19,8 @@ const VALUE_PROPS = [
       "AI handles the grunt work so your team spends time selling, not researching.",
     useCases: [
       "Prospect research pulled in seconds, not hours",
-      "Custom proposals drafted from templates and CRM data",
-      "Cold outreach personalized at scale",
-      "CRM cleanup and deal scoring on autopilot",
+      "First-draft proposals generated from your CRM data",
+      "Territory mapping and account planning done in minutes",
     ],
   },
   {
@@ -32,8 +31,7 @@ const VALUE_PROPS = [
     useCases: [
       "DCF models and scenario analysis built in minutes",
       "Month-end close accelerated — reconciliations, commentary, journal entries",
-      "Board deck narratives drafted from raw data",
-      "Audit prep and workpaper organization automated",
+      "Ad hoc analysis requests turned around same-day instead of next-week",
     ],
   },
   {
@@ -43,9 +41,8 @@ const VALUE_PROPS = [
       "Contract reviews, compliance checks, inventory — AI handles the repetitive stuff so your operators can operate.",
     useCases: [
       "Vendor contracts analyzed and renegotiation opportunities flagged",
-      "Quality and compliance monitoring in real-time",
-      "HR docs, job postings, and onboarding materials generated instantly",
-      "Support ticket triage and auto-response",
+      "Turn messy operational data into dashboards your team actually uses — same day",
+      "Benchmark every cost line against industry data without hiring a consultant",
     ],
   },
 ] as const
