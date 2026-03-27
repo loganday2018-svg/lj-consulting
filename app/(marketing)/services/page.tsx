@@ -17,7 +17,7 @@ const services = [
     icon: <GraduationCap size={32} />,
     title: "AI Training Programs",
     description:
-      "We sit with your teams and teach them real workflows — prompt engineering, custom automations, the tools they'll actually use tomorrow. Not a lecture. Not a PDF.",
+      "We sit with your teams and teach them real workflows. Prompt engineering, custom automations, the tools they'll actually use tomorrow. Not a lecture. Not a PDF.",
     scope: [
       "Team-wide prompt engineering workshops",
       "Tool-specific training (Claude, Codex, Copilot, Cursor)",
@@ -31,7 +31,7 @@ const services = [
     icon: <Terminal size={32} />,
     title: "Claude Code & Codex Setup",
     description:
-      "We configure AI coding assistants for your engineering teams — proper API keys, custom instructions, IDE integration. Set up right means productive from day one.",
+      "We configure AI coding assistants for your engineering teams. Proper API keys, custom instructions, IDE integration. Set up right means productive from day one.",
     scope: [
       "Environment configuration and API key management",
       "Custom instruction files and coding standards",
@@ -59,7 +59,7 @@ const services = [
     icon: <Workflow size={32} />,
     title: "Custom AI Automation",
     description:
-      "We find the manual work that's eating your team's time and build AI-powered automations to kill it. Document processing, reporting pipelines, data entry — the boring stuff.",
+      "We find the manual work that's eating your team's time and build AI-powered automations to kill it. Document processing, reporting pipelines, data entry. The boring stuff.",
     scope: [
       "Workflow analysis and automation mapping",
       "Custom Claude/GPT-powered automation builds",
@@ -97,7 +97,7 @@ export default function ServicesPage() {
     <>
       <PageHeader
         title="What We Do"
-        description="Every engagement is scoped, priced, and built to get your teams using AI — not talking about it."
+        description="Every engagement is scoped, priced, and built to get your teams using AI. Not talking about it."
       />
 
       {/* Services Grid */}

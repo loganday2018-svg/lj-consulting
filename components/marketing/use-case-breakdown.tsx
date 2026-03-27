@@ -10,9 +10,9 @@ const FUNCTIONS = [
     label: "Sales & BD",
     impact: "Revenue acceleration",
     useCases: [
-      "AI-powered prospect research — financials, news, org charts pulled before every call",
+      "AI-powered prospect research. Financials, news, org charts pulled before every call",
       "Custom proposals drafted in minutes from templates and CRM data",
-      "Cold outreach personalized at scale — not generic templates",
+      "Cold outreach personalized at scale. Not generic templates",
       "CRM enrichment and stale deal flagging on autopilot",
       "Competitive intelligence aggregated and summarized weekly",
     ],
@@ -23,10 +23,10 @@ const FUNCTIONS = [
     impact: "SG&A reduction + speed",
     useCases: [
       "DCF models and scenario analysis built in a fraction of the time",
-      "Month-end close acceleration — reconciliations, journal entries, commentary",
+      "Month-end close acceleration. Reconciliations, journal entries, commentary",
       "Board deck narratives drafted from raw financial data",
-      "Variance analysis automated — AI flags anomalies before you ask",
-      "Audit prep — supporting docs pulled and organized automatically",
+      "Variance analysis automated. AI flags anomalies before you ask",
+      "Audit prep. Supporting docs pulled and organized automatically",
     ],
   },
   {
@@ -34,9 +34,9 @@ const FUNCTIONS = [
     label: "Operations",
     impact: "COGS + SG&A reduction",
     useCases: [
-      "Vendor contract analysis — read 200 contracts, flag renegotiation opportunities",
+      "Vendor contract analysis. Read 200 contracts, flag renegotiation opportunities",
       "Quality and compliance monitoring with real-time anomaly detection",
-      "Inventory optimization — demand forecasting and reorder recommendations",
+      "Inventory optimization. Demand forecasting and reorder recommendations",
       "Process documentation generated from existing workflows",
       "Route and logistics optimization",
     ],
@@ -48,7 +48,7 @@ const FUNCTIONS = [
     useCases: [
       "Job descriptions, offer letters, and policy docs drafted instantly",
       "Resume screening and interview question generation",
-      "Employee handbook Q&A bot — reduces HR ticket volume by 40-60%",
+      "Employee handbook Q&A bot. Reduces HR ticket volume by 40-60%",
       "Onboarding materials customized per role automatically",
       "Performance review drafts from manager notes and metrics",
     ],
@@ -59,7 +59,7 @@ const FUNCTIONS = [
     impact: "SG&A reduction + SaaS replacement",
     useCases: [
       "Contract redlining and clause extraction in minutes",
-      "Regulatory change monitoring — AI flags what matters to your industry",
+      "Regulatory change monitoring. AI flags what matters to your industry",
       "Due diligence document review during add-on acquisitions",
       "NDA and standard agreement generation from templates",
       "Replaces or reduces seats in contract management SaaS",

@@ -36,7 +36,7 @@ export function HeroSection() {
             className="mt-6 max-w-2xl text-lg text-slate-300 md:text-xl"
           >
             We&apos;re Logan & James. We help PE-backed teams deploy Claude,
-            Codex, and Copilot — then stick around to make sure they actually
+            Codex, and Copilot. Then we stick around to make sure they actually
             use them.
           </motion.p>
           <motion.div

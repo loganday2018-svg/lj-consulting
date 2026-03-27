@@ -24,7 +24,7 @@ const SCENARIOS = [
   {
     label: "Conservative",
     costDescription: "Automate reporting, data entry, and document processing.",
-    revenueDescription: "Faster proposals and analysis — win deals you were too slow for.",
+    revenueDescription: "Faster proposals and analysis. Win deals you were too slow for.",
     sgaReduction: 0.025,
     cogsReduction: 0,
     revenueLift: 0.01,
@@ -41,7 +41,7 @@ const SCENARIOS = [
   },
   {
     label: "Aggressive",
-    costDescription: "Full AI integration — custom automations and team-wide adoption.",
+    costDescription: "Full AI integration. Custom automations and team-wide adoption.",
     revenueDescription: "New revenue streams from AI-enabled services, market insights, and speed to market.",
     sgaReduction: 0.10,
     cogsReduction: 0.04,
@@ -330,7 +330,7 @@ export function EbitdaCalculator() {
                         +{formatDollars(r.revenueGain)}
                       </p>
                       <p className="mt-1 text-xs text-slate-500">
-                        {formatPercent(r.revenueLift * 100)} lift — EBITDA impact: {formatDollars(r.revenueEbitdaImpact)}
+                        {formatPercent(r.revenueLift * 100)} lift. EBITDA impact: {formatDollars(r.revenueEbitdaImpact)}
                       </p>
                     </div>
                   )}

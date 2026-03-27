@@ -8,7 +8,7 @@ import { EbitdaCalculator } from "@/components/marketing/ebitda-calculator"
 export const metadata: Metadata = {
   title: "AI Implementation for PE Portfolio Companies",
   description:
-    "Logan & James help PE-backed teams deploy Claude, Codex, and Copilot across their portfolio companies. Training, setup, and ongoing support — then we stick around to make sure they actually use them.",
+    "Logan & James help PE-backed teams deploy Claude, Codex, and Copilot across their portfolio companies. Training, setup, and ongoing support. Then we stick around to make sure they actually use them.",
 }
 
 const VALUE_PROPS = [
@@ -27,10 +27,10 @@ const VALUE_PROPS = [
     icon: "Clock" as const,
     title: "Your Finance Team Does in Hours What Took Days",
     description:
-      "DCFs, board decks, variance reports — AI builds the first draft so your team focuses on the analysis.",
+      "DCFs, board decks, variance reports. AI builds the first draft so your team focuses on the analysis.",
     useCases: [
       "DCF models and scenario analysis built in minutes",
-      "Month-end close accelerated — reconciliations, commentary, journal entries",
+      "Month-end close accelerated. Reconciliations, commentary, journal entries",
       "Ad hoc analysis requests turned around same-day instead of next-week",
     ],
   },
@@ -38,10 +38,10 @@ const VALUE_PROPS = [
     icon: "Cog" as const,
     title: "Your Ops Team Stops Drowning in Manual Work",
     description:
-      "Contract reviews, compliance checks, inventory — AI handles the repetitive stuff so your operators can operate.",
+      "Contract reviews, compliance checks, inventory. AI handles the repetitive stuff so your operators can operate.",
     useCases: [
       "Vendor contracts analyzed and renegotiation opportunities flagged",
-      "Turn messy operational data into dashboards your team actually uses — same day",
+      "Turn messy operational data into dashboards your team actually uses. Same day.",
       "Benchmark every cost line against industry data without hiring a consultant",
     ],
   },
