@@ -45,6 +45,17 @@ const VALUE_PROPS = [
       "Benchmark every cost line against industry data without hiring a consultant",
     ],
   },
+  {
+    icon: "Handshake" as const,
+    title: "M&A, Procurement, and Contracts. Done Faster.",
+    description:
+      "Target acquisitions, find portfolio-wide synergies, and review every contract at AI speed.",
+    useCases: [
+      "Target potential acquisitions in minutes. Screening, comps, and preliminary valuation before the first call.",
+      "Cross-portfolio procurement synergies identified automatically. Same vendor, different prices, flagged instantly.",
+      "AI reads every contract in your portfolio and extracts key terms, renewal dates, and risk clauses in seconds",
+    ],
+  },
 ] as const
 
 export default function HomePage() {

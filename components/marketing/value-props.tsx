@@ -1,12 +1,13 @@
 "use client"
 
-import { TrendingUp, Clock, Cog } from "lucide-react"
+import { TrendingUp, Clock, Cog, Handshake } from "lucide-react"
 import { StaggeredCards } from "@/components/marketing/staggered-cards"
 
 const ICONS = {
   TrendingUp,
   Clock,
   Cog,
+  Handshake,
 } as const
 
 interface ValuePropsProps {
@@ -20,7 +21,7 @@ interface ValuePropsProps {
 
 export function ValueProps({ items }: ValuePropsProps) {
   return (
-    <StaggeredCards className="mt-12 grid gap-8 md:grid-cols-3">
+    <StaggeredCards className="mt-12 grid gap-8 md:grid-cols-2">
       {items.map((prop) => {
         const Icon = ICONS[prop.icon]
         return (
