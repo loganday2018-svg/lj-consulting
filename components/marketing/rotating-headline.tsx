@@ -63,7 +63,9 @@ export function RotatingHeadline({ className }: RotatingHeadlineProps) {
       onMouseLeave={() => setPaused(false)}
     >
       <h1 className={className}>
-        <span className="text-slate-400">We Help You </span>
+        <span className="block text-lg font-semibold tracking-wide text-slate-400 md:text-2xl">
+          We Help You
+        </span>
         <AnimatePresence mode="wait">
           <motion.span
             key={index}
@@ -71,7 +73,7 @@ export function RotatingHeadline({ className }: RotatingHeadlineProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-            className="inline-block bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent"
+            className="block bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent"
           >
             {HEADLINES[index]}
           </motion.span>

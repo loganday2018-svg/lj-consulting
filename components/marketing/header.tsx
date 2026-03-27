@@ -35,7 +35,7 @@ export function Header() {
             className={`flex h-8 w-8 items-center justify-center rounded-md text-xs font-bold transition-colors duration-300 ${
               scrolled
                 ? "bg-primary text-primary-foreground"
-                : "bg-white/15 text-white"
+                : "bg-white/25 text-white ring-1 ring-white/20"
             }`}
           >
             L&J
