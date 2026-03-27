@@ -3,6 +3,7 @@ import { HeroSection } from "@/components/marketing/hero"
 import { CTASection } from "@/components/marketing/cta-section"
 import { LogoTicker } from "@/components/marketing/logo-ticker"
 import { ValueProps } from "@/components/marketing/value-props"
+import { EbitdaCalculator } from "@/components/marketing/ebitda-calculator"
 
 export const metadata: Metadata = {
   title: "AI Implementation for PE Portfolio Companies",
@@ -68,6 +69,24 @@ export default function HomePage() {
           </div>
 
           <ValueProps items={VALUE_PROPS} />
+        </div>
+      </section>
+
+      {/* EBITDA Calculator */}
+      <section className="border-t border-slate-200 bg-slate-50 py-16 md:py-24">
+        <div className="mx-auto max-w-4xl px-6">
+          <div className="text-center">
+            <h2 className="text-3xl font-semibold text-foreground md:text-4xl">
+              See the Impact on Your EBITDA
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-slate-700">
+              Plug in your portfolio company&apos;s financials. See what AI could mean
+              for margins and enterprise value.
+            </p>
+          </div>
+          <div className="mt-12">
+            <EbitdaCalculator />
+          </div>
         </div>
       </section>
 
