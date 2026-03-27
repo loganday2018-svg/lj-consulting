@@ -32,7 +32,7 @@ export function LogoTicker() {
               <img
                 src={tool.icon}
                 alt={tool.name}
-                className="size-8 opacity-70"
+                className="size-8"
               />
               <span className="whitespace-nowrap text-sm font-medium text-slate-600">
                 {tool.name}
