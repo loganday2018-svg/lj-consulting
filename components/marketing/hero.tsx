@@ -27,7 +27,7 @@ export function HeroSection() {
             AI Implementation for PE Portfolio Companies
           </motion.p>
           <RotatingHeadline
-            className="font-display text-4xl font-bold tracking-tight text-primary-foreground md:text-5xl lg:text-6xl min-h-[1.2em] md:min-h-[1.2em] lg:min-h-[1.2em]"
+            className="font-display text-3xl font-bold tracking-tight text-primary-foreground md:text-5xl lg:text-6xl"
           />
           <motion.p
             initial={{ opacity: 0, y: 10 }}
