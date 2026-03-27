@@ -97,7 +97,7 @@ export function Header() {
                 : "border-t border-white/10 bg-primary"
             }`}
           >
-            <nav className="flex flex-col gap-4 px-6 pb-6 pt-4">
+            <nav className="flex items-center gap-5 px-6 py-3">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
@@ -112,14 +112,13 @@ export function Header() {
                   {link.label}
                 </Link>
               ))}
-              <div className="pt-2">
-                <Button
-                  className="w-full"
-                  render={<a href={CTA.primary.href} />}
-                >
-                  {CTA.primary.label}
-                </Button>
-              </div>
+              <Button
+                size="sm"
+                className="ml-auto"
+                render={<a href={CTA.primary.href} />}
+              >
+                {CTA.primary.label}
+              </Button>
             </nav>
           </motion.div>
         )}

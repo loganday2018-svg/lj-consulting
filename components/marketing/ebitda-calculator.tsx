@@ -167,6 +167,13 @@ export function EbitdaCalculator() {
 
   return (
     <div>
+      {/* Disclaimer */}
+      <p className="mb-6 text-center text-xs text-slate-400">
+        Projections are illustrative estimates based on industry benchmarks, not
+        guarantees of specific results. Actual impact varies by company, industry,
+        and implementation scope.
+      </p>
+
       {/* Presets */}
       <div className="mb-8 flex flex-wrap justify-center gap-3">
         {PRESETS.map((p, i) => (
