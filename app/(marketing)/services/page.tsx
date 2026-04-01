@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { GraduationCap, Terminal, Headphones, Workflow } from "lucide-react"
+import { GraduationCap, Compass, Headphones, Workflow } from "lucide-react"
 import { ServiceCard } from "@/components/marketing/service-card"
 import { CTASection } from "@/components/marketing/cta-section"
 import { PageHeader } from "@/components/marketing/page-header"
@@ -17,26 +17,26 @@ const services = [
     icon: <GraduationCap size={32} />,
     title: "AI Training Programs",
     description:
-      "We sit with your teams and teach them real workflows. Prompt engineering, custom automations, the tools they'll actually use tomorrow. Not a lecture. Not a PDF.",
+      "We get Claude Code or Codex on your team's machines, then walk them through building something real with their own messy data. That's the lightbulb moment. 'I finally understand all of the AI hype.' After that, they're finding new uses on their own immediately.",
     scope: [
-      "Team-wide prompt engineering workshops",
-      "Tool-specific training (Claude, Codex, Copilot, Cursor)",
-      "Custom workflow development sessions",
-      "Recorded sessions for onboarding new hires",
+      "Claude Code and Codex installed and configured on every machine",
+      "Live build session using your team's actual unstructured data",
+      "Custom prompts and workflows tailored to their day-to-day",
+      "Recorded walkthroughs so new hires get the same lightbulb moment",
     ],
     timeline: "1-2 weeks per program",
     price: "From $5,000",
   },
   {
-    icon: <Terminal size={32} />,
-    title: "Claude Code & Codex Setup",
+    icon: <Compass size={32} />,
+    title: "AI Tool Selection & Setup",
     description:
-      "We configure AI coding assistants for your engineering teams. Proper API keys, custom instructions, IDE integration. Set up right means productive from day one.",
+      "Not sure which AI tool is the right fit? We'll help you figure that out. Claude Code, Codex, Gemini, Copilot, Cursor. We work with all of them and get your team up and running on whichever one makes sense.",
     scope: [
-      "Environment configuration and API key management",
-      "Custom instruction files and coding standards",
+      "Guidance on which AI tool fits your team's needs",
+      "Hands-on setup and walkthrough for every team member",
       "Team onboarding and best practices docs",
-      "IDE and workflow integration (VS Code, Cursor)",
+      "Ongoing check-ins to make sure adoption sticks",
     ],
     timeline: "2-4 weeks",
     price: "From $8,000",
@@ -45,26 +45,26 @@ const services = [
     icon: <Headphones size={32} />,
     title: "Ongoing Retainer",
     description:
-      "Stuck on a prompt? New hire needs onboarding? Tool update broke something? We're a Slack message away. Think of us as your AI help desk.",
+      "The AI landscape changes weekly. New tools, new updates, new ways to work. We stay plugged into your team so they're always on the latest and never fall behind.",
     scope: [
-      "Dedicated Slack/Teams channel for AI support",
-      "Monthly tool audits and optimization reviews",
-      "New feature rollout planning and execution",
-      "Priority response for production issues",
+      "Dedicated Slack/Teams channel with your team",
+      "We track the AI landscape so your team doesn't have to",
+      "Quick-start calls available for new hires at a flat fee",
+      "Troubleshooting when updates break existing workflows",
     ],
     timeline: "Ongoing monthly",
     price: "From $2,500/mo",
   },
   {
     icon: <Workflow size={32} />,
-    title: "Custom AI Automation",
+    title: "AI-Powered Acceleration",
     description:
-      "We find the manual work that's eating your team's time and build AI-powered automations to kill it. Document processing, reporting pipelines, data entry. The boring stuff.",
+      "Reports, analysis, research, document writing. The work that used to take hours now takes minutes. We find where your team is spending the most time and show them how to get it done exponentially faster with AI.",
     scope: [
-      "Workflow analysis and automation mapping",
-      "Custom Claude/GPT-powered automation builds",
-      "Integration with existing tools (Excel, Salesforce, ERP)",
-      "Monitoring, maintenance, and iteration",
+      "Audit of where your team spends the most manual time",
+      "AI-powered workflows for reports, research, and analysis",
+      "Works with your existing tools: Excel, Salesforce, ERP, whatever you use",
+      "Before-and-after time benchmarks so you can see the difference",
     ],
     timeline: "4-8 weeks per automation",
     price: "From $15,000",
