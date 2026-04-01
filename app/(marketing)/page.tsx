@@ -4,6 +4,7 @@ import { CTASection } from "@/components/marketing/cta-section"
 import { LogoTicker } from "@/components/marketing/logo-ticker"
 import { ValueProps } from "@/components/marketing/value-props"
 import { EbitdaCalculator } from "@/components/marketing/ebitda-calculator"
+import { AdoptionCurve } from "@/components/marketing/adoption-curve"
 
 export const metadata: Metadata = {
   title: "AI Implementation for PE Portfolio Companies",
@@ -77,6 +78,25 @@ export default function HomePage() {
           </div>
 
           <ValueProps items={VALUE_PROPS} />
+        </div>
+      </section>
+
+      {/* Adoption Curve */}
+      <section className="border-t border-slate-200 bg-slate-50 py-16 md:py-24">
+        <div className="mx-auto max-w-4xl px-6">
+          <div className="text-center">
+            <h2 className="text-3xl font-semibold text-foreground md:text-4xl">
+              Months of Fumbling vs. Weeks to Full Adoption
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-slate-700">
+              Most teams buy Claude Code or Codex, watch a few demos, and then
+              adoption stalls. We compress the learning curve so your people are
+              productive in weeks, not quarters.
+            </p>
+          </div>
+          <div className="mt-12">
+            <AdoptionCurve />
+          </div>
         </div>
       </section>
 
