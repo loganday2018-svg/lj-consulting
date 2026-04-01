@@ -1,7 +1,7 @@
 "use client"
 
-import { useRef, useState, useEffect, useCallback } from "react"
-import { motion, useInView, animate, useMotionValue, useTransform } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
+import { motion, useInView, animate, useMotionValue } from "framer-motion"
 
 // Without consulting: slow S-curve, takes ~12 months to reach meaningful adoption
 const WITHOUT = [0, 2, 5, 9, 14, 22, 32, 43, 54, 64, 72, 78, 82]
@@ -28,7 +28,6 @@ function catmullRomToBezier(
   tension = 0.5
 ): string {
   if (points.length < 2) return ""
-  const alpha = tension
 
   let d = `M ${points[0].x} ${points[0].y}`
 
@@ -38,23 +37,21 @@ function catmullRomToBezier(
     const p2 = points[i + 1]
     const p3 = points[Math.min(i + 2, points.length - 1)]
 
-    const cp1x = p1.x + (p2.x - p0.x) / (6 / alpha)
-    const cp1y = p1.y + (p2.y - p0.y) / (6 / alpha)
-    const cp2x = p2.x - (p3.x - p1.x) / (6 / alpha)
-    const cp2y = p2.y - (p3.y - p1.y) / (6 / alpha)
+    const cp1x = p1.x + (p2.x - p0.x) / (6 / tension)
+    const cp1y = p1.y + (p2.y - p0.y) / (6 / tension)
+    const cp2x = p2.x - (p3.x - p1.x) / (6 / tension)
+    const cp2y = p2.y - (p3.y - p1.y) / (6 / tension)
 
     d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2.x} ${p2.y}`
   }
   return d
 }
 
-// Build a smooth path from data using Catmull-Rom splines
 function buildSmoothPath(data: number[]) {
   const points = data.map((v, i) => ({ x: toX(i), y: toY(v) }))
   return catmullRomToBezier(points, 0.5)
 }
 
-// Build a gradient fill area path (curve + bottom edge)
 function buildAreaPath(data: number[]) {
   const points = data.map((v, i) => ({ x: toX(i), y: toY(v) }))
   const curvePart = catmullRomToBezier(points, 0.5)
@@ -63,7 +60,25 @@ function buildAreaPath(data: number[]) {
   return `${curvePart} L ${lastPt.x} ${toY(0)} L ${firstPt.x} ${toY(0)} Z`
 }
 
-// Interpolate between two data arrays
+// Build the closed path between two curves (the "gap" area)
+function buildGapPath(upper: number[], lower: number[]) {
+  const upperPoints = upper.map((v, i) => ({ x: toX(i), y: toY(v) }))
+  const lowerPoints = lower.map((v, i) => ({ x: toX(i), y: toY(v) }))
+
+  // Upper curve forward
+  const upperCurve = catmullRomToBezier(upperPoints, 0.5)
+
+  // Lower curve backward
+  const lowerReversed = [...lowerPoints].reverse()
+  const lowerCurve = catmullRomToBezier(lowerReversed, 0.5)
+
+  // Connect: upper curve → line to last lower point → lower curve reversed → close
+  const lastUpper = upperPoints[upperPoints.length - 1]
+  const firstLower = lowerReversed[0]
+
+  return `${upperCurve} L ${firstLower.x} ${firstLower.y} ${lowerCurve.replace(/^M [^ ]+ [^ ]+/, "")} Z`
+}
+
 function lerpData(a: number[], b: number[], t: number): number[] {
   return a.map((v, i) => v + (b[i] - v) * t)
 }
@@ -104,41 +119,105 @@ function AnimatedValue({
   )
 }
 
-// The morphing chart that starts as the slow curve, then transforms into the fast one
+// Draw-in animation using strokeDasharray/strokeDashoffset (works reliably everywhere)
+function DrawPath({
+  d,
+  stroke,
+  strokeWidth,
+  isInView,
+  delay,
+  duration,
+  dashed,
+}: {
+  d: string
+  stroke: string
+  strokeWidth: number
+  isInView: boolean
+  delay: number
+  duration: number
+  dashed?: boolean
+}) {
+  const pathRef = useRef<SVGPathElement>(null)
+  const [length, setLength] = useState(0)
+  const [offset, setOffset] = useState(0)
+  const [ready, setReady] = useState(false)
+
+  useEffect(() => {
+    if (pathRef.current) {
+      const l = pathRef.current.getTotalLength()
+      setLength(l)
+      setOffset(l)
+      setReady(true)
+    }
+  }, [d])
+
+  useEffect(() => {
+    if (!isInView || !ready || length === 0) return
+    const timeout = setTimeout(() => {
+      const controls = animate(length, 0, {
+        duration,
+        ease: [0.25, 0.1, 0.25, 1],
+        onUpdate: (v) => setOffset(v),
+      })
+      return () => controls.stop()
+    }, delay * 1000)
+    return () => clearTimeout(timeout)
+  }, [isInView, ready, length, delay, duration])
+
+  return (
+    <path
+      ref={pathRef}
+      d={d}
+      fill="none"
+      stroke={stroke}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeDasharray={dashed ? `6 6` : `${length}`}
+      strokeDashoffset={dashed ? 0 : offset}
+      style={{ opacity: ready ? 1 : 0 }}
+    />
+  )
+}
+
 function MorphingChart({ isInView }: { isInView: boolean }) {
   const progress = useMotionValue(0)
   const [currentData, setCurrentData] = useState(WITHOUT)
   const [hasMorphed, setHasMorphed] = useState(false)
+  const [drawComplete, setDrawComplete] = useState(false)
 
   useEffect(() => {
     if (!isInView) return
 
-    // First draw the slow curve, then after a pause, morph to the fast curve
-    const drawDelay = setTimeout(() => {
-      const morphDelay = setTimeout(() => {
-        setHasMorphed(true)
-        animate(0, 1, {
-          duration: 1.8,
-          ease: [0.4, 0, 0.2, 1],
-          onUpdate: (t) => {
-            progress.set(t)
-            setCurrentData(lerpData(WITHOUT, WITH_LJ, t))
-          },
-        })
-      }, 1600) // pause before morphing
-      return () => clearTimeout(morphDelay)
-    }, 800) // initial delay
+    // Mark draw as complete after the draw-in finishes
+    const drawDone = setTimeout(() => setDrawComplete(true), 1800)
 
-    return () => clearTimeout(drawDelay)
+    // Then morph
+    const morphStart = setTimeout(() => {
+      setHasMorphed(true)
+      animate(0, 1, {
+        duration: 1.8,
+        ease: [0.4, 0, 0.2, 1],
+        onUpdate: (t) => {
+          progress.set(t)
+          setCurrentData(lerpData(WITHOUT, WITH_LJ, t))
+        },
+      })
+    }, 2400)
+
+    return () => {
+      clearTimeout(drawDone)
+      clearTimeout(morphStart)
+    }
   }, [isInView, progress])
 
   const curvePath = buildSmoothPath(currentData)
   const areaPath = buildAreaPath(currentData)
+  const gapPath = hasMorphed ? buildGapPath(WITH_LJ, WITHOUT) : null
 
   const yLabels = [0, 25, 50, 75, 100]
   const xLabels = [0, 3, 6, 9, 12]
 
-  // Dot position tracks the 3-month mark
   const dotY = toY(currentData[3])
 
   return (
@@ -149,12 +228,17 @@ function MorphingChart({ isInView }: { isInView: boolean }) {
     >
       <defs>
         <linearGradient id="areaGradientMuted" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#94a3b8" stopOpacity={0.10} />
+          <stop offset="0%" stopColor="#94a3b8" stopOpacity={0.08} />
           <stop offset="100%" stopColor="#94a3b8" stopOpacity={0.01} />
         </linearGradient>
         <linearGradient id="areaGradientAccent" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#1e293b" stopOpacity={0.18} />
+          <stop offset="0%" stopColor="#1e293b" stopOpacity={0.14} />
           <stop offset="100%" stopColor="#1e293b" stopOpacity={0.02} />
+        </linearGradient>
+        <linearGradient id="gapGradient" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#ef4444" stopOpacity={0.18} />
+          <stop offset="50%" stopColor="#f87171" stopOpacity={0.12} />
+          <stop offset="100%" stopColor="#fca5a5" stopOpacity={0.06} />
         </linearGradient>
       </defs>
 
@@ -218,21 +302,16 @@ function MorphingChart({ isInView }: { isInView: boolean }) {
         transition={{ duration: 0.8, delay: 0.6 }}
       />
 
-      {/* The curve itself — starts gray (self-guided), morphs to dark (with L&J) */}
-      <motion.path
-        d={curvePath}
-        fill="none"
-        stroke={hasMorphed ? "#1e293b" : "#94a3b8"}
-        strokeWidth={hasMorphed ? 3 : 2.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={isInView ? { pathLength: 1, opacity: 1 } : {}}
-        transition={{
-          pathLength: { duration: 1.4, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] },
-          opacity: { duration: 0.3, delay: 0.4 },
-        }}
-      />
+      {/* Gap between curves — the "lost value" area */}
+      {hasMorphed && gapPath && (
+        <motion.path
+          d={gapPath}
+          fill="url(#gapGradient)"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.0, delay: 0.3 }}
+        />
+      )}
 
       {/* Ghost of the original slow curve (fades in after morph) */}
       {hasMorphed && (
@@ -246,6 +325,30 @@ function MorphingChart({ isInView }: { isInView: boolean }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.6 }}
           transition={{ duration: 0.8 }}
+        />
+      )}
+
+      {/* The main curve — draw-in when not morphed, then direct update during morph */}
+      {!drawComplete ? (
+        <DrawPath
+          d={curvePath}
+          stroke="#94a3b8"
+          strokeWidth={2.5}
+          isInView={isInView}
+          delay={0.4}
+          duration={1.4}
+        />
+      ) : (
+        <path
+          d={curvePath}
+          fill="none"
+          stroke={hasMorphed ? "#1e293b" : "#94a3b8"}
+          strokeWidth={hasMorphed ? 3 : 2.5}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          style={{
+            transition: "stroke 0.6s ease, stroke-width 0.3s ease",
+          }}
         />
       )}
 
@@ -279,7 +382,7 @@ function MorphingChart({ isInView }: { isInView: boolean }) {
         />
       )}
 
-      {/* Annotation: 3-month comparison label (appears after morph) */}
+      {/* Annotation: 3-month comparison labels (appear after morph) */}
       {hasMorphed && (
         <motion.g
           initial={{ opacity: 0, x: -8 }}
@@ -288,7 +391,7 @@ function MorphingChart({ isInView }: { isInView: boolean }) {
         >
           <rect
             x={toX(3) + 10}
-            y={dotY - 14}
+            y={toY(80) - 14}
             width={82}
             height={26}
             rx={5}
@@ -296,7 +399,7 @@ function MorphingChart({ isInView }: { isInView: boolean }) {
           />
           <text
             x={toX(3) + 51}
-            y={dotY + 3}
+            y={toY(80) + 3}
             textAnchor="middle"
             className="fill-white text-[11px] font-semibold"
           >
@@ -323,17 +426,14 @@ function MorphingChart({ isInView }: { isInView: boolean }) {
           </text>
 
           {/* Connecting line between the two dots */}
-          <motion.line
+          <line
             x1={toX(3)}
             y1={toY(80) + 6}
             x2={toX(3)}
             y2={toY(9) - 6}
-            stroke="#cbd5e1"
-            strokeWidth={1}
+            stroke="#fca5a5"
+            strokeWidth={1.5}
             strokeDasharray="3 3"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
           />
         </motion.g>
       )}
@@ -344,7 +444,6 @@ function MorphingChart({ isInView }: { isInView: boolean }) {
         animate={isInView ? { opacity: 1 } : {}}
         transition={{ delay: 1.0, duration: 0.4 }}
       >
-        {/* First pass: show as self-guided. After morph: swap to L&J */}
         {!hasMorphed ? (
           <g transform={`translate(${CHART_WIDTH - PAD.right - 155}, ${PAD.top + 8})`}>
             <line x1={0} y1={0} x2={18} y2={0} stroke="#94a3b8" strokeWidth={2.5} strokeLinecap="round" />
