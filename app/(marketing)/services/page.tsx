@@ -9,7 +9,7 @@ import { AnimatedSteps } from "@/components/marketing/animated-steps"
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "AI training, tool setup, retainer support, and custom automation for PE-backed portfolio companies.",
+    "AI training, tool selection, retainer support, and workflow acceleration for PE-backed portfolio companies.",
 }
 
 const services = [
@@ -17,9 +17,9 @@ const services = [
     icon: <GraduationCap size={32} />,
     title: "AI Training Programs",
     description:
-      "We get Claude Code or Codex on your team's machines, then walk them through building something real with their own messy data. That's the lightbulb moment. 'I finally understand all of the AI hype.' After that, they're finding new uses on their own immediately.",
+      "We sit down with your team, open the AI tools, and walk them through building something real with their own messy data. That's the lightbulb moment. 'I finally understand all of the AI hype.' After that, they're finding new uses on their own immediately.",
     scope: [
-      "Claude Code and Codex installed and configured on every machine",
+      "Hands-on sessions, not slides or lectures",
       "Live build session using your team's actual unstructured data",
       "Custom prompts and workflows tailored to their day-to-day",
       "Recorded walkthroughs so new hires get the same lightbulb moment",
@@ -31,7 +31,7 @@ const services = [
     icon: <Compass size={32} />,
     title: "AI Tool Selection & Setup",
     description:
-      "Not sure which AI tool is the right fit? We'll help you figure that out. Claude Code, Codex, Gemini, Copilot, Cursor. We work with all of them and get your team up and running on whichever one makes sense.",
+      "Claude Code, Codex, Gemini, Copilot, Cursor. We work with all of them. We'll help your team find the right fit and get everyone up and running.",
     scope: [
       "Guidance on which AI tool fits your team's needs",
       "Hands-on setup and walkthrough for every team member",
@@ -66,7 +66,7 @@ const services = [
       "Works with your existing tools: Excel, Salesforce, ERP, whatever you use",
       "Before-and-after time benchmarks so you can see the difference",
     ],
-    timeline: "4-8 weeks per automation",
+    timeline: "4-8 weeks per engagement",
     price: "From $15,000",
   },
 ]
@@ -121,7 +121,7 @@ export default function ServicesPage() {
 
       <CTASection
         heading="Not Sure Which Service Fits?"
-        description="Tell us what your teams are doing manually. We'll tell you what AI can take off their plate."
+        description="Tell us where your team is spending too many hours. We'll show you how to collapse that timeline."
         secondaryLabel="See the EBITDA impact →"
         secondaryHref="/calculator"
       />
