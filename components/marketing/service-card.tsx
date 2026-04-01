@@ -72,12 +72,24 @@ function DesktopCard({ icon, title, description, scope, timeline, price }: Servi
 
 function MobileCard({ icon, title, description, scope, timeline, price }: ServiceCardProps) {
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-8">
-      <div className="mb-4 text-primary">{icon}</div>
-      <h3 className="mb-3 text-xl font-semibold">{title}</h3>
-      <p className="mb-6 leading-relaxed text-slate-700">{description}</p>
+    <div className="rounded-lg border border-slate-200 bg-white p-6">
+      {/* Badges at top on mobile so price is always visible */}
+      <div className="mb-4 flex flex-wrap items-center gap-2">
+        {price && (
+          <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+            {price}
+          </span>
+        )}
+        {timeline && (
+          <span className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600">
+            {timeline}
+          </span>
+        )}
+      </div>
+      <div className="mb-3 text-primary">{icon}</div>
+      <h3 className="mb-2 text-lg font-semibold">{title}</h3>
+      <p className="mb-5 text-sm leading-relaxed text-slate-700">{description}</p>
       <CardScope scope={scope} />
-      <CardBadges price={price} timeline={timeline} />
     </div>
   )
 }
