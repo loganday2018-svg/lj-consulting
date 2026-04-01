@@ -97,12 +97,12 @@ export function Header() {
                 : "border-t border-white/10 bg-primary"
             }`}
           >
-            <nav className="flex items-center gap-5 px-6 py-3">
+            <nav className="flex flex-col gap-4 px-6 py-5">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-sm font-medium transition-colors ${
+                  className={`text-base font-medium transition-colors ${
                     scrolled
                       ? "text-slate-700 hover:text-foreground"
                       : "text-slate-300 hover:text-white"
@@ -114,7 +114,7 @@ export function Header() {
               ))}
               <Button
                 size="sm"
-                className="ml-auto"
+                className="mt-2 w-full"
                 render={<a href={CTA.primary.href} />}
               >
                 {CTA.primary.label}
