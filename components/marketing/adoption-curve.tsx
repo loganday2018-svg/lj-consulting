@@ -297,8 +297,8 @@ function MorphingChart({ isInView }: { isInView: boolean }) {
       <motion.path
         d={areaPath}
         fill={hasMorphed ? "url(#areaGradientAccent)" : "url(#areaGradientMuted)"}
-        initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 1 } : {}}
+        initial={false}
+        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 0.8, delay: 0.6 }}
       />
 
@@ -358,8 +358,8 @@ function MorphingChart({ isInView }: { isInView: boolean }) {
         cy={dotY}
         r={5}
         fill={hasMorphed ? "#1e293b" : "#94a3b8"}
-        initial={{ opacity: 0, scale: 0 }}
-        animate={isInView ? { opacity: 1, scale: 1 } : {}}
+        initial={false}
+        animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
         transition={{ delay: 1.6, duration: 0.3, ease: "backOut" }}
       />
 
@@ -440,8 +440,8 @@ function MorphingChart({ isInView }: { isInView: boolean }) {
 
       {/* Legend */}
       <motion.g
-        initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 1 } : {}}
+        initial={false}
+        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ delay: 1.0, duration: 0.4 }}
       >
         {!hasMorphed ? (
@@ -483,24 +483,50 @@ function MorphingChart({ isInView }: { isInView: boolean }) {
 }
 
 export function AdoptionCurve() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-80px" })
+  const ref = useRef<HTMLDivElement>(null)
+  const [mounted, setMounted] = useState(false)
+  const [triggered, setTriggered] = useState(false)
   const [phase, setPhase] = useState<"before" | "after">("before")
 
+  // Wait for client mount before enabling any animation logic
   useEffect(() => {
-    if (!isInView) return
-    // Sync stat card transition with the morph
+    setMounted(true)
+  }, [])
+
+  // Manual IntersectionObserver — only starts observing after mount,
+  // so hydration can never accidentally trigger animations
+  useEffect(() => {
+    if (!mounted || triggered || !ref.current) return
+    const el = ref.current
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTriggered(true)
+          observer.disconnect()
+        }
+      },
+      { rootMargin: "-60px 0px" }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [mounted, triggered])
+
+  useEffect(() => {
+    if (!triggered) return
     const timeout = setTimeout(() => setPhase("after"), 2400)
     return () => clearTimeout(timeout)
-  }, [isInView])
+  }, [triggered])
+
+  // Render placeholder with correct dimensions before trigger
+  const isInView = triggered
 
   return (
     <div ref={ref}>
       {/* Comparison stats */}
       <motion.div
         className="mb-10 grid grid-cols-1 gap-4 sm:grid-cols-3"
-        initial={{ opacity: 0, y: 15 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        initial={false}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
         transition={{ duration: 0.5, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
       >
         <div className="rounded-lg border border-slate-200 bg-white p-5 text-center">
@@ -543,8 +569,8 @@ export function AdoptionCurve() {
       {/* Chart */}
       <motion.div
         className="rounded-lg border border-slate-200 bg-white p-4 sm:p-6"
-        initial={{ opacity: 0, y: 20 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        initial={false}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.5, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
       >
         <MorphingChart isInView={isInView} />
