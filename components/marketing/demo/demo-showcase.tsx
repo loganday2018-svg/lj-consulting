@@ -9,7 +9,7 @@ import { BeforePnLTable } from "./before-pnl-table"
 import { AfterDashboard } from "./after-dashboard"
 
 export function DemoShowcase() {
-  const [view, setView] = useState<"before" | "after">("before")
+  const [view, setView] = useState<"before" | "after">("after")
 
   return (
     <div className="space-y-8">
