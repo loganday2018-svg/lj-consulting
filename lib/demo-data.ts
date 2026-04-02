@@ -41,41 +41,41 @@ export interface LocationData {
   headcount: number
 }
 
-// Chart palette — navy primary with muted accent colors for differentiation
+// Chart palette — corporate navy + teal
 export const COLORS = {
   // Semantic
-  revenue: "#1e293b",     // slate-800 — primary
-  profit: "#2d6a4f",      // muted forest green — profit/positive
-  cost: "#c1666b",        // muted rose — costs/negative
+  revenue: "#1e3a5f",     // deep navy
+  profit: "#0d9488",      // teal-600 — profit/positive
+  cost: "#be123c",        // burgundy — costs/negative
   neutral: "#94a3b8",     // slate-400
-  ebitda: "#4a6fa5",      // steel blue — EBITDA when alongside revenue
+  ebitda: "#14b8a6",      // teal-500 — EBITDA when alongside revenue
 
-  // Not used individually, kept for compatibility
-  providerComp: "#1e293b",
-  nursingStaff: "#334155",
-  medicalSupplies: "#475569",
-  labDiagnostic: "#64748b",
-  pharmacy: "#94a3b8",
-  facilityCosts: "#4a6fa5",
-  equipmentLease: "#7c98b3",
-  adminStaff: "#1e293b",
-  billingIT: "#475569",
+  // Compatibility
+  providerComp: "#1e3a5f",
+  nursingStaff: "#2a4a6f",
+  medicalSupplies: "#0d9488",
+  labDiagnostic: "#0f766e",
+  pharmacy: "#5eead4",
+  facilityCosts: "#94a3b8",
+  equipmentLease: "#64748b",
+  adminStaff: "#1e3a5f",
+  billingIT: "#0d9488",
   marketing: "#94a3b8",
 
-  // Location bars — navy with one warm accent
+  // Location bars — navy to teal gradient
   locations: [
-    "#1e293b", // slate-800
-    "#4a6fa5", // steel blue
-    "#2d6a4f", // forest green
-    "#8b6f47", // warm bronze
-    "#64748b", // slate-500
-    "#7c5e8a", // muted plum
+    "#1e3a5f", // deep navy
+    "#0d9488", // teal
+    "#2a4a6f", // medium navy
+    "#14b8a6", // lighter teal
+    "#0f766e", // dark teal
+    "#5eead4", // light teal
   ],
 
-  // Donut chart — diverse but muted, all desaturated
+  // Donut — navy/teal family
   donut: [
-    "#1e293b", "#4a6fa5", "#2d6a4f", "#8b6f47", "#7c5e8a", "#c1666b",
-    "#64748b", "#5b8a72", "#a67f5d", "#6b7fa3", "#947082", "#3d5a80",
+    "#1e3a5f", "#0d9488", "#2a4a6f", "#14b8a6", "#0f766e", "#5eead4",
+    "#1a3550", "#134e4a", "#2d5a7f", "#0c8479", "#3b6d8f", "#99f6e4",
   ],
 } as const
 
