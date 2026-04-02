@@ -74,9 +74,9 @@ const services = [
 const steps = [
   {
     number: 1,
-    title: "Discovery Call",
+    title: "Free Portfolio Analysis",
     description:
-      "30 minutes. We learn what your teams do, where they're stuck, and where AI fits.",
+      "Pick a portfolio company. We'll analyze it live on the call and show you where AI fits.",
   },
   {
     number: 2,

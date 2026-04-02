@@ -15,7 +15,7 @@ export const NAV_LINKS = [
 
 export const CTA = {
   primary: {
-    label: 'Book a Discovery Call',
+    label: 'Book a Free Portfolio Analysis',
     // TODO: Replace with real Cal.com link once account is created
     href: 'https://cal.com/lj-consulting/discovery',
   },

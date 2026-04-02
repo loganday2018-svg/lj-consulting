@@ -32,7 +32,7 @@ export default function CalculatorPage() {
 
       <CTASection
         heading="Like What You See?"
-        description="These are estimates. We'll build the real numbers with you on a 30-minute call."
+        description="These are estimates. Book a free analysis and we'll run the real numbers on one of your portfolio companies, live."
         secondaryLabel="Learn about our services →"
         secondaryHref="/services"
       />

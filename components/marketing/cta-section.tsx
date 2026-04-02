@@ -10,8 +10,8 @@ interface CTASectionProps {
 }
 
 export function CTASection({
-  heading = "30 Minutes. A Clear Plan. No Slide Deck.",
-  description = "Tell us what your portfolio companies are doing manually. We'll show you what AI can take off their plate and what it means for EBITDA.",
+  heading = "Free Portfolio Analysis. Live on the Call.",
+  description = "Pick one of your portfolio companies. We'll analyze it live and show you exactly where AI fits — no slides, no theory, just a real demo with your data.",
   secondaryLabel,
   secondaryHref,
 }: CTASectionProps) {

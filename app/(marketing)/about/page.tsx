@@ -97,7 +97,7 @@ export default function AboutPage() {
 
       <CTASection
         heading="Want to Work With Us?"
-        description="30-minute call. We'll tell you exactly what AI can do for your portfolio and what it costs."
+        description="Pick a portfolio company. We'll analyze it live on the call and show you where AI moves the needle."
         secondaryLabel="See what we do →"
         secondaryHref="/services"
       />
