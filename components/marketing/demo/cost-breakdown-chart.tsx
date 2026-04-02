@@ -43,10 +43,9 @@ const views: { key: View; label: string }[] = [
   { key: "opex", label: "OpEx" },
 ]
 
-const DONUT_COLORS = [
-  "#2563eb", "#059669", "#d97706", "#7c3aed", "#dc2626", "#0891b2",
-  "#ea580c", "#4f46e5", "#db2777", "#65a30d", "#0d9488", "#be185d",
-]
+import { COLORS } from "@/lib/demo-data"
+
+const DONUT_COLORS = COLORS.donut
 
 function fmtK(value: number): string {
   if (value >= 1_000_000) return `$${(value / 1_000_000).toFixed(1)}M`

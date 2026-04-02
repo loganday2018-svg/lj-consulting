@@ -50,14 +50,14 @@ export function MarginTrendChart({ data }: MarginTrendChartProps) {
             contentStyle={{ fontSize: 12, borderRadius: 8, border: "1px solid #e2e8f0" }}
           />
           <Legend wrapperStyle={{ fontSize: 11 }} />
-          <ReferenceLine y={avgGross} stroke={COLORS.profit} strokeDasharray="6 4" strokeOpacity={0.4} />
-          <ReferenceLine y={avgEbitda} stroke={COLORS.ebitda} strokeDasharray="6 4" strokeOpacity={0.4} />
+          <ReferenceLine y={avgGross} stroke={COLORS.revenue} strokeDasharray="6 4" strokeOpacity={0.25} />
+          <ReferenceLine y={avgEbitda} stroke={COLORS.ebitda} strokeDasharray="6 4" strokeOpacity={0.25} />
           <Line
             type="monotone"
             dataKey="Gross Margin"
-            stroke={COLORS.profit}
+            stroke={COLORS.revenue}
             strokeWidth={2}
-            dot={{ r: 3, fill: COLORS.profit }}
+            dot={{ r: 3, fill: COLORS.revenue }}
             activeDot={{ r: 5 }}
           />
           <Line
@@ -65,6 +65,7 @@ export function MarginTrendChart({ data }: MarginTrendChartProps) {
             dataKey="EBITDA Margin"
             stroke={COLORS.ebitda}
             strokeWidth={2}
+            strokeDasharray="6 3"
             dot={{ r: 3, fill: COLORS.ebitda }}
             activeDot={{ r: 5 }}
           />

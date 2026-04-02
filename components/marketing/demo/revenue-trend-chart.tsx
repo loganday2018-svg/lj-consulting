@@ -71,11 +71,11 @@ export function RevenueTrendChart({ data }: RevenueTrendChartProps) {
         <AreaChart data={chartData} margin={{ top: 5, right: 10, bottom: 5, left: 0 }}>
           <defs>
             <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor={COLORS.revenue} stopOpacity={0.1} />
+              <stop offset="5%" stopColor={COLORS.revenue} stopOpacity={0.12} />
               <stop offset="95%" stopColor={COLORS.revenue} stopOpacity={0} />
             </linearGradient>
             <linearGradient id="ebitdaGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor={COLORS.ebitda} stopOpacity={0.15} />
+              <stop offset="5%" stopColor={COLORS.ebitda} stopOpacity={0.08} />
               <stop offset="95%" stopColor={COLORS.ebitda} stopOpacity={0} />
             </linearGradient>
           </defs>
@@ -104,6 +104,7 @@ export function RevenueTrendChart({ data }: RevenueTrendChartProps) {
               dataKey="EBITDA"
               stroke={COLORS.ebitda}
               strokeWidth={2}
+              strokeDasharray="6 3"
               fill="url(#ebitdaGradient)"
               dot={{ r: 2, fill: COLORS.ebitda }}
               activeDot={{ r: 4 }}

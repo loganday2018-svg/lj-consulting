@@ -41,26 +41,44 @@ export interface LocationData {
   headcount: number
 }
 
-// Consistent color palette used across all dashboard charts
+// Chart palette derived from the site's navy/slate theme
+// Primary hue ~265 (navy), secondary accents in the same family
 export const COLORS = {
-  revenue: "#2563eb",
-  profit: "#22c55e",
-  cost: "#ef4444",
-  neutral: "#64748b",
-  ebitda: "#8b5cf6",
-  providerComp: "#2563eb",
-  medicalSupplies: "#059669",
-  facilityCosts: "#d97706",
-  adminStaff: "#7c3aed",
-  billingIT: "#0891b2",
-  marketing: "#dc2626",
+  // Semantic
+  revenue: "#1e293b",     // slate-800 — the site's primary/foreground
+  profit: "#475569",      // slate-600 — lighter navy for positive subtotals
+  cost: "#94a3b8",        // slate-400 — muted for costs
+  neutral: "#cbd5e1",     // slate-300
+  ebitda: "#334155",      // slate-700 — EBITDA when alongside revenue
+
+  // COGS line items — navy scale, darkest to lightest
+  providerComp: "#0f172a",  // slate-900
+  nursingStaff: "#1e293b",  // slate-800
+  medicalSupplies: "#334155", // slate-700
+  labDiagnostic: "#475569", // slate-600
+  pharmacy: "#64748b",      // slate-500
+  facilityCosts: "#94a3b8", // slate-400
+  equipmentLease: "#cbd5e1", // slate-300
+
+  // OpEx line items — same scale
+  adminStaff: "#0f172a",
+  billingIT: "#334155",
+  marketing: "#64748b",
+
+  // Location bars — stepped navy tones
   locations: [
-    "#2563eb",
-    "#059669",
-    "#d97706",
-    "#7c3aed",
-    "#dc2626",
-    "#0891b2",
+    "#0f172a", // slate-900
+    "#1e293b", // slate-800
+    "#334155", // slate-700
+    "#475569", // slate-600
+    "#64748b", // slate-500
+    "#94a3b8", // slate-400
+  ],
+
+  // Donut chart — full navy gradient for many slices
+  donut: [
+    "#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8",
+    "#cbd5e1", "#1a2332", "#2d3d50", "#3f526b", "#526885", "#6b809e",
   ],
 } as const
 

@@ -24,11 +24,11 @@ export function KPICard({ title, value, change, changeLabel, icon: Icon }: KPICa
       <div className="mt-1 text-xl font-bold text-slate-900 sm:mt-2 sm:text-2xl">{value}</div>
       <div className="mt-0.5 flex items-center gap-1 sm:mt-1 sm:gap-1.5">
         {isPositive ? (
-          <TrendingUp className="h-3 w-3 text-emerald-600 sm:h-3.5 sm:w-3.5" />
+          <TrendingUp className="h-3 w-3 text-slate-700 sm:h-3.5 sm:w-3.5" />
         ) : (
-          <TrendingDown className="h-3 w-3 text-red-500 sm:h-3.5 sm:w-3.5" />
+          <TrendingDown className="h-3 w-3 text-slate-400 sm:h-3.5 sm:w-3.5" />
         )}
-        <span className={`text-xs font-medium sm:text-sm ${isPositive ? "text-emerald-600" : "text-red-500"}`}>
+        <span className={`text-xs font-medium sm:text-sm ${isPositive ? "text-slate-700" : "text-slate-400"}`}>
           {isPositive ? "+" : ""}
           {change}%
         </span>
