@@ -1,89 +1,162 @@
 "use client"
 
-import {
-  ScatterChart,
-  Scatter,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  ZAxis,
-  Label,
-} from "recharts"
 import { LOCATION_DATA, COLORS } from "@/lib/demo-data"
 
-const scatterData = LOCATION_DATA.map((loc) => ({
-  name: loc.name,
-  shortName: loc.name.split(" ").slice(0, 2).join(" "),
-  type: loc.type,
-  revenue: loc.revenue / 1_000_000,
-  margin: loc.margin,
-  headcount: loc.headcount,
-  revenuePerHead: Math.round(loc.revenue / loc.headcount),
-}))
+function fmtM(n: number): string {
+  return `$${(n / 1_000_000).toFixed(1)}M`
+}
 
-// Custom dot that renders the label
-function LabeledDot(props: Record<string, unknown>) {
-  const { cx, cy, payload } = props as { cx: number; cy: number; payload: typeof scatterData[0] }
-  const r = 6 + (payload.headcount / 8)
-  return (
-    <g>
-      <circle cx={cx} cy={cy} r={r} fill={COLORS.revenue} fillOpacity={0.15} stroke={COLORS.ebitda} strokeWidth={1.5} />
-      <circle cx={cx} cy={cy} r={3} fill={COLORS.ebitda} />
-      <text x={cx} y={cy - r - 5} textAnchor="middle" fontSize={9} fontWeight={600} fill="#334155">
-        {payload.shortName}
-      </text>
-      <text x={cx} y={cy - r - 5 + 11} textAnchor="middle" fontSize={7} fill="#94a3b8">
-        {payload.type} · {payload.headcount} staff
-      </text>
-    </g>
-  )
+const TYPE_COLORS: Record<string, string> = {
+  "Primary Care": COLORS.revenue,
+  "Specialty": COLORS.ebitda,
+  "Urgent Care": COLORS.cost,
+  "Ancillary": COLORS.neutral,
+}
+
+// Manual label offsets to avoid overlaps
+const LABEL_OFFSETS: Record<string, { dx: number; dy: number; anchor: "start" | "middle" | "end" }> = {
+  "Downtown Primary Care": { dx: 0, dy: -18, anchor: "middle" },
+  "Southpark Orthopedics": { dx: -14, dy: 22, anchor: "end" },
+  "Lakewood Specialty Clinic": { dx: -14, dy: -16, anchor: "end" },
+  "Westside Urgent Care": { dx: 14, dy: -16, anchor: "start" },
+  "Riverside Imaging Center": { dx: 14, dy: 4, anchor: "start" },
+  "Northgate Family Medicine": { dx: 14, dy: -16, anchor: "start" },
 }
 
 export function Chart3Scatter() {
+  const w = 500
+  const h = 380
+  const pad = { top: 40, right: 30, bottom: 50, left: 55 }
+  const plotW = w - pad.left - pad.right
+  const plotH = h - pad.top - pad.bottom
+
+  const revenues = LOCATION_DATA.map(l => l.revenue / 1_000_000)
+  const margins = LOCATION_DATA.map(l => l.margin)
+  const minRev = Math.floor(Math.min(...revenues) - 0.5)
+  const maxRev = Math.ceil(Math.max(...revenues) + 0.5)
+  const minMargin = 4
+  const maxMargin = 20
+
+  const xScale = (v: number) => pad.left + ((v - minRev) / (maxRev - minRev)) * plotW
+  const yScale = (v: number) => pad.top + plotH - ((v - minMargin) / (maxMargin - minMargin)) * plotH
+
+  // Quadrant midpoints
+  const midRev = (minRev + maxRev) / 2
+  const midMargin = (minMargin + maxMargin) / 2
+
+  // Unique types for legend
+  const types = [...new Set(LOCATION_DATA.map(l => l.type))]
+
   return (
     <div>
-      <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-400">#3 — Location Efficiency (Revenue vs Margin, size = headcount)</h3>
+      <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-400">#3 — Location Efficiency</h3>
       <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-        <ResponsiveContainer width="100%" height={340}>
-          <ScatterChart margin={{ top: 30, right: 20, bottom: 20, left: 10 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-            <XAxis
-              type="number"
-              dataKey="revenue"
-              tick={{ fontSize: 10 }}
-              tickFormatter={(v) => `$${v}M`}
-              domain={["dataMin - 0.5", "dataMax + 0.5"]}
-            >
-              <Label value="Revenue ($M)" position="bottom" offset={0} fontSize={10} fill="#94a3b8" />
-            </XAxis>
-            <YAxis
-              type="number"
-              dataKey="margin"
-              tick={{ fontSize: 10 }}
-              tickFormatter={(v) => `${v}%`}
-              domain={[4, 20]}
-            >
-              <Label value="EBITDA Margin %" angle={-90} position="insideLeft" offset={10} fontSize={10} fill="#94a3b8" />
-            </YAxis>
-            <ZAxis type="number" dataKey="headcount" range={[300, 1000]} />
-            <Tooltip
-              content={({ payload }) => {
-                if (!payload?.length) return null
-                const d = payload[0].payload
-                return (
-                  <div className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs shadow-md">
-                    <p className="font-semibold text-slate-900">{d.name}</p>
-                    <p className="text-slate-500">${d.revenue.toFixed(1)}M rev · {d.margin}% margin</p>
-                    <p className="text-slate-500">{d.headcount} staff · ${(d.revenuePerHead / 1000).toFixed(0)}K/head</p>
-                  </div>
-                )
-              }}
-            />
-            <Scatter data={scatterData} shape={<LabeledDot />} />
-          </ScatterChart>
-        </ResponsiveContainer>
+        <svg viewBox={`0 0 ${w} ${h}`} className="w-full" preserveAspectRatio="xMidYMid meet">
+          {/* Quadrant backgrounds */}
+          <rect x={xScale(midRev)} y={pad.top} width={plotW / 2} height={plotH / 2} fill="#f0fdfa" rx={4} />
+          <rect x={pad.left} y={pad.top + plotH / 2} width={plotW / 2} height={plotH / 2} fill="#fef2f2" rx={4} opacity={0.5} />
+
+          {/* Quadrant labels */}
+          <text x={xScale(maxRev) - 4} y={pad.top + 14} textAnchor="end" fontSize={8} fill="#0d9488" fontWeight={600} opacity={0.6}>
+            HIGH REV, HIGH MARGIN
+          </text>
+          <text x={pad.left + 4} y={pad.top + plotH - 4} textAnchor="start" fontSize={8} fill="#be123c" fontWeight={600} opacity={0.4}>
+            LOW REV, LOW MARGIN
+          </text>
+
+          {/* Grid lines */}
+          {[minMargin, 8, 12, 16, maxMargin].map(v => (
+            <line key={`y-${v}`} x1={pad.left} x2={pad.left + plotW} y1={yScale(v)} y2={yScale(v)} stroke="#e2e8f0" strokeDasharray="3 3" />
+          ))}
+          {Array.from({ length: Math.ceil(maxRev - minRev) + 1 }, (_, i) => minRev + i).filter(v => v % 2 === 0).map(v => (
+            <line key={`x-${v}`} x1={xScale(v)} x2={xScale(v)} y1={pad.top} y2={pad.top + plotH} stroke="#e2e8f0" strokeDasharray="3 3" />
+          ))}
+
+          {/* Midpoint lines */}
+          <line x1={xScale(midRev)} x2={xScale(midRev)} y1={pad.top} y2={pad.top + plotH} stroke="#cbd5e1" strokeDasharray="6 3" />
+          <line x1={pad.left} x2={pad.left + plotW} y1={yScale(midMargin)} y2={yScale(midMargin)} stroke="#cbd5e1" strokeDasharray="6 3" />
+
+          {/* Axes */}
+          <line x1={pad.left} x2={pad.left + plotW} y1={pad.top + plotH} y2={pad.top + plotH} stroke="#94a3b8" />
+          <line x1={pad.left} x2={pad.left} y1={pad.top} y2={pad.top + plotH} stroke="#94a3b8" />
+
+          {/* X-axis ticks */}
+          {Array.from({ length: Math.ceil(maxRev - minRev) + 1 }, (_, i) => minRev + i).filter(v => v % 2 === 0).map(v => (
+            <text key={`xt-${v}`} x={xScale(v)} y={pad.top + plotH + 16} textAnchor="middle" fontSize={9} fill="#94a3b8">
+              ${v}M
+            </text>
+          ))}
+          <text x={pad.left + plotW / 2} y={h - 8} textAnchor="middle" fontSize={9} fill="#94a3b8">Revenue</text>
+
+          {/* Y-axis ticks */}
+          {[minMargin, 8, 12, 16, maxMargin].map(v => (
+            <text key={`yt-${v}`} x={pad.left - 6} y={yScale(v) + 3} textAnchor="end" fontSize={9} fill="#94a3b8">
+              {v}%
+            </text>
+          ))}
+          <text x={14} y={pad.top + plotH / 2} textAnchor="middle" fontSize={9} fill="#94a3b8" transform={`rotate(-90, 14, ${pad.top + plotH / 2})`}>
+            EBITDA Margin
+          </text>
+
+          {/* Bubbles */}
+          {LOCATION_DATA.map((loc) => {
+            const cx = xScale(loc.revenue / 1_000_000)
+            const cy = yScale(loc.margin)
+            const r = 8 + loc.headcount * 0.5
+            const color = TYPE_COLORS[loc.type] || COLORS.neutral
+            const offset = LABEL_OFFSETS[loc.name] || { dx: 0, dy: -18, anchor: "middle" }
+            const isUnderperformer = loc.margin < 10
+            const shortName = loc.name.split(" ").slice(0, 2).join(" ")
+
+            return (
+              <g key={loc.name}>
+                {/* Pulse ring for underperformer */}
+                {isUnderperformer && (
+                  <circle cx={cx} cy={cy} r={r + 4} fill="none" stroke="#be123c" strokeWidth={1} strokeDasharray="3 2" opacity={0.5} />
+                )}
+                {/* Bubble */}
+                <circle cx={cx} cy={cy} r={r} fill={color} fillOpacity={0.15} stroke={color} strokeWidth={2} />
+                <circle cx={cx} cy={cy} r={3} fill={color} />
+                {/* Label */}
+                <text
+                  x={cx + offset.dx}
+                  y={cy + offset.dy}
+                  textAnchor={offset.anchor}
+                  fontSize={10}
+                  fontWeight={700}
+                  fill={isUnderperformer ? "#be123c" : "#334155"}
+                >
+                  {shortName}
+                </text>
+                <text
+                  x={cx + offset.dx}
+                  y={cy + offset.dy + 12}
+                  textAnchor={offset.anchor}
+                  fontSize={8}
+                  fill={isUnderperformer ? "#e6727a" : "#94a3b8"}
+                >
+                  {loc.type} · {loc.headcount} staff · {fmtM(loc.revenue)}
+                </text>
+              </g>
+            )
+          })}
+        </svg>
+
+        {/* Legend */}
+        <div className="mt-3 flex flex-wrap items-center gap-4 border-t border-slate-100 pt-3">
+          {types.map((type) => (
+            <div key={type} className="flex items-center gap-1.5">
+              <div className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: TYPE_COLORS[type] }} />
+              <span className="text-xs text-slate-500">{type}</span>
+            </div>
+          ))}
+          <div className="flex items-center gap-1.5 ml-auto">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+              <circle cx="8" cy="8" r="6" fill="none" stroke="#be123c" strokeWidth={1} strokeDasharray="2 1.5" />
+            </svg>
+            <span className="text-xs text-slate-400">Underperformer</span>
+          </div>
+        </div>
       </div>
     </div>
   )
