@@ -14,11 +14,12 @@ import {
 import { LOCATION_DATA, COLORS } from "@/lib/demo-data"
 import { cn } from "@/lib/utils"
 
-type SortBy = "revenue" | "margin"
+type SortBy = "revenue" | "margin" | "headcount"
 
 const sortOptions: { key: SortBy; label: string }[] = [
   { key: "revenue", label: "Revenue" },
   { key: "margin", label: "Margin" },
+  { key: "headcount", label: "Headcount" },
 ]
 
 function fmtM(value: number): string {
@@ -35,11 +36,16 @@ export function LocationBreakdownChart() {
   const chartData = LOCATION_DATA.map((loc) => ({
     name: loc.name,
     shortName: loc.name.split(" ").slice(0, 2).join(" "),
+    type: loc.type,
     revenue: loc.revenue,
     margin: loc.margin,
-  })).sort((a, b) =>
-    sortBy === "revenue" ? b.revenue - a.revenue : b.margin - a.margin
-  )
+    headcount: loc.headcount,
+    revenuePerHead: Math.round(loc.revenue / loc.headcount),
+  })).sort((a, b) => {
+    if (sortBy === "revenue") return b.revenue - a.revenue
+    if (sortBy === "margin") return b.margin - a.margin
+    return b.headcount - a.headcount
+  })
 
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
@@ -83,7 +89,7 @@ export function LocationBreakdownChart() {
             formatter={(value) => [fmtTooltip(Number(value)), "Revenue"]}
             labelFormatter={(label) => {
               const item = chartData.find((d) => d.shortName === label)
-              return item ? `${item.name} (${item.margin}% margin)` : String(label)
+              return item ? `${item.name} · ${item.type} · ${item.margin}% margin · ${item.headcount} staff` : String(label)
             }}
             contentStyle={{ fontSize: 12, borderRadius: 8, border: "1px solid #e2e8f0" }}
           />

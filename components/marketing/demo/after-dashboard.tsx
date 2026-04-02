@@ -5,7 +5,6 @@ import { motion } from "framer-motion"
 import { DollarSign, TrendingUp, BarChart3, Percent } from "lucide-react"
 import {
   MONTHLY_DATA,
-  COLORS,
   filterByDateRange,
   computeTotals,
   computeMetrics,
@@ -15,6 +14,8 @@ import { cn } from "@/lib/utils"
 import { KPICard } from "./kpi-card"
 import { WaterfallChart } from "./waterfall-chart"
 import { RevenueTrendChart } from "./revenue-trend-chart"
+import { MarginTrendChart } from "./margin-trend-chart"
+import { CostBreakdownChart } from "./cost-breakdown-chart"
 import { LocationBreakdownChart } from "./location-breakdown-chart"
 
 const dateRanges: { key: DateRange; label: string }[] = [
@@ -104,7 +105,7 @@ export function AfterDashboard() {
           ))}
         </div>
 
-        {/* Charts row 1 */}
+        {/* Row 1: Waterfall + Revenue Trend */}
         <motion.div
           className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2"
           initial={{ opacity: 0, y: 16 }}
@@ -115,7 +116,18 @@ export function AfterDashboard() {
           <RevenueTrendChart data={filteredData} />
         </motion.div>
 
-        {/* Location breakdown */}
+        {/* Row 2: Margin Trend + Cost Breakdown */}
+        <motion.div
+          className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.5 }}
+        >
+          <MarginTrendChart data={filteredData} />
+          <CostBreakdownChart totals={totals} />
+        </motion.div>
+
+        {/* Row 3: Location breakdown */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
