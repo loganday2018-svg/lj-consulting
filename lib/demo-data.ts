@@ -41,44 +41,41 @@ export interface LocationData {
   headcount: number
 }
 
-// Chart palette derived from the site's navy/slate theme
-// Primary hue ~265 (navy), secondary accents in the same family
+// Chart palette — navy primary with muted accent colors for differentiation
 export const COLORS = {
   // Semantic
-  revenue: "#1e293b",     // slate-800 — the site's primary/foreground
-  profit: "#475569",      // slate-600 — lighter navy for positive subtotals
-  cost: "#94a3b8",        // slate-400 — muted for costs
-  neutral: "#cbd5e1",     // slate-300
-  ebitda: "#334155",      // slate-700 — EBITDA when alongside revenue
+  revenue: "#1e293b",     // slate-800 — primary
+  profit: "#2d6a4f",      // muted forest green — profit/positive
+  cost: "#c1666b",        // muted rose — costs/negative
+  neutral: "#94a3b8",     // slate-400
+  ebitda: "#4a6fa5",      // steel blue — EBITDA when alongside revenue
 
-  // COGS line items — navy scale, darkest to lightest
-  providerComp: "#0f172a",  // slate-900
-  nursingStaff: "#1e293b",  // slate-800
-  medicalSupplies: "#334155", // slate-700
-  labDiagnostic: "#475569", // slate-600
-  pharmacy: "#64748b",      // slate-500
-  facilityCosts: "#94a3b8", // slate-400
-  equipmentLease: "#cbd5e1", // slate-300
+  // Not used individually, kept for compatibility
+  providerComp: "#1e293b",
+  nursingStaff: "#334155",
+  medicalSupplies: "#475569",
+  labDiagnostic: "#64748b",
+  pharmacy: "#94a3b8",
+  facilityCosts: "#4a6fa5",
+  equipmentLease: "#7c98b3",
+  adminStaff: "#1e293b",
+  billingIT: "#475569",
+  marketing: "#94a3b8",
 
-  // OpEx line items — same scale
-  adminStaff: "#0f172a",
-  billingIT: "#334155",
-  marketing: "#64748b",
-
-  // Location bars — stepped navy tones
+  // Location bars — navy with one warm accent
   locations: [
-    "#0f172a", // slate-900
     "#1e293b", // slate-800
-    "#334155", // slate-700
-    "#475569", // slate-600
+    "#4a6fa5", // steel blue
+    "#2d6a4f", // forest green
+    "#8b6f47", // warm bronze
     "#64748b", // slate-500
-    "#94a3b8", // slate-400
+    "#7c5e8a", // muted plum
   ],
 
-  // Donut chart — full navy gradient for many slices
+  // Donut chart — diverse but muted, all desaturated
   donut: [
-    "#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8",
-    "#cbd5e1", "#1a2332", "#2d3d50", "#3f526b", "#526885", "#6b809e",
+    "#1e293b", "#4a6fa5", "#2d6a4f", "#8b6f47", "#7c5e8a", "#c1666b",
+    "#64748b", "#5b8a72", "#a67f5d", "#6b7fa3", "#947082", "#3d5a80",
   ],
 } as const
 
