@@ -1,14 +1,33 @@
 export interface MonthlyPnL {
   month: string
+  // Revenue
+  patientServices: number
+  ancillaryRevenue: number
+  otherIncome: number
   revenue: number
+  // COGS
   providerComp: number
+  nursingStaff: number
   medicalSupplies: number
+  labDiagnostic: number
+  pharmacy: number
   facilityCosts: number
+  equipmentLease: number
   totalCogs: number
   grossProfit: number
+  // OpEx
   adminStaff: number
-  billingIT: number
+  billingCollections: number
+  itSystems: number
+  malpracticeInsurance: number
+  generalInsurance: number
   marketing: number
+  rent: number
+  utilities: number
+  depreciation: number
+  professionalFees: number
+  officeSupplies: number
+  staffTraining: number
   totalOpex: number
   ebitda: number
 }
@@ -24,11 +43,11 @@ export interface LocationData {
 
 // Consistent color palette used across all dashboard charts
 export const COLORS = {
-  revenue: "#2563eb",     // blue — revenue, primary metrics
-  profit: "#22c55e",      // green — gross profit, EBITDA, positive
-  cost: "#ef4444",        // red — COGS, OpEx, negative
-  neutral: "#64748b",     // slate — secondary
-  ebitda: "#8b5cf6",      // violet — EBITDA when shown alongside revenue
+  revenue: "#2563eb",
+  profit: "#22c55e",
+  cost: "#ef4444",
+  neutral: "#64748b",
+  ebitda: "#8b5cf6",
   providerComp: "#2563eb",
   medicalSupplies: "#059669",
   facilityCosts: "#d97706",
@@ -36,12 +55,12 @@ export const COLORS = {
   billingIT: "#0891b2",
   marketing: "#dc2626",
   locations: [
-    "#2563eb", // blue
-    "#059669", // emerald
-    "#d97706", // amber
-    "#7c3aed", // purple
-    "#dc2626", // red
-    "#0891b2", // cyan
+    "#2563eb",
+    "#059669",
+    "#d97706",
+    "#7c3aed",
+    "#dc2626",
+    "#0891b2",
   ],
 } as const
 
@@ -63,17 +82,33 @@ export function filterByDateRange(data: MonthlyPnL[], range: DateRange): Monthly
 export function computeTotals(data: MonthlyPnL[]) {
   const s = (key: keyof MonthlyPnL) => data.reduce((acc, row) => acc + (row[key] as number), 0)
   return {
+    patientServices: s("patientServices"),
+    ancillaryRevenue: s("ancillaryRevenue"),
+    otherIncome: s("otherIncome"),
     revenue: s("revenue"),
+    providerComp: s("providerComp"),
+    nursingStaff: s("nursingStaff"),
+    medicalSupplies: s("medicalSupplies"),
+    labDiagnostic: s("labDiagnostic"),
+    pharmacy: s("pharmacy"),
+    facilityCosts: s("facilityCosts"),
+    equipmentLease: s("equipmentLease"),
     totalCogs: s("totalCogs"),
     grossProfit: s("grossProfit"),
+    adminStaff: s("adminStaff"),
+    billingCollections: s("billingCollections"),
+    itSystems: s("itSystems"),
+    malpracticeInsurance: s("malpracticeInsurance"),
+    generalInsurance: s("generalInsurance"),
+    marketing: s("marketing"),
+    rent: s("rent"),
+    utilities: s("utilities"),
+    depreciation: s("depreciation"),
+    professionalFees: s("professionalFees"),
+    officeSupplies: s("officeSupplies"),
+    staffTraining: s("staffTraining"),
     totalOpex: s("totalOpex"),
     ebitda: s("ebitda"),
-    providerComp: s("providerComp"),
-    medicalSupplies: s("medicalSupplies"),
-    facilityCosts: s("facilityCosts"),
-    adminStaff: s("adminStaff"),
-    billingIT: s("billingIT"),
-    marketing: s("marketing"),
   }
 }
 
@@ -87,186 +122,110 @@ export function computeMetrics(totals: ReturnType<typeof computeTotals>) {
 export const COMPANY_NAME = "Meridian Health Partners"
 export const FISCAL_YEAR = "FY 2025"
 
-// Messy, realistic data — seasonal revenue dips, a bad supply month,
-// facility cost jump from lease renewal in July, marketing spike in Sep,
-// one-time IT project in Nov, etc.
 export const MONTHLY_DATA: MonthlyPnL[] = [
   {
     month: "Jan",
-    revenue: 2_847_000,   // post-holiday surge, flu season
-    providerComp: 1_082_000,
-    medicalSupplies: 412_000, // high — flu test kits, PPE restock
-    facilityCosts: 268_000,
-    totalCogs: 1_762_000,
-    grossProfit: 1_085_000,
-    adminStaff: 351_000,
-    billingIT: 158_000,
-    marketing: 42_000,     // low — Q4 budget hangover
-    totalOpex: 551_000,
-    ebitda: 534_000,
+    patientServices: 2_518_000, ancillaryRevenue: 287_000, otherIncome: 42_000, revenue: 2_847_000,
+    providerComp: 798_000, nursingStaff: 284_000, medicalSupplies: 256_000, labDiagnostic: 114_000, pharmacy: 42_000, facilityCosts: 168_000, equipmentLease: 100_000,
+    totalCogs: 1_762_000, grossProfit: 1_085_000,
+    adminStaff: 218_000, billingCollections: 85_000, itSystems: 73_000, malpracticeInsurance: 48_000, generalInsurance: 22_000, marketing: 42_000, rent: 0, utilities: 19_000, depreciation: 28_000, professionalFees: 12_000, officeSupplies: 4_000, staffTraining: 0,
+    totalOpex: 551_000, ebitda: 534_000,
   },
   {
     month: "Feb",
-    revenue: 2_413_000,   // short month, snowstorm cancellations
-    providerComp: 1_044_000, // still paying providers, fewer visits
-    medicalSupplies: 298_000,
-    facilityCosts: 268_000,
-    totalCogs: 1_610_000,
-    grossProfit: 803_000,
-    adminStaff: 351_000,
-    billingIT: 158_000,
-    marketing: 48_000,
-    totalOpex: 557_000,
-    ebitda: 246_000,       // ugly month
+    patientServices: 2_098_000, ancillaryRevenue: 271_000, otherIncome: 44_000, revenue: 2_413_000,
+    providerComp: 762_000, nursingStaff: 282_000, medicalSupplies: 198_000, labDiagnostic: 98_000, pharmacy: 38_000, facilityCosts: 168_000, equipmentLease: 64_000,
+    totalCogs: 1_610_000, grossProfit: 803_000,
+    adminStaff: 218_000, billingCollections: 85_000, itSystems: 73_000, malpracticeInsurance: 48_000, generalInsurance: 22_000, marketing: 48_000, rent: 0, utilities: 21_000, depreciation: 28_000, professionalFees: 8_000, officeSupplies: 6_000, staffTraining: 0,
+    totalOpex: 557_000, ebitda: 246_000,
   },
   {
     month: "Mar",
-    revenue: 2_891_000,   // rebound, spring allergy season starts
-    providerComp: 1_098_000,
-    medicalSupplies: 361_000,
-    facilityCosts: 268_000,
-    totalCogs: 1_727_000,
-    grossProfit: 1_164_000,
-    adminStaff: 355_000,
-    billingIT: 162_000,
-    marketing: 71_000,     // spring campaign launch
-    totalOpex: 588_000,
-    ebitda: 576_000,
+    patientServices: 2_561_000, ancillaryRevenue: 298_000, otherIncome: 32_000, revenue: 2_891_000,
+    providerComp: 812_000, nursingStaff: 286_000, medicalSupplies: 241_000, labDiagnostic: 118_000, pharmacy: 44_000, facilityCosts: 168_000, equipmentLease: 58_000,
+    totalCogs: 1_727_000, grossProfit: 1_164_000,
+    adminStaff: 222_000, billingCollections: 85_000, itSystems: 77_000, malpracticeInsurance: 48_000, generalInsurance: 22_000, marketing: 71_000, rent: 0, utilities: 18_000, depreciation: 28_000, professionalFees: 9_000, officeSupplies: 4_000, staffTraining: 4_000,
+    totalOpex: 588_000, ebitda: 576_000,
   },
   {
     month: "Apr",
-    revenue: 2_654_000,
-    providerComp: 1_035_000,
-    medicalSupplies: 332_000,
-    facilityCosts: 268_000,
-    totalCogs: 1_635_000,
-    grossProfit: 1_019_000,
-    adminStaff: 358_000,
-    billingIT: 155_000,
-    marketing: 63_000,
-    totalOpex: 576_000,
-    ebitda: 443_000,
+    patientServices: 2_341_000, ancillaryRevenue: 278_000, otherIncome: 35_000, revenue: 2_654_000,
+    providerComp: 774_000, nursingStaff: 261_000, medicalSupplies: 222_000, labDiagnostic: 108_000, pharmacy: 40_000, facilityCosts: 168_000, equipmentLease: 62_000,
+    totalCogs: 1_635_000, grossProfit: 1_019_000,
+    adminStaff: 225_000, billingCollections: 82_000, itSystems: 73_000, malpracticeInsurance: 48_000, generalInsurance: 22_000, marketing: 63_000, rent: 0, utilities: 17_000, depreciation: 28_000, professionalFees: 14_000, officeSupplies: 4_000, staffTraining: 0,
+    totalOpex: 576_000, ebitda: 443_000,
   },
   {
     month: "May",
-    revenue: 2_502_000,   // dip — people defer visits before summer
-    providerComp: 1_001_000,
-    medicalSupplies: 313_000,
-    facilityCosts: 268_000,
-    totalCogs: 1_582_000,
-    grossProfit: 920_000,
-    adminStaff: 358_000,
-    billingIT: 155_000,
-    marketing: 55_000,
-    totalOpex: 568_000,
-    ebitda: 352_000,
+    patientServices: 2_198_000, ancillaryRevenue: 262_000, otherIncome: 42_000, revenue: 2_502_000,
+    providerComp: 741_000, nursingStaff: 260_000, medicalSupplies: 213_000, labDiagnostic: 102_000, pharmacy: 36_000, facilityCosts: 168_000, equipmentLease: 62_000,
+    totalCogs: 1_582_000, grossProfit: 920_000,
+    adminStaff: 225_000, billingCollections: 82_000, itSystems: 73_000, malpracticeInsurance: 48_000, generalInsurance: 22_000, marketing: 55_000, rent: 0, utilities: 17_000, depreciation: 28_000, professionalFees: 10_000, officeSupplies: 4_000, staffTraining: 4_000,
+    totalOpex: 568_000, ebitda: 352_000,
   },
   {
     month: "Jun",
-    revenue: 2_318_000,   // summer trough begins
-    providerComp: 985_000, // kept one locum on for vacation coverage
-    medicalSupplies: 278_000,
-    facilityCosts: 268_000,
-    totalCogs: 1_531_000,
-    grossProfit: 787_000,
-    adminStaff: 342_000,   // one admin left, not yet replaced
-    billingIT: 155_000,
-    marketing: 38_000,     // pulled back spend
-    totalOpex: 535_000,
-    ebitda: 252_000,       // thin
+    patientServices: 2_018_000, ancillaryRevenue: 248_000, otherIncome: 52_000, revenue: 2_318_000,
+    providerComp: 728_000, nursingStaff: 257_000, medicalSupplies: 178_000, labDiagnostic: 88_000, pharmacy: 32_000, facilityCosts: 168_000, equipmentLease: 80_000,
+    totalCogs: 1_531_000, grossProfit: 787_000,
+    adminStaff: 209_000, billingCollections: 82_000, itSystems: 73_000, malpracticeInsurance: 48_000, generalInsurance: 22_000, marketing: 38_000, rent: 0, utilities: 18_000, depreciation: 28_000, professionalFees: 9_000, officeSupplies: 4_000, staffTraining: 4_000,
+    totalOpex: 535_000, ebitda: 252_000,
   },
   {
     month: "Jul",
-    revenue: 2_189_000,   // worst month — summer + provider vacations
-    providerComp: 941_000,
-    medicalSupplies: 259_000,
-    facilityCosts: 312_000, // lease renewal kicked in — $44K jump
-    totalCogs: 1_512_000,
-    grossProfit: 677_000,
-    adminStaff: 342_000,
-    billingIT: 155_000,
-    marketing: 35_000,
-    totalOpex: 532_000,
-    ebitda: 145_000,       // barely positive
+    patientServices: 1_892_000, ancillaryRevenue: 241_000, otherIncome: 56_000, revenue: 2_189_000,
+    providerComp: 688_000, nursingStaff: 253_000, medicalSupplies: 159_000, labDiagnostic: 82_000, pharmacy: 30_000, facilityCosts: 212_000, equipmentLease: 88_000,
+    totalCogs: 1_512_000, grossProfit: 677_000,
+    adminStaff: 209_000, billingCollections: 82_000, itSystems: 73_000, malpracticeInsurance: 48_000, generalInsurance: 22_000, marketing: 35_000, rent: 0, utilities: 19_000, depreciation: 28_000, professionalFees: 8_000, officeSupplies: 4_000, staffTraining: 4_000,
+    totalOpex: 532_000, ebitda: 145_000,
   },
   {
     month: "Aug",
-    revenue: 2_478_000,   // back-to-school physicals, recovery starts
-    providerComp: 992_000,
-    medicalSupplies: 372_000, // big restock after summer drawdown
-    facilityCosts: 312_000,
-    totalCogs: 1_676_000,
-    grossProfit: 802_000,
-    adminStaff: 365_000,   // new admin hire + overlap training
-    billingIT: 155_000,
-    marketing: 52_000,
-    totalOpex: 572_000,
-    ebitda: 230_000,
+    patientServices: 2_178_000, ancillaryRevenue: 258_000, otherIncome: 42_000, revenue: 2_478_000,
+    providerComp: 738_000, nursingStaff: 254_000, medicalSupplies: 272_000, labDiagnostic: 96_000, pharmacy: 38_000, facilityCosts: 212_000, equipmentLease: 66_000,
+    totalCogs: 1_676_000, grossProfit: 802_000,
+    adminStaff: 232_000, billingCollections: 82_000, itSystems: 73_000, malpracticeInsurance: 48_000, generalInsurance: 22_000, marketing: 52_000, rent: 0, utilities: 19_000, depreciation: 28_000, professionalFees: 8_000, officeSupplies: 4_000, staffTraining: 4_000,
+    totalOpex: 572_000, ebitda: 230_000,
   },
   {
     month: "Sep",
-    revenue: 2_756_000,   // strong rebound, flu shot season begins
-    providerComp: 1_047_000,
-    medicalSupplies: 358_000,
-    facilityCosts: 312_000,
-    totalCogs: 1_717_000,
-    grossProfit: 1_039_000,
-    adminStaff: 352_000,
-    billingIT: 162_000,
-    marketing: 89_000,     // big push — flu shot ads, open enrollment prep
-    totalOpex: 603_000,
-    ebitda: 436_000,
+    patientServices: 2_448_000, ancillaryRevenue: 274_000, otherIncome: 34_000, revenue: 2_756_000,
+    providerComp: 782_000, nursingStaff: 265_000, medicalSupplies: 248_000, labDiagnostic: 112_000, pharmacy: 42_000, facilityCosts: 212_000, equipmentLease: 56_000,
+    totalCogs: 1_717_000, grossProfit: 1_039_000,
+    adminStaff: 219_000, billingCollections: 82_000, itSystems: 80_000, malpracticeInsurance: 48_000, generalInsurance: 22_000, marketing: 89_000, rent: 0, utilities: 18_000, depreciation: 28_000, professionalFees: 9_000, officeSupplies: 4_000, staffTraining: 4_000,
+    totalOpex: 603_000, ebitda: 436_000,
   },
   {
     month: "Oct",
-    revenue: 2_923_000,   // peak — flu season + open enrollment
-    providerComp: 1_110_000,
-    medicalSupplies: 380_000,
-    facilityCosts: 312_000,
-    totalCogs: 1_802_000,
-    grossProfit: 1_121_000,
-    adminStaff: 352_000,
-    billingIT: 168_000,
-    marketing: 58_000,
-    totalOpex: 578_000,
-    ebitda: 543_000,       // best month
+    patientServices: 2_612_000, ancillaryRevenue: 281_000, otherIncome: 30_000, revenue: 2_923_000,
+    providerComp: 824_000, nursingStaff: 286_000, medicalSupplies: 268_000, labDiagnostic: 122_000, pharmacy: 46_000, facilityCosts: 212_000, equipmentLease: 44_000,
+    totalCogs: 1_802_000, grossProfit: 1_121_000,
+    adminStaff: 219_000, billingCollections: 82_000, itSystems: 86_000, malpracticeInsurance: 48_000, generalInsurance: 22_000, marketing: 58_000, rent: 0, utilities: 18_000, depreciation: 28_000, professionalFees: 9_000, officeSupplies: 4_000, staffTraining: 4_000,
+    totalOpex: 578_000, ebitda: 543_000,
   },
   {
     month: "Nov",
-    revenue: 2_687_000,
-    providerComp: 1_061_000,
-    medicalSupplies: 335_000,
-    facilityCosts: 312_000,
-    totalCogs: 1_708_000,
-    grossProfit: 979_000,
-    adminStaff: 352_000,
-    billingIT: 213_000,    // one-time EHR migration project
-    marketing: 44_000,
-    totalOpex: 609_000,
-    ebitda: 370_000,
+    patientServices: 2_378_000, ancillaryRevenue: 271_000, otherIncome: 38_000, revenue: 2_687_000,
+    providerComp: 788_000, nursingStaff: 273_000, medicalSupplies: 235_000, labDiagnostic: 108_000, pharmacy: 40_000, facilityCosts: 212_000, equipmentLease: 52_000,
+    totalCogs: 1_708_000, grossProfit: 979_000,
+    adminStaff: 219_000, billingCollections: 82_000, itSystems: 131_000, malpracticeInsurance: 48_000, generalInsurance: 22_000, marketing: 44_000, rent: 0, utilities: 19_000, depreciation: 28_000, professionalFees: 8_000, officeSupplies: 4_000, staffTraining: 4_000,
+    totalOpex: 609_000, ebitda: 370_000,
   },
   {
     month: "Dec",
-    revenue: 2_398_000,   // holiday slowdown, year-end
-    providerComp: 1_022_000, // bonuses hit this month
-    medicalSupplies: 287_000,
-    facilityCosts: 312_000,
-    totalCogs: 1_621_000,
-    grossProfit: 777_000,
-    adminStaff: 368_000,   // year-end bonuses
-    billingIT: 162_000,
-    marketing: 72_000,     // new year campaign prep
-    totalOpex: 602_000,
-    ebitda: 175_000,       // thin — bonus-heavy month
+    patientServices: 2_082_000, ancillaryRevenue: 264_000, otherIncome: 52_000, revenue: 2_398_000,
+    providerComp: 768_000, nursingStaff: 254_000, medicalSupplies: 187_000, labDiagnostic: 94_000, pharmacy: 34_000, facilityCosts: 212_000, equipmentLease: 72_000,
+    totalCogs: 1_621_000, grossProfit: 777_000,
+    adminStaff: 235_000, billingCollections: 82_000, itSystems: 80_000, malpracticeInsurance: 48_000, generalInsurance: 22_000, marketing: 72_000, rent: 0, utilities: 19_000, depreciation: 28_000, professionalFees: 8_000, officeSupplies: 4_000, staffTraining: 4_000,
+    totalOpex: 602_000, ebitda: 175_000,
   },
 ]
 
-// Locations with varied performance — some profitable, some struggling
 export const LOCATION_DATA: LocationData[] = [
   { name: "Downtown Primary Care", type: "Primary Care", revenue: 7_240_000, ebitda: 1_158_000, margin: 16.0, headcount: 34 },
   { name: "Westside Urgent Care", type: "Urgent Care", revenue: 5_830_000, ebitda: 641_000, margin: 11.0, headcount: 28 },
   { name: "Lakewood Specialty Clinic", type: "Specialty", revenue: 4_710_000, ebitda: 801_000, margin: 17.0, headcount: 18 },
-  { name: "Northgate Family Medicine", type: "Primary Care", revenue: 4_180_000, ebitda: 293_000, margin: 7.0, headcount: 22 },  // struggling
+  { name: "Northgate Family Medicine", type: "Primary Care", revenue: 4_180_000, ebitda: 293_000, margin: 7.0, headcount: 22 },
   { name: "Southpark Orthopedics", type: "Specialty", revenue: 5_420_000, ebitda: 867_000, margin: 16.0, headcount: 21 },
   { name: "Riverside Imaging Center", type: "Ancillary", revenue: 3_680_000, ebitda: 542_000, margin: 14.7, headcount: 12 },
 ]
@@ -275,21 +234,6 @@ function sum(arr: MonthlyPnL[], key: keyof MonthlyPnL): number {
   return arr.reduce((acc, row) => acc + (row[key] as number), 0)
 }
 
-export const ANNUAL_TOTALS = {
-  revenue: sum(MONTHLY_DATA, "revenue"),
-  totalCogs: sum(MONTHLY_DATA, "totalCogs"),
-  grossProfit: sum(MONTHLY_DATA, "grossProfit"),
-  totalOpex: sum(MONTHLY_DATA, "totalOpex"),
-  ebitda: sum(MONTHLY_DATA, "ebitda"),
-  providerComp: sum(MONTHLY_DATA, "providerComp"),
-  medicalSupplies: sum(MONTHLY_DATA, "medicalSupplies"),
-  facilityCosts: sum(MONTHLY_DATA, "facilityCosts"),
-  adminStaff: sum(MONTHLY_DATA, "adminStaff"),
-  billingIT: sum(MONTHLY_DATA, "billingIT"),
-  marketing: sum(MONTHLY_DATA, "marketing"),
-}
+export const ANNUAL_TOTALS = computeTotals(MONTHLY_DATA)
 
-export const ANNUAL_METRICS = {
-  grossMarginPct: (ANNUAL_TOTALS.grossProfit / ANNUAL_TOTALS.revenue) * 100,
-  ebitdaMarginPct: (ANNUAL_TOTALS.ebitda / ANNUAL_TOTALS.revenue) * 100,
-}
+export const ANNUAL_METRICS = computeMetrics(ANNUAL_TOTALS)

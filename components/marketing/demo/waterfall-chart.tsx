@@ -1,16 +1,5 @@
 "use client"
 
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Cell,
-  Legend,
-} from "recharts"
 import { COLORS } from "@/lib/demo-data"
 
 interface WaterfallChartProps {
@@ -24,84 +13,146 @@ interface WaterfallChartProps {
 }
 
 function fmtM(value: number): string {
-  return `$${(value / 1_000_000).toFixed(1)}M`
+  if (value >= 1_000_000) return `$${(value / 1_000_000).toFixed(1)}M`
+  return `$${(value / 1_000).toFixed(0)}K`
 }
 
-function fmtTooltip(value: number): string {
-  return `$${value.toLocaleString("en-US")}`
+interface WaterfallBar {
+  label: string
+  shortLabel: string
+  value: number
+  base: number
+  color: string
+  type: "positive" | "negative" | "subtotal"
 }
-
-const legendPayload = [
-  { value: "Revenue", type: "rect" as const, color: COLORS.revenue },
-  { value: "Cost", type: "rect" as const, color: COLORS.cost },
-  { value: "Profit", type: "rect" as const, color: COLORS.profit },
-]
 
 export function WaterfallChart({ totals }: WaterfallChartProps) {
-  const waterfallData = [
-    {
-      name: "Revenue",
-      shortName: "Rev",
-      base: 0,
-      value: totals.revenue,
-      fill: COLORS.revenue,
-    },
-    {
-      name: "COGS",
-      shortName: "COGS",
-      base: totals.revenue - totals.totalCogs,
-      value: totals.totalCogs,
-      fill: COLORS.cost,
-    },
-    {
-      name: "Gross Profit",
-      shortName: "GP",
-      base: 0,
-      value: totals.grossProfit,
-      fill: COLORS.profit,
-    },
-    {
-      name: "OpEx",
-      shortName: "OpEx",
-      base: totals.grossProfit - totals.totalOpex,
-      value: totals.totalOpex,
-      fill: COLORS.cost,
-    },
-    {
-      name: "EBITDA",
-      shortName: "EBITDA",
-      base: 0,
-      value: totals.ebitda,
-      fill: COLORS.profit,
-    },
+  const bars: WaterfallBar[] = [
+    { label: "Revenue", shortLabel: "Rev", value: totals.revenue, base: 0, color: COLORS.revenue, type: "positive" },
+    { label: "COGS", shortLabel: "COGS", value: totals.totalCogs, base: totals.revenue - totals.totalCogs, color: COLORS.cost, type: "negative" },
+    { label: "Gross Profit", shortLabel: "GP", value: totals.grossProfit, base: 0, color: COLORS.profit, type: "subtotal" },
+    { label: "OpEx", shortLabel: "OpEx", value: totals.totalOpex, base: totals.grossProfit - totals.totalOpex, color: COLORS.cost, type: "negative" },
+    { label: "EBITDA", shortLabel: "EBITDA", value: totals.ebitda, base: 0, color: COLORS.profit, type: "subtotal" },
   ]
+
+  const maxValue = totals.revenue
+  const chartHeight = 240
+  const barWidth = 40
+  const gap = 24
+  const leftPad = 52
+  const topPad = 8
+  const bottomPad = 32
+  const drawHeight = chartHeight - topPad - bottomPad
+
+  // Y-axis ticks
+  const niceMax = Math.ceil(maxValue / 5_000_000) * 5_000_000
+  const tickCount = 5
+  const ticks = Array.from({ length: tickCount + 1 }, (_, i) => (niceMax / tickCount) * i)
+
+  function yPos(val: number): number {
+    return topPad + drawHeight - (val / niceMax) * drawHeight
+  }
+
+  const totalWidth = leftPad + bars.length * (barWidth + gap)
 
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
       <h3 className="mb-3 text-sm font-semibold text-slate-700 sm:mb-4">Revenue to EBITDA Bridge</h3>
-      <ResponsiveContainer width="100%" height={260} className="sm:!h-[320px]">
-        <BarChart data={waterfallData} margin={{ top: 5, right: 10, bottom: 5, left: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-          <XAxis dataKey="shortName" tick={{ fontSize: 11 }} interval={0} />
-          <YAxis tickFormatter={fmtM} tick={{ fontSize: 10 }} width={50} />
-          <Tooltip
-            formatter={(value) => [fmtTooltip(Number(value)), "Amount"]}
-            labelFormatter={(label) => {
-              const item = waterfallData.find((d) => d.shortName === label)
-              return item?.name ?? label
-            }}
-            contentStyle={{ fontSize: 12, borderRadius: 8, border: "1px solid #e2e8f0" }}
-          />
-          {/* @ts-expect-error recharts Legend payload typing mismatch */}
-          <Legend payload={legendPayload} wrapperStyle={{ fontSize: 11 }} />
-          <Bar dataKey="base" stackId="waterfall" fill="transparent" isAnimationActive={false} legendType="none" />
-          <Bar dataKey="value" stackId="waterfall" radius={[4, 4, 0, 0]} legendType="none">
-            {waterfallData.map((entry, i) => (
-              <Cell key={i} fill={entry.fill} />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+
+      <svg viewBox={`0 0 ${totalWidth} ${chartHeight}`} className="w-full" preserveAspectRatio="xMidYMid meet">
+        {/* Grid lines */}
+        {ticks.map((tick) => (
+          <g key={tick}>
+            <line
+              x1={leftPad}
+              x2={totalWidth - 8}
+              y1={yPos(tick)}
+              y2={yPos(tick)}
+              stroke="#e2e8f0"
+              strokeDasharray="3 3"
+            />
+            <text x={leftPad - 6} y={yPos(tick) + 3} textAnchor="end" fontSize={9} fill="#94a3b8">
+              {fmtM(tick)}
+            </text>
+          </g>
+        ))}
+
+        {/* Bars */}
+        {bars.map((bar, i) => {
+          const x = leftPad + i * (barWidth + gap) + gap / 2
+          const top = yPos(bar.base + bar.value)
+          const bottom = yPos(bar.base)
+          const height = Math.max(bottom - top, 1)
+
+          // Connector line from previous bar
+          const showConnector = i > 0 && bar.type === "negative"
+          const prevBar = bars[i - 1]
+          const prevX = leftPad + (i - 1) * (barWidth + gap) + gap / 2
+
+          return (
+            <g key={bar.shortLabel}>
+              {/* Connector dashed line */}
+              {showConnector && (
+                <line
+                  x1={prevX + barWidth}
+                  x2={x}
+                  y1={yPos(prevBar.base + prevBar.value)}
+                  y2={yPos(prevBar.base + prevBar.value)}
+                  stroke="#cbd5e1"
+                  strokeDasharray="2 2"
+                />
+              )}
+
+              {/* Bar */}
+              <rect
+                x={x}
+                y={top}
+                width={barWidth}
+                height={height}
+                rx={3}
+                fill={bar.color}
+              />
+
+              {/* Value label on bar */}
+              <text
+                x={x + barWidth / 2}
+                y={top - 5}
+                textAnchor="middle"
+                fontSize={8}
+                fontWeight={600}
+                fill={bar.color}
+              >
+                {fmtM(bar.value)}
+              </text>
+
+              {/* X-axis label */}
+              <text
+                x={x + barWidth / 2}
+                y={chartHeight - 6}
+                textAnchor="middle"
+                fontSize={9}
+                fill="#64748b"
+              >
+                {bar.shortLabel}
+              </text>
+            </g>
+          )
+        })}
+      </svg>
+
+      {/* Legend */}
+      <div className="mt-2 flex items-center justify-center gap-4">
+        {[
+          { label: "Revenue", color: COLORS.revenue },
+          { label: "Cost", color: COLORS.cost },
+          { label: "Profit", color: COLORS.profit },
+        ].map((item) => (
+          <div key={item.label} className="flex items-center gap-1.5">
+            <div className="h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: item.color }} />
+            <span className="text-xs text-slate-500">{item.label}</span>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
