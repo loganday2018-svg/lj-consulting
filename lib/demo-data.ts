@@ -20,6 +20,62 @@ export interface LocationData {
   margin: number
 }
 
+// Consistent color palette used across all dashboard charts
+export const COLORS = {
+  revenue: "#2563eb",     // blue — revenue, primary metrics
+  profit: "#22c55e",      // green — gross profit, EBITDA, positive
+  cost: "#ef4444",        // red — COGS, OpEx, negative
+  neutral: "#64748b",     // slate — secondary
+  ebitda: "#8b5cf6",      // violet — EBITDA when shown alongside revenue
+  locations: [
+    "#2563eb", // blue
+    "#059669", // emerald
+    "#d97706", // amber
+    "#7c3aed", // purple
+    "#dc2626", // red
+    "#0891b2", // cyan
+  ],
+} as const
+
+export type DateRange = "full" | "Q1" | "Q2" | "Q3" | "Q4"
+
+const QUARTER_MONTHS: Record<DateRange, string[]> = {
+  full: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+  Q1: ["Jan", "Feb", "Mar"],
+  Q2: ["Apr", "May", "Jun"],
+  Q3: ["Jul", "Aug", "Sep"],
+  Q4: ["Oct", "Nov", "Dec"],
+}
+
+export function filterByDateRange(data: MonthlyPnL[], range: DateRange): MonthlyPnL[] {
+  const months = QUARTER_MONTHS[range]
+  return data.filter((d) => months.includes(d.month))
+}
+
+export function computeTotals(data: MonthlyPnL[]) {
+  const s = (key: keyof MonthlyPnL) => data.reduce((acc, row) => acc + (row[key] as number), 0)
+  return {
+    revenue: s("revenue"),
+    totalCogs: s("totalCogs"),
+    grossProfit: s("grossProfit"),
+    totalOpex: s("totalOpex"),
+    ebitda: s("ebitda"),
+    providerComp: s("providerComp"),
+    medicalSupplies: s("medicalSupplies"),
+    facilityCosts: s("facilityCosts"),
+    adminStaff: s("adminStaff"),
+    billingIT: s("billingIT"),
+    marketing: s("marketing"),
+  }
+}
+
+export function computeMetrics(totals: ReturnType<typeof computeTotals>) {
+  return {
+    grossMarginPct: totals.revenue > 0 ? (totals.grossProfit / totals.revenue) * 100 : 0,
+    ebitdaMarginPct: totals.revenue > 0 ? (totals.ebitda / totals.revenue) * 100 : 0,
+  }
+}
+
 export const COMPANY_NAME = "Meridian Health Partners"
 export const FISCAL_YEAR = "FY 2025"
 
