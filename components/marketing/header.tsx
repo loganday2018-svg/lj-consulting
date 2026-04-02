@@ -83,44 +83,42 @@ export function Header() {
         </button>
       </div>
 
-      {/* Mobile menu — animated */}
+      {/* Mobile menu */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
-            className={`overflow-hidden md:hidden ${
+          <motion.nav
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
+            className={`relative z-50 flex flex-col gap-4 px-6 py-5 md:hidden ${
               scrolled
                 ? "border-t border-slate-200 bg-background"
                 : "border-t border-white/10 bg-primary"
             }`}
           >
-            <nav className="flex flex-col gap-4 px-6 py-5">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`text-base font-medium transition-colors ${
-                    scrolled
-                      ? "text-slate-700 hover:text-foreground"
-                      : "text-slate-300 hover:text-white"
-                  }`}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <Button
-                size="sm"
-                className="mt-2 w-full"
-                render={<a href={CTA.primary.href} />}
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`block text-base font-medium transition-colors ${
+                  scrolled
+                    ? "text-slate-700 hover:text-foreground"
+                    : "text-slate-300 hover:text-white"
+                }`}
+                onClick={() => setIsOpen(false)}
               >
-                {CTA.primary.label}
-              </Button>
-            </nav>
-          </motion.div>
+                {link.label}
+              </Link>
+            ))}
+            <Button
+              size="sm"
+              className="mt-2 w-full"
+              render={<a href={CTA.primary.href} />}
+            >
+              {CTA.primary.label}
+            </Button>
+          </motion.nav>
         )}
       </AnimatePresence>
     </header>
