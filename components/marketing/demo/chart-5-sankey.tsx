@@ -1,6 +1,8 @@
 "use client"
 
+import { useState } from "react"
 import { COLORS } from "@/lib/demo-data"
+import { cn } from "@/lib/utils"
 
 interface SankeyProps {
   totals: {
@@ -38,199 +40,183 @@ function fmtM(n: number): string {
   return `$${(n / 1_000).toFixed(0)}K`
 }
 
-interface FlowNode {
+function pct(n: number, total: number): string {
+  return `${((n / total) * 100).toFixed(0)}%`
+}
+
+type View = "overview" | "cogs" | "opex"
+
+interface LineItem {
   label: string
   value: number
-  y: number
-  h: number
   color: string
 }
 
+function FlowBar({ items, total, label }: { items: LineItem[]; total: number; label: string }) {
+  return (
+    <div>
+      <div className="mb-1.5 flex items-baseline justify-between">
+        <span className="text-xs font-semibold text-slate-700">{label}</span>
+        <span className="text-xs font-bold text-slate-900 tabular-nums">{fmtM(total)}</span>
+      </div>
+      <div className="flex h-6 overflow-hidden rounded-md sm:h-8">
+        {items.map((item) => {
+          const widthPct = (item.value / total) * 100
+          return (
+            <div
+              key={item.label}
+              className="relative group"
+              style={{ width: `${widthPct}%`, backgroundColor: item.color }}
+            >
+              {/* Tooltip on hover */}
+              <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-1 hidden group-hover:block z-10">
+                <div className="rounded bg-slate-800 px-2 py-1 text-[10px] text-white whitespace-nowrap shadow">
+                  {item.label}: {fmtM(item.value)}
+                </div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+      {/* Legend */}
+      <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
+        {items.filter(i => (i.value / total) > 0.04).map((item) => (
+          <div key={item.label} className="flex items-center gap-1.5">
+            <div className="h-2 w-2 rounded-sm flex-shrink-0" style={{ backgroundColor: item.color }} />
+            <span className="text-[10px] text-slate-500">{item.label}</span>
+            <span className="text-[10px] font-medium text-slate-700 tabular-nums">{pct(item.value, total)}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export function Chart5Sankey({ totals }: SankeyProps) {
-  const w = 800
-  const h = 520
-  const colX = [30, 200, 400, 600]
-  const nodeW = 12
-  const usableH = h - 60
-  const startY = 30
+  const [view, setView] = useState<View>("overview")
 
-  // Revenue sources — scale to pixel height
-  const scale = usableH / totals.revenue
-
-  // Column 1: Revenue breakdown
-  const revSources = [
-    { label: "Patient Services", value: totals.patientServices, color: COLORS.revenue },
-    { label: "Ancillary", value: totals.ancillaryRevenue, color: "#2a4a6f" },
-    { label: "Other Income", value: totals.otherIncome, color: "#3b6d8f" },
+  const views: { key: View; label: string }[] = [
+    { key: "overview", label: "Overview" },
+    { key: "cogs", label: "COGS Detail" },
+    { key: "opex", label: "OpEx Detail" },
   ]
 
-  // Column 2: Revenue total
-  const revTotal: FlowNode = { label: "Revenue", value: totals.revenue, y: startY, h: totals.revenue * scale, color: COLORS.revenue }
-
-  // Column 3: COGS breakdown + Gross Profit
-  const cogsItems = [
-    { label: "Provider Comp", value: totals.providerComp },
-    { label: "Nursing", value: totals.nursingStaff },
-    { label: "Med Supplies", value: totals.medicalSupplies },
-    { label: "Lab/Diagnostic", value: totals.labDiagnostic },
-    { label: "Pharmacy", value: totals.pharmacy },
-    { label: "Facility", value: totals.facilityCosts },
-    { label: "Equip Lease", value: totals.equipmentLease },
+  // Color scales — navy gradient for COGS, teal gradient for OpEx
+  const cogsItems: LineItem[] = [
+    { label: "Provider Comp", value: totals.providerComp, color: "#0c2340" },
+    { label: "Nursing", value: totals.nursingStaff, color: "#1e3a5f" },
+    { label: "Med Supplies", value: totals.medicalSupplies, color: "#2a5580" },
+    { label: "Lab/Diagnostic", value: totals.labDiagnostic, color: "#3670a1" },
+    { label: "Pharmacy", value: totals.pharmacy, color: "#4a8bc2" },
+    { label: "Facility", value: totals.facilityCosts, color: "#6ba3d6" },
+    { label: "Equip Lease", value: totals.equipmentLease, color: "#94bee6" },
   ]
 
-  // Column 4: OpEx breakdown + EBITDA
-  const opexItems = [
-    { label: "Admin Staff", value: totals.adminStaff },
-    { label: "Billing", value: totals.billingCollections },
-    { label: "IT Systems", value: totals.itSystems },
-    { label: "Malpractice", value: totals.malpracticeInsurance },
-    { label: "Insurance", value: totals.generalInsurance },
-    { label: "Marketing", value: totals.marketing },
-    { label: "Utilities", value: totals.utilities },
-    { label: "Depreciation", value: totals.depreciation },
-    { label: "Prof Fees", value: totals.professionalFees },
-  ].filter(item => item.value > 10_000) // skip tiny items
+  const opexItems: LineItem[] = [
+    { label: "Admin Staff", value: totals.adminStaff, color: "#064e3b" },
+    { label: "Billing", value: totals.billingCollections, color: "#065f46" },
+    { label: "IT Systems", value: totals.itSystems, color: "#047857" },
+    { label: "Malpractice", value: totals.malpracticeInsurance, color: "#059669" },
+    { label: "Insurance", value: totals.generalInsurance, color: "#0d9488" },
+    { label: "Marketing", value: totals.marketing, color: "#14b8a6" },
+    { label: "Utilities", value: totals.utilities, color: "#2dd4bf" },
+    { label: "Depreciation", value: totals.depreciation, color: "#5eead4" },
+    { label: "Prof Fees", value: totals.professionalFees, color: "#99f6e4" },
+  ].filter(i => i.value > 10_000)
 
-  // Layout helper
-  function layoutNodes(items: { label: string; value: number }[], color: string, bottomItem?: { label: string; value: number; color: string }): FlowNode[] {
-    const gap = 3
-    const allItems = bottomItem ? [...items, { label: bottomItem.label, value: bottomItem.value }] : items
-    const totalGap = gap * (allItems.length - 1)
-    const totalValue = allItems.reduce((s, i) => s + i.value, 0)
-    const availH = totalValue * scale
-    const valueScale = (availH - totalGap) / totalValue
-
-    const nodes: FlowNode[] = []
-    let cy = startY
-    for (const item of items) {
-      const ih = item.value * valueScale
-      nodes.push({ label: item.label, value: item.value, y: cy, h: ih, color })
-      cy += ih + gap
-    }
-    if (bottomItem) {
-      const ih = bottomItem.value * valueScale
-      nodes.push({ label: bottomItem.label, value: bottomItem.value, y: cy, h: ih, color: bottomItem.color })
-    }
-    return nodes
-  }
-
-  // Rev sources
-  let srcY = startY
-  const srcGap = 4
-  const srcTotalGap = srcGap * (revSources.length - 1)
-  const srcScale = (revTotal.h - srcTotalGap) / totals.revenue
-  const revSourceNodes: FlowNode[] = revSources.map((src) => {
-    const ih = src.value * srcScale
-    const node: FlowNode = { label: src.label, value: src.value, y: srcY, h: ih, color: src.color }
-    srcY += ih + srcGap
-    return node
-  })
-
-  // COGS + GP
-  const col3Nodes = layoutNodes(cogsItems, COLORS.cost, { label: "Gross Profit", value: totals.grossProfit, color: COLORS.profit })
-  const gpNode = col3Nodes[col3Nodes.length - 1]
-
-  // OpEx + EBITDA — scale relative to GP
-  const gpScale = gpNode.h / totals.grossProfit
-  const opexGap = 2
-  const opexTotalGap = opexGap * opexItems.length
-  const opexValueScale = (gpNode.h - opexTotalGap) / (totals.totalOpex + totals.ebitda)
-  const col4Nodes: FlowNode[] = []
-  let opexY = gpNode.y
-  for (const item of opexItems) {
-    const ih = item.value * opexValueScale
-    col4Nodes.push({ label: item.label, value: item.value, y: opexY, h: ih, color: COLORS.cost })
-    opexY += ih + opexGap
-  }
-  col4Nodes.push({ label: "EBITDA", value: totals.ebitda, y: opexY, h: totals.ebitda * opexValueScale, color: COLORS.ebitda })
-
-  // Flow path
-  function flow(x1: number, y1: number, h1: number, x2: number, y2: number, h2: number, color: string, opacity = 0.12) {
-    const cx = (x1 + x2) / 2
-    return (
-      <path
-        d={`M${x1},${y1} C${cx},${y1} ${cx},${y2} ${x2},${y2} L${x2},${y2 + h2} C${cx},${y2 + h2} ${cx},${y1 + h1} ${x1},${y1 + h1} Z`}
-        fill={color}
-        opacity={opacity}
-      />
-    )
-  }
-
-  function nodeLabel(x: number, node: FlowNode, align: "left" | "right") {
-    const textX = align === "right" ? x + nodeW + 5 : x - 5
-    const anchor = align === "right" ? "start" : "end"
-    const showLabel = node.h > 14
-
-    return showLabel ? (
-      <g>
-        <text x={textX} y={node.y + node.h / 2 - 5} textAnchor={anchor} fontSize={8} fontWeight={600} fill="#334155" dominantBaseline="middle">
-          {node.label}
-        </text>
-        <text x={textX} y={node.y + node.h / 2 + 5} textAnchor={anchor} fontSize={7} fill="#94a3b8" dominantBaseline="middle">
-          {fmtM(node.value)}
-        </text>
-      </g>
-    ) : null
-  }
+  const overviewItems: LineItem[] = [
+    { label: "COGS", value: totals.totalCogs, color: COLORS.cost },
+    { label: "OpEx", value: totals.totalOpex, color: COLORS.neutral },
+    { label: "EBITDA", value: totals.ebitda, color: COLORS.ebitda },
+  ]
 
   return (
     <div>
-      <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-400">#5 — Full P&L Revenue Flow</h3>
-      <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5 overflow-x-auto">
-        <svg viewBox={`0 0 ${w} ${h}`} className="w-full min-w-[600px]" preserveAspectRatio="xMidYMid meet">
-          {/* Flows: Sources → Revenue */}
-          {revSourceNodes.map((src, i) => {
-            const targetY = revTotal.y + (revSourceNodes.slice(0, i).reduce((s, n) => s + n.h, 0))
-            return flow(colX[0] + nodeW, src.y, src.h, colX[1], targetY, src.h, src.color, 0.1)
-          })}
+      <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-400">#5 — Revenue Flow</h3>
+      <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+        {/* View toggle */}
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+          <span className="text-sm font-semibold text-slate-700">Where the money goes</span>
+          <div className="flex items-center gap-0.5 rounded-lg bg-slate-100 p-0.5">
+            {views.map((v) => (
+              <button
+                key={v.key}
+                onClick={() => setView(v.key)}
+                className={cn(
+                  "rounded-md px-2 py-1 text-xs font-medium transition-colors",
+                  view === v.key
+                    ? "bg-white text-slate-900 shadow-sm"
+                    : "text-slate-500 hover:text-slate-700"
+                )}
+              >
+                {v.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
-          {/* Flows: Revenue → COGS items */}
-          {(() => {
-            let cumY = revTotal.y
-            return col3Nodes.map((node, i) => {
-              const srcH = (node.value / totals.revenue) * revTotal.h
-              const f = flow(colX[1] + nodeW, cumY, srcH, colX[2], node.y, node.h, node.color, 0.1)
-              cumY += srcH
-              return <g key={i}>{f}</g>
-            })
-          })()}
+        <div className="space-y-5">
+          {/* Revenue bar (always shown) */}
+          <FlowBar
+            items={[
+              { label: "Patient Services", value: totals.patientServices, color: COLORS.revenue },
+              { label: "Ancillary", value: totals.ancillaryRevenue, color: "#2a5580" },
+              { label: "Other", value: totals.otherIncome, color: "#6ba3d6" },
+            ]}
+            total={totals.revenue}
+            label="Revenue"
+          />
 
-          {/* Flows: GP → OpEx items + EBITDA */}
-          {col4Nodes.map((node, i) => {
-            const srcFrac = node.value / (totals.totalOpex + totals.ebitda)
-            const srcH = gpNode.h * srcFrac
-            const srcY = gpNode.y + col4Nodes.slice(0, i).reduce((s, n) => s + (n.value / (totals.totalOpex + totals.ebitda)) * gpNode.h, 0)
-            return <g key={i}>{flow(colX[2] + nodeW, srcY, srcH, colX[3], node.y, node.h, node.color, 0.1)}</g>
-          })}
+          {/* Connector arrow */}
+          <div className="flex justify-center">
+            <svg width="20" height="16" viewBox="0 0 20 16" className="text-slate-300">
+              <path d="M10 0 L10 10 M4 6 L10 12 L16 6" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
 
-          {/* Source nodes */}
-          {revSourceNodes.map((node, i) => (
-            <g key={i}>
-              <rect x={colX[0]} y={node.y} width={nodeW} height={node.h} rx={3} fill={node.color} />
-              {nodeLabel(colX[0], node, "left")}
-            </g>
-          ))}
+          {view === "overview" && (
+            <FlowBar items={overviewItems} total={totals.revenue} label="Revenue Breakdown" />
+          )}
 
-          {/* Revenue node */}
-          <rect x={colX[1]} y={revTotal.y} width={nodeW} height={revTotal.h} rx={3} fill={revTotal.color} />
-          <text x={colX[1] + nodeW / 2} y={revTotal.y - 8} textAnchor="middle" fontSize={9} fontWeight={700} fill={COLORS.revenue}>Revenue {fmtM(totals.revenue)}</text>
+          {view === "cogs" && (
+            <>
+              <FlowBar items={cogsItems} total={totals.totalCogs} label="Cost of Goods Sold" />
+              <div className="flex justify-center">
+                <svg width="20" height="16" viewBox="0 0 20 16" className="text-slate-300">
+                  <path d="M10 0 L10 10 M4 6 L10 12 L16 6" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+              <div className="flex items-baseline justify-between rounded-lg border-2 border-dashed border-teal-200 bg-teal-50/50 px-3 py-2">
+                <span className="text-xs font-semibold" style={{ color: COLORS.profit }}>Gross Profit</span>
+                <span className="text-sm font-bold" style={{ color: COLORS.profit }}>{fmtM(totals.grossProfit)} ({pct(totals.grossProfit, totals.revenue)} margin)</span>
+              </div>
+            </>
+          )}
 
-          {/* COGS + GP nodes */}
-          {col3Nodes.map((node, i) => (
-            <g key={i}>
-              <rect x={colX[2]} y={node.y} width={nodeW} height={node.h} rx={3} fill={node.color} />
-              {nodeLabel(colX[2], node, "right")}
-            </g>
-          ))}
-
-          {/* OpEx + EBITDA nodes */}
-          {col4Nodes.map((node, i) => (
-            <g key={i}>
-              <rect x={colX[3]} y={node.y} width={nodeW} height={node.h} rx={3} fill={node.color} />
-              {nodeLabel(colX[3], node, "right")}
-            </g>
-          ))}
-        </svg>
+          {view === "opex" && (
+            <>
+              <div className="flex items-baseline justify-between rounded-lg bg-slate-50 px-3 py-2">
+                <span className="text-xs font-semibold text-slate-500">Gross Profit</span>
+                <span className="text-sm font-bold text-slate-700">{fmtM(totals.grossProfit)}</span>
+              </div>
+              <div className="flex justify-center">
+                <svg width="20" height="16" viewBox="0 0 20 16" className="text-slate-300">
+                  <path d="M10 0 L10 10 M4 6 L10 12 L16 6" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+              <FlowBar items={opexItems} total={totals.totalOpex} label="Operating Expenses" />
+              <div className="flex justify-center">
+                <svg width="20" height="16" viewBox="0 0 20 16" className="text-slate-300">
+                  <path d="M10 0 L10 10 M4 6 L10 12 L16 6" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+              <div className="flex items-baseline justify-between rounded-lg border-2 border-dashed border-teal-200 bg-teal-50/50 px-3 py-2">
+                <span className="text-xs font-semibold" style={{ color: COLORS.ebitda }}>EBITDA</span>
+                <span className="text-sm font-bold" style={{ color: COLORS.ebitda }}>{fmtM(totals.ebitda)} ({pct(totals.ebitda, totals.revenue)} margin)</span>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   )

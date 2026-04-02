@@ -16,7 +16,6 @@ import { Chart3Scatter } from "./chart-3-scatter"
 import { Chart5Sankey } from "./chart-5-sankey"
 import { Chart6AreaThreshold } from "./chart-6-area-threshold"
 import { Chart7RankedCards } from "./chart-7-ranked-cards"
-import { Chart8StackedBar } from "./chart-8-stacked-bar"
 
 const dateRanges: { key: DateRange; label: string }[] = [
   { key: "full", label: "Full Year" },
@@ -64,13 +63,8 @@ export function AfterDashboard() {
           <Chart1SparklineKPIs data={filteredData} totals={totals} />
         </motion.div>
 
-        {/* #8 — Revenue Decomposition */}
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}>
-          <Chart8StackedBar totals={totals} />
-        </motion.div>
-
         {/* #5 — Full P&L Sankey */}
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.15 }}>
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}>
           <Chart5Sankey totals={totals} />
         </motion.div>
 
