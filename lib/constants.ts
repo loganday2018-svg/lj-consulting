@@ -9,6 +9,7 @@ export const BRAND = {
 
 export const NAV_LINKS = [
   { label: 'Services', href: '/services' },
+  { label: 'Demo', href: '/demo' },
   { label: 'ROI Calculator', href: '/calculator' },
   { label: 'About', href: '/about' },
 ] as const
