@@ -35,7 +35,6 @@ export function Chart7RankedCards() {
 
   return (
     <div>
-      <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-400">#7 — Location Rankings</h3>
       <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
           <span className="text-sm font-semibold text-slate-700">Performance by Location</span>

@@ -49,20 +49,12 @@ export function Chart3Scatter() {
 
   return (
     <div>
-      <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-400">#3 — Location Efficiency</h3>
       <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
         <svg viewBox={`0 0 ${w} ${h}`} className="w-full" preserveAspectRatio="xMidYMid meet">
           {/* Quadrant backgrounds */}
-          <rect x={xScale(midRev)} y={pad.top} width={plotW / 2} height={plotH / 2} fill="#f0fdfa" rx={4} />
-          <rect x={pad.left} y={pad.top + plotH / 2} width={plotW / 2} height={plotH / 2} fill="#fef2f2" rx={4} opacity={0.5} />
+          <rect x={xScale(midRev)} y={pad.top} width={plotW / 2} height={plotH / 2} fill="#f0fdfa" rx={4} opacity={0.4} />
+          <rect x={pad.left} y={pad.top + plotH / 2} width={plotW / 2} height={plotH / 2} fill="#fef2f2" rx={4} opacity={0.25} />
 
-          {/* Quadrant labels */}
-          <text x={xScale(maxRev) - 4} y={pad.top + 14} textAnchor="end" fontSize={8} fill="#0d9488" fontWeight={600} opacity={0.6}>
-            HIGH REV, HIGH MARGIN
-          </text>
-          <text x={pad.left + 4} y={pad.top + plotH - 4} textAnchor="start" fontSize={8} fill="#be123c" fontWeight={600} opacity={0.4}>
-            LOW REV, LOW MARGIN
-          </text>
 
           {/* Grid lines */}
           {[minMargin, 8, 12, 16, maxMargin].map(v => (
@@ -122,20 +114,11 @@ export function Chart3Scatter() {
                   x={cx + offset.dx}
                   y={cy + offset.dy}
                   textAnchor={offset.anchor}
-                  fontSize={10}
-                  fontWeight={700}
-                  fill={isUnderperformer ? "#be123c" : "#334155"}
+                  fontSize={9}
+                  fontWeight={600}
+                  fill={isUnderperformer ? "#be123c" : "#475569"}
                 >
                   {shortName}
-                </text>
-                <text
-                  x={cx + offset.dx}
-                  y={cy + offset.dy + 12}
-                  textAnchor={offset.anchor}
-                  fontSize={8}
-                  fill={isUnderperformer ? "#e6727a" : "#94a3b8"}
-                >
-                  {loc.type} · {loc.headcount} staff · {fmtM(loc.revenue)}
                 </text>
               </g>
             )

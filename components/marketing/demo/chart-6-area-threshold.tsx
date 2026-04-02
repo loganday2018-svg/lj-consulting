@@ -27,7 +27,6 @@ export function Chart6AreaThreshold({ data }: AreaThresholdProps) {
 
   return (
     <div>
-      <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-400">#6 — EBITDA Margin with Target Zone</h3>
       <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
         <ResponsiveContainer width="100%" height={280}>
           <AreaChart data={chartData} margin={{ top: 10, right: 10, bottom: 5, left: 0 }}>
@@ -47,8 +46,8 @@ export function Chart6AreaThreshold({ data }: AreaThresholdProps) {
               formatter={(value) => [`${value}%`, "EBITDA Margin"]}
               contentStyle={{ fontSize: 12, borderRadius: 8, border: "1px solid #e2e8f0" }}
             />
-            <ReferenceLine y={target} stroke={COLORS.profit} strokeDasharray="8 4" strokeWidth={1.5} label={{ value: `${target}% target`, position: "insideTopRight", fontSize: 10, fill: COLORS.profit }} />
-            <ReferenceLine y={10} stroke={COLORS.cost} strokeDasharray="4 4" strokeWidth={1} label={{ value: "10% floor", position: "insideBottomRight", fontSize: 9, fill: COLORS.cost }} />
+            <ReferenceLine y={target} stroke={COLORS.profit} strokeDasharray="6 4" strokeWidth={1} strokeOpacity={0.5} label={{ value: `${target}%`, position: "insideTopRight", fontSize: 9, fill: COLORS.profit }} />
+            <ReferenceLine y={10} stroke={COLORS.cost} strokeDasharray="4 4" strokeWidth={1} strokeOpacity={0.4} label={{ value: "10%", position: "insideBottomRight", fontSize: 9, fill: COLORS.cost }} />
             <Area
               type="monotone"
               dataKey="margin"

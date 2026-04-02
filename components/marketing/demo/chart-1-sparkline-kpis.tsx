@@ -48,7 +48,6 @@ export function Chart1SparklineKPIs({ data, totals }: SparklineKPIsProps) {
 
   return (
     <div>
-      <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-400">#1 — Sparkline KPIs</h3>
       <div className="grid grid-cols-3 gap-2 sm:gap-4">
         {cards.map((card) => (
           <div key={card.label} className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
