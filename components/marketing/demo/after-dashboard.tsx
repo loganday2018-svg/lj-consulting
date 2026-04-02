@@ -41,40 +41,42 @@ const kpis = [
 
 export function AfterDashboard() {
   return (
-    <div className="space-y-6">
-      {/* KPI Cards */}
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        {kpis.map((kpi, i) => (
-          <motion.div
-            key={kpi.title}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: i * 0.1 }}
-          >
-            <KPICard {...kpi} />
-          </motion.div>
-        ))}
+    <div className="rounded-2xl bg-slate-50 p-3 sm:p-6">
+      <div className="space-y-4 sm:space-y-6">
+        {/* KPI Cards */}
+        <div className="grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-4">
+          {kpis.map((kpi, i) => (
+            <motion.div
+              key={kpi.title}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: i * 0.1 }}
+            >
+              <KPICard {...kpi} />
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Charts row 1 */}
+        <motion.div
+          className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.4 }}
+        >
+          <WaterfallChart />
+          <RevenueTrendChart />
+        </motion.div>
+
+        {/* Location breakdown */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.6 }}
+        >
+          <LocationBreakdownChart />
+        </motion.div>
       </div>
-
-      {/* Charts row 1 */}
-      <motion.div
-        className="grid grid-cols-1 gap-6 lg:grid-cols-2"
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.4 }}
-      >
-        <WaterfallChart />
-        <RevenueTrendChart />
-      </motion.div>
-
-      {/* Location breakdown */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.6 }}
-      >
-        <LocationBreakdownChart />
-      </motion.div>
     </div>
   )
 }

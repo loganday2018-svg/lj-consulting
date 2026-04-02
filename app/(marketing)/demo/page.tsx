@@ -17,7 +17,7 @@ export default function DemoPage() {
         description="This is what happens when you stop emailing spreadsheets and start building dashboards. Toggle between the before and after."
       />
 
-      <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+      <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:py-24">
         <DemoShowcase />
       </section>
 
