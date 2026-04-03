@@ -1,6 +1,7 @@
 "use client"
 
-import { MONTHLY_DATA, ANNUAL_TOTALS, COMPANY_NAME, FISCAL_YEAR, type MonthlyPnL } from "@/lib/demo-data"
+import { type MonthlyPnL, computeTotals } from "@/lib/demo-data"
+import { type CompanyConfig } from "@/lib/demo-companies"
 
 function fmt(n: number): string {
   if (n === 0) return "—"
@@ -18,56 +19,47 @@ type RowType = "normal" | "bold" | "subtotal" | "highlight" | "section" | "margi
 interface Row {
   label: string
   key?: keyof MonthlyPnL
-  annualKey?: keyof typeof ANNUAL_TOTALS
+  annualKey?: string
   type: RowType
   indent?: boolean
-  // For margin rows
   numKey?: keyof MonthlyPnL
   denKey?: keyof MonthlyPnL
 }
 
-const rows: Row[] = [
+function buildRows(company: CompanyConfig): Row[] {
+  const rows: Row[] = []
+
   // Revenue
-  { label: "Revenue", type: "section" },
-  { label: "Patient Services", key: "patientServices", annualKey: "patientServices", type: "normal", indent: true },
-  { label: "Ancillary Revenue", key: "ancillaryRevenue", annualKey: "ancillaryRevenue", type: "normal", indent: true },
-  { label: "Other Income", key: "otherIncome", annualKey: "otherIncome", type: "normal", indent: true },
-  { label: "Total Revenue", key: "revenue", annualKey: "revenue", type: "bold" },
+  rows.push({ label: "Revenue", type: "section" })
+  for (const l of company.revenueLabels) {
+    rows.push({ label: l.label, key: l.key, annualKey: l.key, type: "normal", indent: true })
+  }
+  rows.push({ label: "Total Revenue", key: "revenue", annualKey: "revenue", type: "bold" })
 
   // COGS
-  { label: "Cost of Goods Sold", type: "section" },
-  { label: "Provider Compensation", key: "providerComp", annualKey: "providerComp", type: "normal", indent: true },
-  { label: "Nursing Staff", key: "nursingStaff", annualKey: "nursingStaff", type: "normal", indent: true },
-  { label: "Medical Supplies", key: "medicalSupplies", annualKey: "medicalSupplies", type: "normal", indent: true },
-  { label: "Lab & Diagnostic", key: "labDiagnostic", annualKey: "labDiagnostic", type: "normal", indent: true },
-  { label: "Pharmacy", key: "pharmacy", annualKey: "pharmacy", type: "normal", indent: true },
-  { label: "Facility Costs", key: "facilityCosts", annualKey: "facilityCosts", type: "normal", indent: true },
-  { label: "Equipment Lease", key: "equipmentLease", annualKey: "equipmentLease", type: "normal", indent: true },
-  { label: "Total COGS", key: "totalCogs", annualKey: "totalCogs", type: "subtotal" },
+  rows.push({ label: "Cost of Goods Sold", type: "section" })
+  for (const l of company.cogsLabels) {
+    rows.push({ label: l.label, key: l.key, annualKey: l.key, type: "normal", indent: true })
+  }
+  rows.push({ label: "Total COGS", key: "totalCogs", annualKey: "totalCogs", type: "subtotal" })
 
   // Gross Profit
-  { label: "Gross Profit", key: "grossProfit", annualKey: "grossProfit", type: "highlight" },
-  { label: "Gross Margin %", type: "margin", numKey: "grossProfit", denKey: "revenue" },
+  rows.push({ label: "Gross Profit", key: "grossProfit", annualKey: "grossProfit", type: "highlight" })
+  rows.push({ label: "Gross Margin %", type: "margin", numKey: "grossProfit", denKey: "revenue" })
 
   // OpEx
-  { label: "Operating Expenses", type: "section" },
-  { label: "Administrative Staff", key: "adminStaff", annualKey: "adminStaff", type: "normal", indent: true },
-  { label: "Billing & Collections", key: "billingCollections", annualKey: "billingCollections", type: "normal", indent: true },
-  { label: "IT Systems", key: "itSystems", annualKey: "itSystems", type: "normal", indent: true },
-  { label: "Malpractice Insurance", key: "malpracticeInsurance", annualKey: "malpracticeInsurance", type: "normal", indent: true },
-  { label: "General Insurance", key: "generalInsurance", annualKey: "generalInsurance", type: "normal", indent: true },
-  { label: "Marketing", key: "marketing", annualKey: "marketing", type: "normal", indent: true },
-  { label: "Utilities", key: "utilities", annualKey: "utilities", type: "normal", indent: true },
-  { label: "Depreciation", key: "depreciation", annualKey: "depreciation", type: "normal", indent: true },
-  { label: "Professional Fees", key: "professionalFees", annualKey: "professionalFees", type: "normal", indent: true },
-  { label: "Office Supplies", key: "officeSupplies", annualKey: "officeSupplies", type: "normal", indent: true },
-  { label: "Staff Training", key: "staffTraining", annualKey: "staffTraining", type: "normal", indent: true },
-  { label: "Total OpEx", key: "totalOpex", annualKey: "totalOpex", type: "subtotal" },
+  rows.push({ label: "Operating Expenses", type: "section" })
+  for (const l of company.opexLabels) {
+    rows.push({ label: l.label, key: l.key, annualKey: l.key, type: "normal", indent: true })
+  }
+  rows.push({ label: "Total OpEx", key: "totalOpex", annualKey: "totalOpex", type: "subtotal" })
 
   // EBITDA
-  { label: "EBITDA", key: "ebitda", annualKey: "ebitda", type: "highlight" },
-  { label: "EBITDA Margin %", type: "margin", numKey: "ebitda", denKey: "revenue" },
-]
+  rows.push({ label: "EBITDA", key: "ebitda", annualKey: "ebitda", type: "highlight" })
+  rows.push({ label: "EBITDA Margin %", type: "margin", numKey: "ebitda", denKey: "revenue" })
+
+  return rows
+}
 
 function getRowClasses(type: RowType): { tr: string; td: string; stickyTd: string } {
   switch (type) {
@@ -90,7 +82,14 @@ function getRowClasses(type: RowType): { tr: string; td: string; stickyTd: strin
   }
 }
 
-export function BeforePnLTable() {
+interface BeforePnLTableProps {
+  company: CompanyConfig
+}
+
+export function BeforePnLTable({ company }: BeforePnLTableProps) {
+  const MONTHLY_DATA = company.monthlyData
+  const ANNUAL_TOTALS = computeTotals(MONTHLY_DATA) as Record<string, number>
+  const rows = buildRows(company)
   const months = MONTHLY_DATA.map((d) => d.month)
 
   return (
@@ -109,7 +108,7 @@ export function BeforePnLTable() {
           <thead>
             <tr>
               <th className="sticky left-0 z-20 border border-slate-300 bg-[#217346] px-3 py-2 text-left text-white min-w-[180px]">
-                {COMPANY_NAME} — {FISCAL_YEAR}
+                {company.name} — {company.fiscalYear}
               </th>
               {months.map((m) => (
                 <th key={m} className="border border-slate-300 bg-[#217346] px-3 py-2 text-right text-white min-w-[80px]">
@@ -150,7 +149,7 @@ export function BeforePnLTable() {
                       </td>
                     ))}
                     <td className={`border border-slate-300 px-3 py-1.5 text-right tabular-nums font-semibold ${classes.td}`}>
-                      {pct(ANNUAL_TOTALS[row.numKey! as keyof typeof ANNUAL_TOTALS] as number, ANNUAL_TOTALS[row.denKey! as keyof typeof ANNUAL_TOTALS] as number)}
+                      {pct(ANNUAL_TOTALS[row.numKey!] as number, ANNUAL_TOTALS[row.denKey!] as number)}
                     </td>
                   </tr>
                 )
@@ -170,7 +169,7 @@ export function BeforePnLTable() {
                     )
                   })}
                   <td className={`border border-slate-300 px-3 py-1.5 text-right tabular-nums font-semibold ${classes.td}`}>
-                    {fmt(ANNUAL_TOTALS[row.annualKey!] as number)}
+                    {fmt(ANNUAL_TOTALS[row.annualKey!] as unknown as number)}
                   </td>
                 </tr>
               )

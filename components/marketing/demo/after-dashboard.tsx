@@ -3,12 +3,12 @@
 import { useState, useMemo } from "react"
 import { motion } from "framer-motion"
 import {
-  MONTHLY_DATA,
   filterByDateRange,
   computeTotals,
   computeMetrics,
   type DateRange,
 } from "@/lib/demo-data"
+import { type CompanyConfig } from "@/lib/demo-companies"
 import { cn } from "@/lib/utils"
 
 import { Chart1SparklineKPIs } from "./chart-1-sparkline-kpis"
@@ -33,10 +33,14 @@ function SectionTitle({ title }: { title: string }) {
   )
 }
 
-export function AfterDashboard() {
+interface AfterDashboardProps {
+  company: CompanyConfig
+}
+
+export function AfterDashboard({ company }: AfterDashboardProps) {
   const [range, setRange] = useState<DateRange>("full")
 
-  const filteredData = useMemo(() => filterByDateRange(MONTHLY_DATA, range), [range])
+  const filteredData = useMemo(() => filterByDateRange(company.monthlyData, range), [company, range])
   const totals = useMemo(() => computeTotals(filteredData), [filteredData])
   const metrics = useMemo(() => computeMetrics(totals), [totals])
 
@@ -75,7 +79,7 @@ export function AfterDashboard() {
         {/* #2 — Where the Money Goes */}
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.08 }} className="space-y-3">
           <SectionTitle title="Where the Money Goes" />
-          <WaterfallChart totals={totals} />
+          <WaterfallChart totals={totals} company={company} />
         </motion.div>
 
         {/* #3 — Are We Hitting Our Targets? */}
@@ -84,16 +88,16 @@ export function AfterDashboard() {
           <Chart6AreaThreshold data={filteredData} />
         </motion.div>
 
-        {/* #5 — Who's Pulling Their Weight? */}
+        {/* #4 — Who's Pulling Their Weight? */}
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.24 }} className="space-y-3">
           <SectionTitle title="Who's Pulling Their Weight?" />
-          <Chart3Scatter />
+          <Chart3Scatter locationData={company.locationData} />
         </motion.div>
 
-        {/* #6 — Spot the Patterns */}
+        {/* #5 — Spot the Patterns */}
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.32 }} className="space-y-3">
           <SectionTitle title="Spot the Patterns" />
-          <Chart4Heatmap />
+          <Chart4Heatmap monthlyData={filteredData} />
         </motion.div>
       </div>
     </div>

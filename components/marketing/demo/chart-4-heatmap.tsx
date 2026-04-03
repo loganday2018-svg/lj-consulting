@@ -1,6 +1,6 @@
 "use client"
 
-import { MONTHLY_DATA, COLORS } from "@/lib/demo-data"
+import { type MonthlyPnL, COLORS } from "@/lib/demo-data"
 
 function fmtK(n: number): string {
   return `${(n / 1_000).toFixed(0)}`
@@ -32,7 +32,7 @@ function scaleColor(value: number, min: number, max: number, palette: "teal" | "
   }
 }
 
-const metrics: { key: keyof typeof MONTHLY_DATA[0]; label: string; palette: "teal" | "navy" }[] = [
+const metrics: { key: keyof MonthlyPnL; label: string; palette: "teal" | "navy" }[] = [
   { key: "revenue", label: "Revenue", palette: "teal" },
   { key: "grossProfit", label: "Gross Profit", palette: "teal" },
   { key: "ebitda", label: "EBITDA", palette: "teal" },
@@ -40,7 +40,12 @@ const metrics: { key: keyof typeof MONTHLY_DATA[0]; label: string; palette: "tea
   { key: "totalOpex", label: "OpEx", palette: "navy" },
 ]
 
-export function Chart4Heatmap() {
+interface Chart4HeatmapProps {
+  monthlyData: MonthlyPnL[]
+}
+
+export function Chart4Heatmap({ monthlyData }: Chart4HeatmapProps) {
+  const MONTHLY_DATA = monthlyData
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
       <div className="overflow-x-auto -mx-1">

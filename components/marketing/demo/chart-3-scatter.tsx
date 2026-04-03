@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { LOCATION_DATA, COLORS } from "@/lib/demo-data"
+import { type LocationData, COLORS } from "@/lib/demo-data"
 
 function fmtM(n: number): string {
   return `$${(n / 1_000_000).toFixed(1)}M`
@@ -9,8 +9,13 @@ function fmtM(n: number): string {
 
 const BUBBLE_COLOR = COLORS.revenue
 
-export function Chart3Scatter() {
+interface Chart3ScatterProps {
+  locationData: LocationData[]
+}
+
+export function Chart3Scatter({ locationData }: Chart3ScatterProps) {
   const [hovered, setHovered] = useState<string | null>(null)
+  const LOCATION_DATA = locationData
   const w = 500
   const h = 340
   const pad = { top: 30, right: 30, bottom: 50, left: 55 }

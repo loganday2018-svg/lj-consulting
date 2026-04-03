@@ -1,37 +1,12 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { COLORS } from "@/lib/demo-data"
+import { COLORS, type MonthlyPnL } from "@/lib/demo-data"
+import { type CompanyConfig, type LabelMapping } from "@/lib/demo-companies"
 
 interface WaterfallChartProps {
-  totals: {
-    revenue: number
-    patientServices: number
-    ancillaryRevenue: number
-    otherIncome: number
-    totalCogs: number
-    grossProfit: number
-    totalOpex: number
-    ebitda: number
-    providerComp: number
-    nursingStaff: number
-    medicalSupplies: number
-    labDiagnostic: number
-    pharmacy: number
-    facilityCosts: number
-    equipmentLease: number
-    adminStaff: number
-    billingCollections: number
-    itSystems: number
-    malpracticeInsurance: number
-    generalInsurance: number
-    marketing: number
-    utilities: number
-    depreciation: number
-    professionalFees: number
-    officeSupplies: number
-    staffTraining: number
-  }
+  totals: Record<string, number>
+  company: CompanyConfig
 }
 
 function fmtM(value: number): string {
@@ -53,40 +28,11 @@ const REV_COLORS = ["#0c2340", "#1e3a5f", "#2a5580"]
 const COGS_COLORS = ["#7f1d1d", "#991b1b", "#b91c1c", "#dc2626", "#ef4444", "#f87171", "#fca5a5"]
 const OPEX_COLORS = ["#64748b", "#78859b", "#8b97ab", "#9eaabb", "#b1bccb", "#c4cedb", "#d7e0eb", "#e2e8f0", "#eef2f7", "#f5f7fa", "#fafbfc"]
 
-function getRevenueItems(totals: WaterfallChartProps["totals"]): SubItem[] {
-  return [
-    { label: "Patient Services", value: totals.patientServices, color: REV_COLORS[0] },
-    { label: "Ancillary Revenue", value: totals.ancillaryRevenue, color: REV_COLORS[1] },
-    { label: "Other Income", value: totals.otherIncome, color: REV_COLORS[2] },
-  ].sort((a, b) => b.value - a.value)
-}
-
-function getCogsItems(totals: WaterfallChartProps["totals"]): SubItem[] {
-  return [
-    { label: "Provider Comp", value: totals.providerComp, color: COGS_COLORS[0] },
-    { label: "Nursing Staff", value: totals.nursingStaff, color: COGS_COLORS[1] },
-    { label: "Medical Supplies", value: totals.medicalSupplies, color: COGS_COLORS[2] },
-    { label: "Lab & Diagnostic", value: totals.labDiagnostic, color: COGS_COLORS[3] },
-    { label: "Facility Costs", value: totals.facilityCosts, color: COGS_COLORS[4] },
-    { label: "Equipment Lease", value: totals.equipmentLease, color: COGS_COLORS[5] },
-    { label: "Pharmacy", value: totals.pharmacy, color: COGS_COLORS[6] },
-  ].sort((a, b) => b.value - a.value)
-}
-
-function getOpexItems(totals: WaterfallChartProps["totals"]): SubItem[] {
-  return [
-    { label: "Admin Staff", value: totals.adminStaff, color: OPEX_COLORS[0] },
-    { label: "Billing", value: totals.billingCollections, color: OPEX_COLORS[1] },
-    { label: "IT Systems", value: totals.itSystems, color: OPEX_COLORS[2] },
-    { label: "Malpractice Ins.", value: totals.malpracticeInsurance, color: OPEX_COLORS[3] },
-    { label: "Marketing", value: totals.marketing, color: OPEX_COLORS[4] },
-    { label: "Insurance", value: totals.generalInsurance, color: OPEX_COLORS[5] },
-    { label: "Utilities", value: totals.utilities, color: OPEX_COLORS[6] },
-    { label: "Depreciation", value: totals.depreciation, color: OPEX_COLORS[7] },
-    { label: "Prof Fees", value: totals.professionalFees, color: OPEX_COLORS[8] },
-    { label: "Office Supplies", value: totals.officeSupplies, color: OPEX_COLORS[9] },
-    { label: "Staff Training", value: totals.staffTraining, color: OPEX_COLORS[10] },
-  ].filter(i => i.value > 0).sort((a, b) => b.value - a.value)
+function buildSubItems(totals: Record<string, number>, labels: LabelMapping[], colors: string[]): SubItem[] {
+  return labels
+    .map((l, i) => ({ label: l.label, value: totals[l.key] as number || 0, color: colors[i % colors.length] }))
+    .filter(i => i.value > 0)
+    .sort((a, b) => b.value - a.value)
 }
 
 type ColType = "bar" | "line"
@@ -102,7 +48,7 @@ interface Col {
   subItems?: SubItem[]
 }
 
-export function WaterfallChart({ totals }: WaterfallChartProps) {
+export function WaterfallChart({ totals, company }: WaterfallChartProps) {
   const [hovered, setHovered] = useState<number | null>(null)
   const [animated, setAnimated] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -118,10 +64,10 @@ export function WaterfallChart({ totals }: WaterfallChartProps) {
   }, [])
 
   const cols: Col[] = [
-    { label: "Revenue", value: totals.revenue, base: 0, color: COLORS.revenue, type: "bar", sign: "positive", tooltip: `Total Revenue: ${fmtM(totals.revenue)}`, subItems: getRevenueItems(totals) },
-    { label: "COGS", value: totals.totalCogs, base: totals.revenue - totals.totalCogs, color: COLORS.cost, type: "bar", sign: "negative", tooltip: `Cost of Goods Sold: ${fmtM(totals.totalCogs)} (${pct(totals.totalCogs, totals.revenue)} of rev)`, subItems: getCogsItems(totals) },
+    { label: "Revenue", value: totals.revenue, base: 0, color: COLORS.revenue, type: "bar", sign: "positive", tooltip: `Total Revenue: ${fmtM(totals.revenue)}`, subItems: buildSubItems(totals, company.revenueLabels, REV_COLORS) },
+    { label: "COGS", value: totals.totalCogs, base: totals.revenue - totals.totalCogs, color: COLORS.cost, type: "bar", sign: "negative", tooltip: `Cost of Goods Sold: ${fmtM(totals.totalCogs)} (${pct(totals.totalCogs, totals.revenue)} of rev)`, subItems: buildSubItems(totals, company.cogsLabels, COGS_COLORS) },
     { label: "GP", value: totals.grossProfit, base: 0, color: COLORS.profit, type: "line", sign: "subtotal", tooltip: `Gross Profit: ${fmtM(totals.grossProfit)} (${pct(totals.grossProfit, totals.revenue)} margin)` },
-    { label: "OpEx", value: totals.totalOpex, base: totals.grossProfit - totals.totalOpex, color: COLORS.cost, type: "bar", sign: "negative", tooltip: `Operating Expenses: ${fmtM(totals.totalOpex)} (${pct(totals.totalOpex, totals.revenue)} of rev)`, subItems: getOpexItems(totals) },
+    { label: "OpEx", value: totals.totalOpex, base: totals.grossProfit - totals.totalOpex, color: COLORS.cost, type: "bar", sign: "negative", tooltip: `Operating Expenses: ${fmtM(totals.totalOpex)} (${pct(totals.totalOpex, totals.revenue)} of rev)`, subItems: buildSubItems(totals, company.opexLabels, OPEX_COLORS) },
     { label: "EBITDA", value: totals.ebitda, base: 0, color: COLORS.ebitda, type: "bar", sign: "subtotal", tooltip: `EBITDA: ${fmtM(totals.ebitda)} (${pct(totals.ebitda, totals.revenue)} margin)` },
   ]
 
