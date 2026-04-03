@@ -49,7 +49,7 @@ function computeTrendLine(data: { month: string; value: number }[]): { month: st
 }
 
 export function Chart6AreaThreshold({ data }: AreaThresholdProps) {
-  const [activeMetrics, setActiveMetrics] = useState<Set<MetricKey>>(new Set(["revenue", "ebitda"]))
+  const [activeMetrics, setActiveMetrics] = useState<Set<MetricKey>>(new Set(["revenue", "cogs", "ebitda"]))
   const [showTrend, setShowTrend] = useState(false)
 
   const chartData = data.map((d) => ({
