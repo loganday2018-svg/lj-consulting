@@ -108,12 +108,13 @@ export function Chart3Scatter() {
                   y={cy + 1}
                   textAnchor="middle"
                   dominantBaseline="central"
-                  fontSize={7}
+                  fontSize={8}
                   fontWeight={600}
                   fill={BUBBLE_COLOR}
+                  fillOpacity={0.7}
                   pointerEvents="none"
                 >
-                  {loc.name.split(" ").slice(0, 2).join(" ")}
+                  {loc.name.split(" ")[0]}
                 </text>
                 {/* Tooltip */}
                 {isHovered && (
