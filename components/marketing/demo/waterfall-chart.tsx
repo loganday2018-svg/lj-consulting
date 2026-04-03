@@ -49,7 +49,6 @@ interface SubItem {
   color: string
 }
 
-// Navy gradient for COGS slices, slate gradient for OpEx
 const REV_COLORS = ["#0c2340", "#1e3a5f", "#2a5580"]
 const COGS_COLORS = ["#7f1d1d", "#991b1b", "#b91c1c", "#dc2626", "#ef4444", "#f87171", "#fca5a5"]
 const OPEX_COLORS = ["#64748b", "#78859b", "#8b97ab", "#9eaabb", "#b1bccb", "#c4cedb", "#d7e0eb", "#e2e8f0", "#eef2f7", "#f5f7fa", "#fafbfc"]
@@ -135,25 +134,85 @@ export function WaterfallChart({ totals }: WaterfallChartProps) {
 
   function colX(i: number) { return leftPad + i * (barW + gap) + gap / 2 }
 
+  // Get the hovered column for the tooltip overlay
+  const hoveredCol = hovered !== null ? cols[hovered] : null
+  // Compute tooltip position as percentage of SVG width for the HTML overlay
+  const hoveredCenterPct = hovered !== null ? ((colX(hovered) + barW / 2) / totalW) * 100 : 0
+
   return (
     <div ref={ref} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-      <svg viewBox={`0 0 ${totalW} ${chartH}`} className="w-full" preserveAspectRatio="xMidYMid meet">
-        {/* Grid */}
-        {ticks.map(t => (
-          <g key={t}>
-            <line x1={leftPad} x2={totalW - 8} y1={yPos(t)} y2={yPos(t)} stroke="#f1f5f9" />
-            <text x={leftPad - 6} y={yPos(t) + 3} textAnchor="end" fontSize={9} fill="#94a3b8">{fmtM(t)}</text>
-          </g>
-        ))}
+      <div className="relative">
+        {/* Tooltip rendered as HTML above the SVG */}
+        {hoveredCol && (
+          <div
+            className="absolute z-10 pointer-events-none"
+            style={{ left: `${hoveredCenterPct}%`, bottom: "100%", transform: "translateX(-50%)", marginBottom: 4 }}
+          >
+            <div className="rounded-lg bg-slate-800 px-3 py-2 text-white shadow-lg" style={{ fontSize: 11, minWidth: 160, maxWidth: 220 }}>
+              {hoveredCol.subItems ? (
+                <div className="space-y-1">
+                  <div className="font-semibold text-xs border-b border-slate-600 pb-1 mb-1">{hoveredCol.label} — {fmtM(hoveredCol.value)}</div>
+                  {hoveredCol.subItems.map(sub => (
+                    <div key={sub.label} className="flex items-center justify-between gap-3">
+                      <span className="flex items-center gap-1.5">
+                        <span className="inline-block flex-shrink-0 rounded-sm" style={{ width: 7, height: 7, backgroundColor: sub.color }} />
+                        <span className="text-slate-300">{sub.label}</span>
+                      </span>
+                      <span className="font-medium tabular-nums whitespace-nowrap">{fmtM(sub.value)}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center whitespace-nowrap">{hoveredCol.tooltip}</div>
+              )}
+            </div>
+          </div>
+        )}
 
-        {/* Columns */}
-        {cols.map((col, i) => {
-          const x = colX(i)
-          const centerX = x + barW / 2
-          const isHovered = hovered === i
+        <svg viewBox={`0 0 ${totalW} ${chartH}`} className="w-full" preserveAspectRatio="xMidYMid meet">
+          {/* Grid */}
+          {ticks.map(t => (
+            <g key={t}>
+              <line x1={leftPad} x2={totalW - 8} y1={yPos(t)} y2={yPos(t)} stroke="#f1f5f9" />
+              <text x={leftPad - 6} y={yPos(t) + 3} textAnchor="end" fontSize={9} fill="#94a3b8">{fmtM(t)}</text>
+            </g>
+          ))}
 
-          if (col.type === "line") {
-            const lineY = yPos(col.value)
+          {/* Columns */}
+          {cols.map((col, i) => {
+            const x = colX(i)
+            const centerX = x + barW / 2
+            const isHovered = hovered === i
+
+            if (col.type === "line") {
+              const lineY = yPos(col.value)
+              return (
+                <g
+                  key={col.label}
+                  onMouseEnter={() => setHovered(i)}
+                  onMouseLeave={() => setHovered(null)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <rect x={x - 4} y={lineY - 16} width={barW + 8} height={32} fill="transparent" />
+                  <line x1={colX(i - 1) + barW} x2={x} y1={lineY} y2={lineY} stroke="#e2e8f0" strokeDasharray="3 3" />
+                  <line x1={x} x2={x + barW} y1={lineY} y2={lineY} stroke={col.color} strokeWidth={isHovered ? 4 : 3} strokeLinecap="round" />
+                  <line x1={x + barW} x2={colX(i + 1)} y1={lineY} y2={lineY} stroke="#e2e8f0" strokeDasharray="3 3" />
+                  <text x={centerX} y={lineY - 10} textAnchor="middle" fontSize={9} fontWeight={600} fill={col.color}>{fmtM(col.value)}</text>
+                  <text x={centerX} y={chartH - 8} textAnchor="middle" fontSize={10} fill="#64748b">{col.label}</text>
+                </g>
+              )
+            }
+
+            // Regular bar
+            const fullTop = yPos(col.base + col.value)
+            const bot = yPos(col.base)
+            const fullH = Math.max(bot - fullTop, 1)
+
+            const barH = animated ? fullH : 0
+            const barTop = animated ? fullTop : bot
+
+            const showSlices = isHovered && col.subItems && col.subItems.length > 0
+
             return (
               <g
                 key={col.label}
@@ -161,133 +220,69 @@ export function WaterfallChart({ totals }: WaterfallChartProps) {
                 onMouseLeave={() => setHovered(null)}
                 style={{ cursor: "pointer" }}
               >
-                <rect x={x - 4} y={lineY - 16} width={barW + 8} height={32} fill="transparent" />
-                <line x1={colX(i - 1) + barW} x2={x} y1={lineY} y2={lineY} stroke="#e2e8f0" strokeDasharray="3 3" />
-                <line x1={x} x2={x + barW} y1={lineY} y2={lineY} stroke={col.color} strokeWidth={isHovered ? 4 : 3} strokeLinecap="round" />
-                <line x1={x + barW} x2={colX(i + 1)} y1={lineY} y2={lineY} stroke="#e2e8f0" strokeDasharray="3 3" />
-                <text x={centerX} y={lineY - 10} textAnchor="middle" fontSize={9} fontWeight={600} fill={col.color}>{fmtM(col.value)}</text>
-                <text x={centerX} y={chartH - 8} textAnchor="middle" fontSize={10} fill="#64748b">{col.label}</text>
-                {isHovered && (
-                  <foreignObject x={centerX - 90} y={lineY - 46} width={180} height={30}>
-                    <div style={{ background: "#1e293b", borderRadius: 6, padding: "4px 8px", color: "white", fontSize: 10, textAlign: "center", whiteSpace: "nowrap" }}>
-                      {col.tooltip}
-                    </div>
-                  </foreignObject>
+                {/* Connector to next column */}
+                {i < cols.length - 1 && cols[i + 1].type !== "line" && (() => {
+                  const connY = col.sign === "negative" ? yPos(col.base) : fullTop
+                  return <line x1={x + barW} x2={colX(i + 1)} y1={connY} y2={connY} stroke="#e2e8f0" strokeDasharray="3 3" />
+                })()}
+
+                {/* Solid bar (hidden when showing slices) */}
+                {!showSlices && (
+                  <rect
+                    x={x}
+                    y={barTop}
+                    width={barW}
+                    height={barH}
+                    rx={3}
+                    fill={col.color}
+                    opacity={isHovered ? 1 : 0.85}
+                    style={{ transition: "y 0.6s cubic-bezier(0.16,1,0.3,1), height 0.6s cubic-bezier(0.16,1,0.3,1), opacity 0.2s", transitionDelay: `${i * 0.1}s` }}
+                  />
                 )}
+
+                {/* Sub-item slices on hover */}
+                {showSlices && (() => {
+                  let runningY = bot
+                  return col.subItems!.map((sub, si) => {
+                    const sliceH = (sub.value / col.value) * fullH
+                    runningY -= sliceH
+                    const isLast = si === col.subItems!.length - 1
+                    return (
+                      <g key={sub.label}>
+                        <rect
+                          x={x}
+                          y={runningY}
+                          width={barW}
+                          height={sliceH}
+                          rx={si === 0 || isLast ? 3 : 0}
+                          fill={sub.color}
+                        />
+                        {!isLast && (
+                          <line x1={x} x2={x + barW} y1={runningY + sliceH} y2={runningY + sliceH} stroke="white" strokeWidth={0.5} />
+                        )}
+                      </g>
+                    )
+                  })
+                })()}
+
+                {/* Value label */}
+                <text
+                  x={centerX}
+                  y={fullTop - 7}
+                  textAnchor="middle"
+                  fontSize={9}
+                  fontWeight={600}
+                  fill={col.color}
+                  style={{ opacity: animated ? 1 : 0, transition: "opacity 0.4s", transitionDelay: `${i * 0.1 + 0.4}s` }}
+                >
+                  {col.sign === "negative" ? `-${fmtM(col.value)}` : fmtM(col.value)}
+                </text>
+                <text x={centerX} y={chartH - 8} textAnchor="middle" fontSize={10} fill="#64748b">{col.label}</text>
               </g>
             )
-          }
-
-          // Regular bar
-          const fullTop = yPos(col.base + col.value)
-          const bot = yPos(col.base)
-          const fullH = Math.max(bot - fullTop, 1)
-
-          // Animation
-          const barH = animated ? fullH : 0
-          const barTop = animated ? fullTop : bot
-
-          // Sub-item slices when hovered
-          const showSlices = isHovered && col.subItems && col.subItems.length > 0
-
-          return (
-            <g
-              key={col.label}
-              onMouseEnter={() => setHovered(i)}
-              onMouseLeave={() => setHovered(null)}
-              style={{ cursor: "pointer" }}
-            >
-              {/* Connector to next column */}
-              {i < cols.length - 1 && cols[i + 1].type !== "line" && (() => {
-                const connY = col.sign === "negative" ? yPos(col.base) : fullTop
-                return <line x1={x + barW} x2={colX(i + 1)} y1={connY} y2={connY} stroke="#e2e8f0" strokeDasharray="3 3" />
-              })()}
-
-              {/* Solid bar (hidden when showing slices) */}
-              {!showSlices && (
-                <rect
-                  x={x}
-                  y={barTop}
-                  width={barW}
-                  height={barH}
-                  rx={3}
-                  fill={col.color}
-                  opacity={isHovered ? 1 : 0.85}
-                  style={{ transition: "y 0.6s cubic-bezier(0.16,1,0.3,1), height 0.6s cubic-bezier(0.16,1,0.3,1), opacity 0.2s", transitionDelay: `${i * 0.1}s` }}
-                />
-              )}
-
-              {/* Sub-item slices on hover */}
-              {showSlices && (() => {
-                let runningY = bot
-                return col.subItems!.map((sub, si) => {
-                  const sliceH = (sub.value / col.value) * fullH
-                  runningY -= sliceH
-                  const isFirst = si === 0
-                  const isLast = si === col.subItems!.length - 1
-                  return (
-                    <g key={sub.label}>
-                      <rect
-                        x={x}
-                        y={runningY}
-                        width={barW}
-                        height={sliceH}
-                        rx={isFirst || isLast ? 3 : 0}
-                        fill={sub.color}
-                      />
-                      {/* Slice separator line */}
-                      {!isLast && (
-                        <line x1={x} x2={x + barW} y1={runningY + sliceH} y2={runningY + sliceH} stroke="white" strokeWidth={0.5} />
-                      )}
-                    </g>
-                  )
-                })
-              })()}
-
-              {/* Value label */}
-              <text
-                x={centerX}
-                y={fullTop - 7}
-                textAnchor="middle"
-                fontSize={9}
-                fontWeight={600}
-                fill={col.color}
-                style={{ opacity: animated ? 1 : 0, transition: "opacity 0.4s", transitionDelay: `${i * 0.1 + 0.4}s` }}
-              >
-                {col.sign === "negative" ? `-${fmtM(col.value)}` : fmtM(col.value)}
-              </text>
-              {/* X-axis label */}
-              <text x={centerX} y={chartH - 8} textAnchor="middle" fontSize={10} fill="#64748b">{col.label}</text>
-
-              {/* Tooltip — show sub-item breakdown on hover for COGS/OpEx */}
-              {isHovered && col.subItems && (
-                <foreignObject x={x + barW + 8} y={fullTop} width={160} height={col.subItems.length * 16 + 12}>
-                  <div style={{ background: "#1e293b", borderRadius: 6, padding: "6px 8px", color: "white", fontSize: 10, lineHeight: 1.5 }}>
-                    {col.subItems.map(sub => (
-                      <div key={sub.label} style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
-                        <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                          <span style={{ width: 6, height: 6, borderRadius: 2, backgroundColor: sub.color, flexShrink: 0 }} />
-                          {sub.label}
-                        </span>
-                        <span style={{ fontWeight: 600, whiteSpace: "nowrap" }}>{fmtM(sub.value)}</span>
-                      </div>
-                    ))}
-                  </div>
-                </foreignObject>
-              )}
-
-              {/* Simple tooltip for non-drilldown bars */}
-              {isHovered && !col.subItems && (
-                <foreignObject x={centerX - 100} y={fullTop - 38} width={200} height={28}>
-                  <div style={{ background: "#1e293b", borderRadius: 6, padding: "4px 8px", color: "white", fontSize: 10, textAlign: "center", whiteSpace: "nowrap" }}>
-                    {col.tooltip}
-                  </div>
-                </foreignObject>
-              )}
-            </g>
-          )
-        })}
-      </svg>
+          })}
+        </svg>
+      </div>
     </div>
   )
 }
