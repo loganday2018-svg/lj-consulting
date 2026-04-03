@@ -92,7 +92,7 @@ export function WaterfallChart({ totals, company }: WaterfallChartProps) {
         {hoveredCol && (
           <div
             className="absolute z-10 pointer-events-none"
-            style={{ left: `${hoveredCenterPct}%`, top: 0, transform: "translateX(-50%)" }}
+            style={{ left: `clamp(90px, ${hoveredCenterPct}%, calc(100% - 90px))`, top: 0, transform: "translateX(-50%)" }}
           >
             <div className="rounded-lg bg-slate-800 px-3 py-2 text-white shadow-lg" style={{ fontSize: 11, minWidth: 160, maxWidth: 220 }}>
               {hoveredCol.subItems ? (

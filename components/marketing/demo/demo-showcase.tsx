@@ -22,7 +22,7 @@ export function DemoShowcase() {
               key={c.id}
               onClick={() => setCompany(c)}
               className={cn(
-                "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+                "rounded-md px-2.5 py-1 text-xs font-medium transition-colors sm:px-3 sm:py-1.5 sm:text-sm",
                 company.id === c.id
                   ? "bg-white text-slate-900 shadow-sm"
                   : "text-slate-500 hover:text-slate-700"
@@ -45,26 +45,26 @@ export function DemoShowcase() {
           <button
             onClick={() => setView("after")}
             className={cn(
-              "flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors",
+              "flex items-center gap-2 rounded-md px-3 py-1.5 text-xs font-medium transition-colors sm:px-4 sm:py-2 sm:text-sm",
               view === "after"
                 ? "bg-white text-slate-900 shadow-sm"
                 : "text-slate-500 hover:text-slate-700"
             )}
           >
-            <LayoutDashboard className="h-4 w-4" />
-            The Dashboard
+            <LayoutDashboard className="hidden h-4 w-4 sm:block" />
+            Dashboard
           </button>
           <button
             onClick={() => setView("before")}
             className={cn(
-              "flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors",
+              "flex items-center gap-2 rounded-md px-3 py-1.5 text-xs font-medium transition-colors sm:px-4 sm:py-2 sm:text-sm",
               view === "before"
                 ? "bg-white text-slate-900 shadow-sm"
                 : "text-slate-500 hover:text-slate-700"
             )}
           >
-            <FileSpreadsheet className="h-4 w-4" />
-            The Spreadsheet
+            <FileSpreadsheet className="hidden h-4 w-4 sm:block" />
+            Spreadsheet
           </button>
         </div>
       </div>
@@ -74,20 +74,20 @@ export function DemoShowcase() {
         {view === "before" ? (
           <motion.div
             key={`before-${company.id}`}
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ duration: 0.35 }}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
           >
             <BeforePnLTable company={company} />
           </motion.div>
         ) : (
           <motion.div
             key={`after-${company.id}`}
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ duration: 0.35 }}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
           >
             <AfterDashboard company={company} />
           </motion.div>
