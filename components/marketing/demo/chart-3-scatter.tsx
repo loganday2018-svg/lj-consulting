@@ -102,6 +102,19 @@ export function Chart3Scatter() {
                   stroke={BUBBLE_COLOR}
                   strokeWidth={isHovered ? 2 : 1.5}
                 />
+                {/* Name inside bubble */}
+                <text
+                  x={cx}
+                  y={cy + 1}
+                  textAnchor="middle"
+                  dominantBaseline="central"
+                  fontSize={7}
+                  fontWeight={600}
+                  fill={BUBBLE_COLOR}
+                  pointerEvents="none"
+                >
+                  {loc.name.split(" ").slice(0, 2).join(" ")}
+                </text>
                 {/* Tooltip */}
                 {isHovered && (
                   <foreignObject x={cx - 85} y={cy - r - 52} width={170} height={44}>
