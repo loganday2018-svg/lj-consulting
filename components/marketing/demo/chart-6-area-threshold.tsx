@@ -28,6 +28,10 @@ export function Chart6AreaThreshold({ data }: AreaThresholdProps) {
   return (
     <div>
       <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+        <div className="mb-3 flex items-baseline justify-between">
+          <span className="text-sm font-semibold text-slate-700">EBITDA Margin vs Target</span>
+          <span className="text-xs text-slate-400">Target: {target}%</span>
+        </div>
         <ResponsiveContainer width="100%" height={280}>
           <AreaChart data={chartData} margin={{ top: 10, right: 10, bottom: 5, left: 0 }}>
             <defs>
@@ -54,7 +58,24 @@ export function Chart6AreaThreshold({ data }: AreaThresholdProps) {
               stroke={COLORS.ebitda}
               strokeWidth={2.5}
               fill="url(#marginGrad)"
-              dot={{ r: 4, fill: COLORS.ebitda, stroke: "white", strokeWidth: 2 }}
+              dot={(props: Record<string, unknown>) => {
+                const cx = props.cx as number
+                const cy = props.cy as number
+                const payload = props.payload as { margin: number }
+                if (cx == null || cy == null) return <circle r={0} />
+                const isDanger = payload.margin < 10
+                return (
+                  <circle
+                    key={cx}
+                    cx={cx}
+                    cy={cy}
+                    r={isDanger ? 5 : 4}
+                    fill={isDanger ? COLORS.cost : COLORS.ebitda}
+                    stroke="white"
+                    strokeWidth={2}
+                  />
+                )
+              }}
               activeDot={{ r: 6 }}
             />
           </AreaChart>

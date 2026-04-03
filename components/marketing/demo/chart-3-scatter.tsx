@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { LOCATION_DATA, COLORS } from "@/lib/demo-data"
 
 function fmtM(n: number): string {
@@ -24,6 +25,7 @@ const LABEL_OFFSETS: Record<string, { dx: number; dy: number; anchor: "start" | 
 }
 
 export function Chart3Scatter() {
+  const [hovered, setHovered] = useState<string | null>(null)
   const w = 500
   const h = 380
   const pad = { top: 40, right: 30, bottom: 50, left: 55 }
@@ -54,6 +56,14 @@ export function Chart3Scatter() {
           {/* Quadrant backgrounds */}
           <rect x={xScale(midRev)} y={pad.top} width={plotW / 2} height={plotH / 2} fill="#f0fdfa" rx={4} opacity={0.4} />
           <rect x={pad.left} y={pad.top + plotH / 2} width={plotW / 2} height={plotH / 2} fill="#fef2f2" rx={4} opacity={0.25} />
+
+          {/* Quadrant labels */}
+          <text x={xScale(midRev) + plotW / 4} y={pad.top + 14} textAnchor="middle" fontSize={9} fontWeight={600} fill="#0d9488" opacity={0.5}>
+            Stars
+          </text>
+          <text x={pad.left + plotW / 4} y={pad.top + plotH - 6} textAnchor="middle" fontSize={9} fontWeight={600} fill="#be123c" opacity={0.4}>
+            Watch List
+          </text>
 
 
           {/* Grid lines */}
@@ -100,14 +110,25 @@ export function Chart3Scatter() {
             const isUnderperformer = loc.margin < 10
             const shortName = loc.name.split(" ").slice(0, 2).join(" ")
 
+            const isHovered = hovered === loc.name
+
             return (
-              <g key={loc.name}>
+              <g
+                key={loc.name}
+                onMouseEnter={() => setHovered(loc.name)}
+                onMouseLeave={() => setHovered(null)}
+                style={{ cursor: "pointer" }}
+              >
                 {/* Pulse ring for underperformer */}
                 {isUnderperformer && (
                   <circle cx={cx} cy={cy} r={r + 4} fill="none" stroke="#be123c" strokeWidth={1} strokeDasharray="3 2" opacity={0.5} />
                 )}
+                {/* Hover ring */}
+                {isHovered && (
+                  <circle cx={cx} cy={cy} r={r + 3} fill="none" stroke={color} strokeWidth={1.5} opacity={0.4} />
+                )}
                 {/* Bubble */}
-                <circle cx={cx} cy={cy} r={r} fill={color} fillOpacity={0.15} stroke={color} strokeWidth={2} />
+                <circle cx={cx} cy={cy} r={r} fill={color} fillOpacity={isHovered ? 0.25 : 0.15} stroke={color} strokeWidth={2} />
                 <circle cx={cx} cy={cy} r={3} fill={color} />
                 {/* Label */}
                 <text
@@ -120,6 +141,15 @@ export function Chart3Scatter() {
                 >
                   {shortName}
                 </text>
+                {/* Tooltip */}
+                {isHovered && (
+                  <foreignObject x={cx - 80} y={cy - r - 58} width={160} height={50}>
+                    <div style={{ background: "#1e293b", borderRadius: 6, padding: "4px 8px", color: "white", fontSize: 10, textAlign: "center", lineHeight: 1.4 }}>
+                      <div style={{ fontWeight: 600 }}>{loc.name}</div>
+                      <div>{fmtM(loc.revenue)} · {loc.margin}% margin · {loc.headcount} staff</div>
+                    </div>
+                  </foreignObject>
+                )}
               </g>
             )
           })}
