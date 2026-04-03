@@ -86,8 +86,8 @@ export function WaterfallChart({ totals, company }: WaterfallChartProps) {
   const hoveredCenterPct = hovered !== null ? ((colX(hovered) + barW / 2) / totalW) * 100 : 0
 
   return (
-    <div ref={ref} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-      <div className="relative">
+    <div ref={ref} className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-5">
+      <div className="relative overflow-x-auto" style={{ minWidth: 320 }}>
         {/* Tooltip rendered as HTML above the SVG */}
         {hoveredCol && (
           <div

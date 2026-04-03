@@ -56,14 +56,14 @@ export function Chart1SparklineKPIs({ data, totals }: SparklineKPIsProps) {
 
   return (
     <div>
-      <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-4">
+      <div className="grid grid-cols-3 gap-1.5 sm:gap-4">
         {cards.map((card) => (
-          <div key={card.label} className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
-            <p className="text-[10px] font-medium uppercase tracking-wide text-slate-400 sm:text-xs">{card.label}</p>
-            <div className="mt-1 flex items-baseline gap-2">
-              <p className="text-xl font-bold text-slate-900 sm:text-3xl tabular-nums">{card.value}</p>
+          <div key={card.label} className="rounded-xl border border-slate-200 bg-white p-2 shadow-sm sm:p-4">
+            <p className="text-[9px] font-medium uppercase tracking-wide text-slate-400 sm:text-xs">{card.label}</p>
+            <div className="mt-0.5 flex items-baseline gap-1 sm:mt-1 sm:gap-2">
+              <p className="text-base font-bold text-slate-900 sm:text-3xl tabular-nums">{card.value}</p>
               {card.delta !== null && (
-                <span className={`inline-flex items-center gap-0.5 text-xs font-semibold ${card.delta >= 0 ? "text-teal-600" : "text-rose-600"}`}>
+                <span className={`hidden items-center gap-0.5 text-xs font-semibold sm:inline-flex ${card.delta >= 0 ? "text-teal-600" : "text-rose-600"}`}>
                   <svg width="10" height="10" viewBox="0 0 10 10" className={card.delta < 0 ? "rotate-180" : ""}>
                     <path d="M5 1 L9 6 L1 6 Z" fill="currentColor" />
                   </svg>
@@ -71,11 +71,11 @@ export function Chart1SparklineKPIs({ data, totals }: SparklineKPIsProps) {
                 </span>
               )}
             </div>
-            <div className="mt-2">
+            <div className="mt-1 hidden sm:block">
               <Sparkline values={card.spark} color={card.color} />
             </div>
             {card.delta !== null && (
-              <p className="mt-1 text-[9px] text-slate-400">H1 → H2</p>
+              <p className="mt-0.5 text-[9px] text-slate-400 hidden sm:block">H1 → H2</p>
             )}
           </div>
         ))}
