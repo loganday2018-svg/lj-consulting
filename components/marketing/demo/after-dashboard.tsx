@@ -72,37 +72,37 @@ export function AfterDashboard({ company }: AfterDashboardProps) {
         </div>
 
         {/* #1 — The Headlines */}
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="space-y-3">
+        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.5, ease: "easeOut" }} className="space-y-3">
           <SectionTitle title="The Headlines" />
           <Chart1SparklineKPIs data={filteredData} totals={totals} />
         </motion.div>
 
         {/* #2 — Where the Money Goes */}
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.08 }} className="space-y-3">
+        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.5, ease: "easeOut" }} className="space-y-3">
           <SectionTitle title="Where the Money Goes" />
           <WaterfallChart totals={totals} company={company} />
         </motion.div>
 
         {/* #3 — Are We Hitting Our Targets? */}
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.16 }} className="space-y-3">
+        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.5, ease: "easeOut" }} className="space-y-3">
           <SectionTitle title="Are We Hitting Our Targets?" />
           <Chart6AreaThreshold data={filteredData} />
         </motion.div>
 
         {/* #4 — Who's Pulling Their Weight? */}
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.24 }} className="space-y-3">
+        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.5, ease: "easeOut" }} className="space-y-3">
           <SectionTitle title="Who's Pulling Their Weight?" />
           <Chart3Scatter locationData={company.locationData} />
         </motion.div>
 
         {/* #5 — Momentum */}
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.32 }} className="space-y-3">
+        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.5, ease: "easeOut" }} className="space-y-3">
           <SectionTitle title="Momentum" />
           <ChartMoMChange data={filteredData} />
         </motion.div>
 
         {/* #6 — Spot the Patterns */}
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.38 }} className="space-y-3">
+        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.5, ease: "easeOut" }} className="space-y-3">
           <SectionTitle title="Spot the Patterns" />
           <Chart4Heatmap monthlyData={filteredData} />
         </motion.div>
