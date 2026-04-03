@@ -30,17 +30,11 @@ export function ChartMoMChange({ data }: MoMChangeProps) {
   const [metric, setMetric] = useState<MetricKey>("ebitda")
   const [hovered, setHovered] = useState<number | null>(null)
 
-  // Compute MoM % changes (skip first month — no prior)
   const changes = data.slice(1).map((d, i) => {
     const prev = data[i][metric] as number
     const curr = d[metric] as number
     const pctChange = prev === 0 ? 0 : ((curr - prev) / prev) * 100
-    return {
-      month: d.month,
-      pctChange,
-      value: curr,
-      prevValue: prev,
-    }
+    return { month: d.month, pctChange, value: curr, prevValue: prev }
   })
 
   if (changes.length === 0) {
@@ -54,10 +48,9 @@ export function ChartMoMChange({ data }: MoMChangeProps) {
   const maxAbs = Math.max(...changes.map(c => Math.abs(c.pctChange)), 5)
   const chartW = 440
   const chartH = 220
-  const pad = { top: 24, right: 16, bottom: 28, left: 40 }
+  const pad = { top: 28, right: 16, bottom: 28, left: 40 }
   const plotW = chartW - pad.left - pad.right
   const plotH = chartH - pad.top - pad.bottom
-  const barW = Math.min(plotW / changes.length - 4, 34)
   const midY = pad.top + plotH / 2
 
   function yPos(pct: number): number {
@@ -97,7 +90,7 @@ export function ChartMoMChange({ data }: MoMChangeProps) {
       <div className="overflow-x-auto" style={{ minWidth: 300 }}>
         <svg viewBox={`0 0 ${chartW} ${chartH}`} className="w-full" preserveAspectRatio="xMidYMid meet">
           {/* Zero line */}
-          <line x1={pad.left} x2={chartW - pad.right} y1={midY} y2={midY} stroke="#e2e8f0" strokeWidth={1} />
+          <line x1={pad.left} x2={chartW - pad.right} y1={midY} y2={midY} stroke="#cbd5e1" strokeWidth={1} />
 
           {/* Grid lines */}
           {[-maxAbs / 2, maxAbs / 2].map(v => (
@@ -110,14 +103,15 @@ export function ChartMoMChange({ data }: MoMChangeProps) {
           ))}
           <text x={pad.left - 4} y={midY + 3} textAnchor="end" fontSize={8} fill="#94a3b8">0%</text>
 
-          {/* Bars */}
+          {/* Lollipops */}
           {changes.map((c, i) => {
             const slotW = plotW / changes.length
-            const x = pad.left + i * slotW + (slotW - barW) / 2
+            const cx = pad.left + i * slotW + slotW / 2
+            const dotY = yPos(c.pctChange)
             const isPositive = c.pctChange >= 0
-            const barH = Math.abs(yPos(c.pctChange) - midY)
             const color = isPositive ? COLORS.profit : COLORS.cost
             const isHov = hovered === i
+            const dotR = isHov ? 7 : 5
 
             return (
               <g
@@ -127,30 +121,40 @@ export function ChartMoMChange({ data }: MoMChangeProps) {
                 style={{ cursor: "pointer" }}
               >
                 {/* Hit area */}
-                <rect x={x} y={pad.top} width={barW} height={plotH} fill="transparent" />
-                {/* Bar */}
-                <rect
-                  x={x}
-                  y={isPositive ? yPos(c.pctChange) : midY}
-                  width={barW}
-                  height={Math.max(barH, 3)}
-                  rx={3}
-                  fill={color}
-                  opacity={isHov ? 1 : 0.8}
+                <rect x={cx - slotW / 2} y={pad.top} width={slotW} height={plotH} fill="transparent" />
+                {/* Stem */}
+                <line
+                  x1={cx}
+                  x2={cx}
+                  y1={midY}
+                  y2={dotY}
+                  stroke={color}
+                  strokeWidth={isHov ? 2.5 : 2}
+                  strokeLinecap="round"
+                  opacity={isHov ? 1 : 0.6}
                 />
-                {/* Value label — always visible */}
+                {/* Dot */}
+                <circle
+                  cx={cx}
+                  cy={dotY}
+                  r={dotR}
+                  fill={color}
+                  stroke="white"
+                  strokeWidth={2}
+                />
+                {/* % label */}
                 <text
-                  x={x + barW / 2}
-                  y={isPositive ? Math.min(yPos(c.pctChange) - 5, midY - 8) : Math.max(midY + barH + 11, midY + 14)}
+                  x={cx}
+                  y={isPositive ? dotY - dotR - 4 : dotY + dotR + 11}
                   textAnchor="middle"
-                  fontSize={8}
+                  fontSize={isHov ? 9 : 8}
                   fontWeight={600}
                   fill={color}
                 >
                   {fmtPct(c.pctChange)}
                 </text>
                 {/* Month label */}
-                <text x={x + barW / 2} y={chartH - 6} textAnchor="middle" fontSize={9} fill="#94a3b8">
+                <text x={cx} y={chartH - 6} textAnchor="middle" fontSize={9} fill="#94a3b8">
                   {c.month}
                 </text>
               </g>
@@ -161,9 +165,9 @@ export function ChartMoMChange({ data }: MoMChangeProps) {
           {hovered !== null && (() => {
             const c = changes[hovered]
             const slotW = plotW / changes.length
-            const x = pad.left + hovered * slotW + slotW / 2
+            const cx = pad.left + hovered * slotW + slotW / 2
             return (
-              <foreignObject x={Math.max(0, Math.min(x - 70, chartW - 140))} y={0} width={140} height={36}>
+              <foreignObject x={Math.max(0, Math.min(cx - 70, chartW - 140))} y={0} width={140} height={36}>
                 <div style={{ background: "#1e293b", borderRadius: 6, padding: "4px 8px", color: "white", fontSize: 10, textAlign: "center", lineHeight: 1.4 }}>
                   <span style={{ fontWeight: 600 }}>{c.month}:</span> {fmtM(c.value)} from {fmtM(c.prevValue)}
                 </div>
