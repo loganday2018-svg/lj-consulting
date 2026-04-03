@@ -2,115 +2,106 @@
 
 import { type MonthlyPnL, COLORS } from "@/lib/demo-data"
 
+function fmtM(n: number): string {
+  if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(1)}M`
+  return `$${(n / 1_000).toFixed(0)}K`
+}
+
 function fmtK(n: number): string {
-  return `${(n / 1_000).toFixed(0)}`
+  return `$${(n / 1_000).toFixed(0)}K`
 }
 
-// Two-tone scale: low → mid (white) → high
-// Revenue/GP/EBITDA: white → teal
-// COGS/OpEx: white → navy (costs go darker when higher = worse)
-function scaleColor(value: number, min: number, max: number, palette: "teal" | "navy"): { bg: string; text: string } {
-  const t = max === min ? 0.5 : (value - min) / (max - min)
-
-  if (palette === "teal") {
-    // White → teal-500
-    const r = Math.round(255 - (255 - 20) * t)
-    const g = Math.round(255 - (255 - 184) * t)
-    const b = Math.round(255 - (255 - 166) * t)
-    return {
-      bg: `rgb(${r},${g},${b})`,
-      text: t > 0.55 ? "white" : "#334155",
-    }
-  }
-  // White → navy
-  const r = Math.round(255 - (255 - 30) * t)
-  const g = Math.round(255 - (255 - 58) * t)
-  const b = Math.round(255 - (255 - 95) * t)
-  return {
-    bg: `rgb(${r},${g},${b})`,
-    text: t > 0.55 ? "white" : "#334155",
-  }
-}
-
-const metrics: { key: keyof MonthlyPnL; label: string; palette: "teal" | "navy" }[] = [
-  { key: "revenue", label: "Revenue", palette: "teal" },
-  { key: "grossProfit", label: "Gross Profit", palette: "teal" },
-  { key: "ebitda", label: "EBITDA", palette: "teal" },
-  { key: "totalCogs", label: "COGS", palette: "navy" },
-  { key: "totalOpex", label: "OpEx", palette: "navy" },
+const metrics: { key: keyof MonthlyPnL; label: string; color: string }[] = [
+  { key: "revenue", label: "Revenue", color: COLORS.revenue },
+  { key: "grossProfit", label: "Gross Profit", color: COLORS.profit },
+  { key: "ebitda", label: "EBITDA", color: COLORS.ebitda },
+  { key: "totalCogs", label: "COGS", color: COLORS.cost },
+  { key: "totalOpex", label: "OpEx", color: COLORS.neutral },
 ]
+
+function MiniArea({ values, color, months }: { values: number[]; color: string; months: string[] }) {
+  const w = 240
+  const h = 48
+  const pad = 2
+  const min = Math.min(...values)
+  const max = Math.max(...values)
+  const range = max - min || 1
+
+  const points = values.map((v, i) => {
+    const x = pad + (i / (values.length - 1)) * (w - pad * 2)
+    const y = h - pad - ((v - min) / range) * (h - pad * 2 - 4)
+    return { x, y, val: v, month: months[i] }
+  })
+
+  const linePath = points.map((p, i) => `${i === 0 ? "M" : "L"}${p.x},${p.y}`).join(" ")
+  const areaPath = `${linePath} L${points[points.length - 1].x},${h} L${points[0].x},${h} Z`
+
+  // Find min and max points
+  const maxIdx = values.indexOf(Math.max(...values))
+  const minIdx = values.indexOf(Math.min(...values))
+
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} className="w-full" style={{ minWidth: 180 }} preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <linearGradient id={`grad-${color.replace("#", "")}`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={color} stopOpacity={0.2} />
+          <stop offset="100%" stopColor={color} stopOpacity={0.02} />
+        </linearGradient>
+      </defs>
+      {/* Area fill */}
+      <path d={areaPath} fill={`url(#grad-${color.replace("#", "")})`} />
+      {/* Line */}
+      <path d={linePath} fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+      {/* Dots for high and low */}
+      <circle cx={points[maxIdx].x} cy={points[maxIdx].y} r={3} fill={color} stroke="white" strokeWidth={1.5} />
+      <circle cx={points[minIdx].x} cy={points[minIdx].y} r={3} fill={color} stroke="white" strokeWidth={1.5} opacity={0.6} />
+      {/* High label */}
+      <text x={points[maxIdx].x} y={points[maxIdx].y - 7} textAnchor="middle" fontSize={8} fontWeight={600} fill={color}>
+        {fmtK(values[maxIdx])}
+      </text>
+      {/* Low label */}
+      <text x={points[minIdx].x} y={points[minIdx].y + 12} textAnchor="middle" fontSize={7} fill={color} opacity={0.6}>
+        {fmtK(values[minIdx])}
+      </text>
+    </svg>
+  )
+}
 
 interface Chart4HeatmapProps {
   monthlyData: MonthlyPnL[]
 }
 
 export function Chart4Heatmap({ monthlyData }: Chart4HeatmapProps) {
-  const MONTHLY_DATA = monthlyData
+  const months = monthlyData.map(d => d.month)
+
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-      <div className="overflow-x-auto -mx-1">
-        <table className="w-full border-separate" style={{ borderSpacing: "3px" }}>
-          <thead>
-            <tr>
-              <th className="px-2 py-2 text-left text-[10px] font-semibold uppercase tracking-wider text-slate-400 sm:text-xs">$K</th>
-              {MONTHLY_DATA.map((d) => (
-                <th key={d.month} className="px-1 py-2 text-center text-[10px] font-semibold uppercase tracking-wider text-slate-400 sm:text-xs min-w-[40px]">
-                  {d.month}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {metrics.map((metric) => {
-              const values = MONTHLY_DATA.map(d => d[metric.key] as number)
-              const min = Math.min(...values)
-              const max = Math.max(...values)
-              return (
-                <tr key={metric.key}>
-                  <td className="px-2 py-0 text-xs font-medium text-slate-600 whitespace-nowrap">{metric.label}</td>
-                  {MONTHLY_DATA.map((d) => {
-                    const val = d[metric.key] as number
-                    const { bg, text } = scaleColor(val, min, max, metric.palette)
-                    return (
-                      <td key={d.month} className="px-0 py-0">
-                        <div
-                          className="flex items-center justify-center rounded-md text-[10px] font-medium tabular-nums sm:text-xs"
-                          style={{
-                            backgroundColor: bg,
-                            color: text,
-                            height: 32,
-                            minWidth: 36,
-                          }}
-                        >
-                          {fmtK(val)}
-                        </div>
-                      </td>
-                    )
-                  })}
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>
-      {/* Legend */}
-      <div className="mt-3 flex items-center justify-end gap-4 text-[10px] text-slate-400">
-        <div className="flex items-center gap-1.5">
-          <div className="flex gap-0.5">
-            <div className="h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: "rgb(255,255,255)", border: "1px solid #e2e8f0" }} />
-            <div className="h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: "rgb(138,220,196)" }} />
-            <div className="h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: COLORS.ebitda }} />
-          </div>
-          <span>Revenue / Profit</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <div className="flex gap-0.5">
-            <div className="h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: "rgb(255,255,255)", border: "1px solid #e2e8f0" }} />
-            <div className="h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: "rgb(143,157,175)" }} />
-            <div className="h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: COLORS.revenue }} />
-          </div>
-          <span>Costs (darker = higher)</span>
-        </div>
+      <div className="space-y-3">
+        {metrics.map((metric) => {
+          const values = monthlyData.map(d => d[metric.key] as number)
+          const total = values.reduce((s, v) => s + v, 0)
+          const avg = total / values.length
+          const maxVal = Math.max(...values)
+          const minVal = Math.min(...values)
+          const spread = maxVal - minVal
+          const spreadPct = avg > 0 ? ((spread / avg) * 100).toFixed(0) : "0"
+
+          return (
+            <div key={metric.key} className="flex items-center gap-3 sm:gap-4">
+              {/* Label + total */}
+              <div className="w-24 flex-shrink-0 sm:w-32">
+                <p className="text-xs font-semibold text-slate-700 sm:text-sm">{metric.label}</p>
+                <p className="text-[10px] text-slate-400 tabular-nums sm:text-xs">
+                  {fmtM(total)} · {spreadPct}% spread
+                </p>
+              </div>
+              {/* Mini chart */}
+              <div className="flex-1 min-w-0">
+                <MiniArea values={values} color={metric.color} months={months} />
+              </div>
+            </div>
+          )
+        })}
       </div>
     </div>
   )
