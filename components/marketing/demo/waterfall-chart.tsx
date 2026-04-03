@@ -10,6 +10,24 @@ interface WaterfallChartProps {
     grossProfit: number
     totalOpex: number
     ebitda: number
+    providerComp: number
+    nursingStaff: number
+    medicalSupplies: number
+    labDiagnostic: number
+    pharmacy: number
+    facilityCosts: number
+    equipmentLease: number
+    adminStaff: number
+    billingCollections: number
+    itSystems: number
+    malpracticeInsurance: number
+    generalInsurance: number
+    marketing: number
+    utilities: number
+    depreciation: number
+    professionalFees: number
+    officeSupplies: number
+    staffTraining: number
   }
 }
 
@@ -22,6 +40,44 @@ function pct(value: number, total: number): string {
   return `${((value / total) * 100).toFixed(0)}%`
 }
 
+interface SubItem {
+  label: string
+  value: number
+  color: string
+}
+
+// Navy gradient for COGS slices, slate gradient for OpEx
+const COGS_COLORS = ["#7f1d1d", "#991b1b", "#b91c1c", "#dc2626", "#ef4444", "#f87171", "#fca5a5"]
+const OPEX_COLORS = ["#64748b", "#78859b", "#8b97ab", "#9eaabb", "#b1bccb", "#c4cedb", "#d7e0eb", "#e2e8f0", "#eef2f7", "#f5f7fa", "#fafbfc"]
+
+function getCogsItems(totals: WaterfallChartProps["totals"]): SubItem[] {
+  return [
+    { label: "Provider Comp", value: totals.providerComp, color: COGS_COLORS[0] },
+    { label: "Nursing Staff", value: totals.nursingStaff, color: COGS_COLORS[1] },
+    { label: "Medical Supplies", value: totals.medicalSupplies, color: COGS_COLORS[2] },
+    { label: "Lab & Diagnostic", value: totals.labDiagnostic, color: COGS_COLORS[3] },
+    { label: "Facility Costs", value: totals.facilityCosts, color: COGS_COLORS[4] },
+    { label: "Equipment Lease", value: totals.equipmentLease, color: COGS_COLORS[5] },
+    { label: "Pharmacy", value: totals.pharmacy, color: COGS_COLORS[6] },
+  ].sort((a, b) => b.value - a.value)
+}
+
+function getOpexItems(totals: WaterfallChartProps["totals"]): SubItem[] {
+  return [
+    { label: "Admin Staff", value: totals.adminStaff, color: OPEX_COLORS[0] },
+    { label: "Billing", value: totals.billingCollections, color: OPEX_COLORS[1] },
+    { label: "IT Systems", value: totals.itSystems, color: OPEX_COLORS[2] },
+    { label: "Malpractice Ins.", value: totals.malpracticeInsurance, color: OPEX_COLORS[3] },
+    { label: "Marketing", value: totals.marketing, color: OPEX_COLORS[4] },
+    { label: "Insurance", value: totals.generalInsurance, color: OPEX_COLORS[5] },
+    { label: "Utilities", value: totals.utilities, color: OPEX_COLORS[6] },
+    { label: "Depreciation", value: totals.depreciation, color: OPEX_COLORS[7] },
+    { label: "Prof Fees", value: totals.professionalFees, color: OPEX_COLORS[8] },
+    { label: "Office Supplies", value: totals.officeSupplies, color: OPEX_COLORS[9] },
+    { label: "Staff Training", value: totals.staffTraining, color: OPEX_COLORS[10] },
+  ].filter(i => i.value > 0).sort((a, b) => b.value - a.value)
+}
+
 type ColType = "bar" | "line"
 
 interface Col {
@@ -32,6 +88,7 @@ interface Col {
   type: ColType
   sign: "positive" | "negative" | "subtotal"
   tooltip: string
+  subItems?: SubItem[]
 }
 
 export function WaterfallChart({ totals }: WaterfallChartProps) {
@@ -51,9 +108,9 @@ export function WaterfallChart({ totals }: WaterfallChartProps) {
 
   const cols: Col[] = [
     { label: "Revenue", value: totals.revenue, base: 0, color: COLORS.revenue, type: "bar", sign: "positive", tooltip: `Total Revenue: ${fmtM(totals.revenue)}` },
-    { label: "COGS", value: totals.totalCogs, base: totals.revenue - totals.totalCogs, color: COLORS.cost, type: "bar", sign: "negative", tooltip: `Cost of Goods Sold: ${fmtM(totals.totalCogs)} (${pct(totals.totalCogs, totals.revenue)} of rev)` },
+    { label: "COGS", value: totals.totalCogs, base: totals.revenue - totals.totalCogs, color: COLORS.cost, type: "bar", sign: "negative", tooltip: `Cost of Goods Sold: ${fmtM(totals.totalCogs)} (${pct(totals.totalCogs, totals.revenue)} of rev)`, subItems: getCogsItems(totals) },
     { label: "GP", value: totals.grossProfit, base: 0, color: COLORS.profit, type: "line", sign: "subtotal", tooltip: `Gross Profit: ${fmtM(totals.grossProfit)} (${pct(totals.grossProfit, totals.revenue)} margin)` },
-    { label: "OpEx", value: totals.totalOpex, base: totals.grossProfit - totals.totalOpex, color: COLORS.cost, type: "bar", sign: "negative", tooltip: `Operating Expenses: ${fmtM(totals.totalOpex)} (${pct(totals.totalOpex, totals.revenue)} of rev)` },
+    { label: "OpEx", value: totals.totalOpex, base: totals.grossProfit - totals.totalOpex, color: COLORS.cost, type: "bar", sign: "negative", tooltip: `Operating Expenses: ${fmtM(totals.totalOpex)} (${pct(totals.totalOpex, totals.revenue)} of rev)`, subItems: getOpexItems(totals) },
     { label: "EBITDA", value: totals.ebitda, base: 0, color: COLORS.ebitda, type: "bar", sign: "subtotal", tooltip: `EBITDA: ${fmtM(totals.ebitda)} (${pct(totals.ebitda, totals.revenue)} margin)` },
   ]
 
@@ -92,19 +149,12 @@ export function WaterfallChart({ totals }: WaterfallChartProps) {
                 onMouseLeave={() => setHovered(null)}
                 style={{ cursor: "pointer" }}
               >
-                {/* Hit area */}
                 <rect x={x - 4} y={lineY - 16} width={barW + 8} height={32} fill="transparent" />
-                {/* Connector from COGS */}
                 <line x1={colX(i - 1) + barW} x2={x} y1={lineY} y2={lineY} stroke="#e2e8f0" strokeDasharray="3 3" />
-                {/* The GP line */}
                 <line x1={x} x2={x + barW} y1={lineY} y2={lineY} stroke={col.color} strokeWidth={isHovered ? 4 : 3} strokeLinecap="round" />
-                {/* Connector to OpEx */}
                 <line x1={x + barW} x2={colX(i + 1)} y1={lineY} y2={lineY} stroke="#e2e8f0" strokeDasharray="3 3" />
-                {/* Value label */}
                 <text x={centerX} y={lineY - 10} textAnchor="middle" fontSize={9} fontWeight={600} fill={col.color}>{fmtM(col.value)}</text>
-                {/* X-axis label */}
                 <text x={centerX} y={chartH - 8} textAnchor="middle" fontSize={10} fill="#64748b">{col.label}</text>
-                {/* Tooltip */}
                 {isHovered && (
                   <foreignObject x={centerX - 90} y={lineY - 46} width={180} height={30}>
                     <div style={{ background: "#1e293b", borderRadius: 6, padding: "4px 8px", color: "white", fontSize: 10, textAlign: "center", whiteSpace: "nowrap" }}>
@@ -121,9 +171,12 @@ export function WaterfallChart({ totals }: WaterfallChartProps) {
           const bot = yPos(col.base)
           const fullH = Math.max(bot - fullTop, 1)
 
-          // Animation: bars grow from base
+          // Animation
           const barH = animated ? fullH : 0
           const barTop = animated ? fullTop : bot
+
+          // Sub-item slices when hovered
+          const showSlices = isHovered && col.subItems && col.subItems.length > 0
 
           return (
             <g
@@ -137,16 +190,48 @@ export function WaterfallChart({ totals }: WaterfallChartProps) {
                 const connY = col.sign === "negative" ? yPos(col.base) : fullTop
                 return <line x1={x + barW} x2={colX(i + 1)} y1={connY} y2={connY} stroke="#e2e8f0" strokeDasharray="3 3" />
               })()}
-              <rect
-                x={x}
-                y={barTop}
-                width={barW}
-                height={barH}
-                rx={3}
-                fill={col.color}
-                opacity={isHovered ? 1 : 0.85}
-                style={{ transition: "y 0.6s cubic-bezier(0.16,1,0.3,1), height 0.6s cubic-bezier(0.16,1,0.3,1), opacity 0.2s", transitionDelay: `${i * 0.1}s` }}
-              />
+
+              {/* Solid bar (hidden when showing slices) */}
+              {!showSlices && (
+                <rect
+                  x={x}
+                  y={barTop}
+                  width={barW}
+                  height={barH}
+                  rx={3}
+                  fill={col.color}
+                  opacity={isHovered ? 1 : 0.85}
+                  style={{ transition: "y 0.6s cubic-bezier(0.16,1,0.3,1), height 0.6s cubic-bezier(0.16,1,0.3,1), opacity 0.2s", transitionDelay: `${i * 0.1}s` }}
+                />
+              )}
+
+              {/* Sub-item slices on hover */}
+              {showSlices && (() => {
+                let runningY = bot
+                return col.subItems!.map((sub, si) => {
+                  const sliceH = (sub.value / col.value) * fullH
+                  runningY -= sliceH
+                  const isFirst = si === 0
+                  const isLast = si === col.subItems!.length - 1
+                  return (
+                    <g key={sub.label}>
+                      <rect
+                        x={x}
+                        y={runningY}
+                        width={barW}
+                        height={sliceH}
+                        rx={isFirst || isLast ? 3 : 0}
+                        fill={sub.color}
+                      />
+                      {/* Slice separator line */}
+                      {!isLast && (
+                        <line x1={x} x2={x + barW} y1={runningY + sliceH} y2={runningY + sliceH} stroke="white" strokeWidth={0.5} />
+                      )}
+                    </g>
+                  )
+                })
+              })()}
+
               {/* Value label */}
               <text
                 x={centerX}
@@ -161,8 +246,26 @@ export function WaterfallChart({ totals }: WaterfallChartProps) {
               </text>
               {/* X-axis label */}
               <text x={centerX} y={chartH - 8} textAnchor="middle" fontSize={10} fill="#64748b">{col.label}</text>
-              {/* Tooltip */}
-              {isHovered && (
+
+              {/* Tooltip — show sub-item breakdown on hover for COGS/OpEx */}
+              {isHovered && col.subItems && (
+                <foreignObject x={x + barW + 8} y={fullTop} width={160} height={col.subItems.length * 16 + 12}>
+                  <div style={{ background: "#1e293b", borderRadius: 6, padding: "6px 8px", color: "white", fontSize: 10, lineHeight: 1.5 }}>
+                    {col.subItems.map(sub => (
+                      <div key={sub.label} style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
+                        <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                          <span style={{ width: 6, height: 6, borderRadius: 2, backgroundColor: sub.color, flexShrink: 0 }} />
+                          {sub.label}
+                        </span>
+                        <span style={{ fontWeight: 600, whiteSpace: "nowrap" }}>{fmtM(sub.value)}</span>
+                      </div>
+                    ))}
+                  </div>
+                </foreignObject>
+              )}
+
+              {/* Simple tooltip for non-drilldown bars */}
+              {isHovered && !col.subItems && (
                 <foreignObject x={centerX - 100} y={fullTop - 38} width={200} height={28}>
                   <div style={{ background: "#1e293b", borderRadius: 6, padding: "4px 8px", color: "white", fontSize: 10, textAlign: "center", whiteSpace: "nowrap" }}>
                     {col.tooltip}
