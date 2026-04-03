@@ -12,7 +12,8 @@ import {
 import { cn } from "@/lib/utils"
 
 import { Chart1SparklineKPIs } from "./chart-1-sparkline-kpis"
-import { Chart5Sankey } from "./chart-5-sankey"
+import { WaterfallChart } from "./waterfall-chart"
+import { CostBreakdownChart } from "./cost-breakdown-chart"
 import { Chart6AreaThreshold } from "./chart-6-area-threshold"
 import { Chart3Scatter } from "./chart-3-scatter"
 import { Chart4Heatmap } from "./chart-4-heatmap"
@@ -75,22 +76,28 @@ export function AfterDashboard() {
         {/* #2 — Where the Money Goes */}
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.08 }} className="space-y-3">
           <SectionTitle title="Where the Money Goes" />
-          <Chart5Sankey totals={totals} />
+          <WaterfallChart totals={totals} />
         </motion.div>
 
-        {/* #3 — Are We Hitting Our Targets? */}
+        {/* #3 — What's Eating Our Margin? */}
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.12 }} className="space-y-3">
+          <SectionTitle title="What's Eating Our Margin?" />
+          <CostBreakdownChart totals={totals} />
+        </motion.div>
+
+        {/* #4 — Are We Hitting Our Targets? */}
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.16 }} className="space-y-3">
           <SectionTitle title="Are We Hitting Our Targets?" />
           <Chart6AreaThreshold data={filteredData} />
         </motion.div>
 
-        {/* #4 — Who's Pulling Their Weight? */}
+        {/* #5 — Who's Pulling Their Weight? */}
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.24 }} className="space-y-3">
           <SectionTitle title="Who's Pulling Their Weight?" />
           <Chart3Scatter />
         </motion.div>
 
-        {/* #5 — Spot the Patterns */}
+        {/* #6 — Spot the Patterns */}
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.32 }} className="space-y-3">
           <SectionTitle title="Spot the Patterns" />
           <Chart4Heatmap />
