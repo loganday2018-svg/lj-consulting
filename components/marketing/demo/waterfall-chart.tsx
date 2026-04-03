@@ -132,6 +132,10 @@ export function WaterfallChart({ totals }: WaterfallChartProps) {
               onMouseLeave={() => setHovered(null)}
               style={{ cursor: "pointer" }}
             >
+              {/* Connector to next column */}
+              {i < cols.length - 1 && cols[i + 1].type !== "line" && (
+                <line x1={x + barW} x2={colX(i + 1)} y1={fullTop} y2={fullTop} stroke="#e2e8f0" strokeDasharray="3 3" />
+              )}
               <rect
                 x={x}
                 y={barTop}
