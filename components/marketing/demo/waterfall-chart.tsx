@@ -6,6 +6,9 @@ import { COLORS } from "@/lib/demo-data"
 interface WaterfallChartProps {
   totals: {
     revenue: number
+    patientServices: number
+    ancillaryRevenue: number
+    otherIncome: number
     totalCogs: number
     grossProfit: number
     totalOpex: number
@@ -47,8 +50,17 @@ interface SubItem {
 }
 
 // Navy gradient for COGS slices, slate gradient for OpEx
+const REV_COLORS = ["#0c2340", "#1e3a5f", "#2a5580"]
 const COGS_COLORS = ["#7f1d1d", "#991b1b", "#b91c1c", "#dc2626", "#ef4444", "#f87171", "#fca5a5"]
 const OPEX_COLORS = ["#64748b", "#78859b", "#8b97ab", "#9eaabb", "#b1bccb", "#c4cedb", "#d7e0eb", "#e2e8f0", "#eef2f7", "#f5f7fa", "#fafbfc"]
+
+function getRevenueItems(totals: WaterfallChartProps["totals"]): SubItem[] {
+  return [
+    { label: "Patient Services", value: totals.patientServices, color: REV_COLORS[0] },
+    { label: "Ancillary Revenue", value: totals.ancillaryRevenue, color: REV_COLORS[1] },
+    { label: "Other Income", value: totals.otherIncome, color: REV_COLORS[2] },
+  ].sort((a, b) => b.value - a.value)
+}
 
 function getCogsItems(totals: WaterfallChartProps["totals"]): SubItem[] {
   return [
@@ -107,7 +119,7 @@ export function WaterfallChart({ totals }: WaterfallChartProps) {
   }, [])
 
   const cols: Col[] = [
-    { label: "Revenue", value: totals.revenue, base: 0, color: COLORS.revenue, type: "bar", sign: "positive", tooltip: `Total Revenue: ${fmtM(totals.revenue)}` },
+    { label: "Revenue", value: totals.revenue, base: 0, color: COLORS.revenue, type: "bar", sign: "positive", tooltip: `Total Revenue: ${fmtM(totals.revenue)}`, subItems: getRevenueItems(totals) },
     { label: "COGS", value: totals.totalCogs, base: totals.revenue - totals.totalCogs, color: COLORS.cost, type: "bar", sign: "negative", tooltip: `Cost of Goods Sold: ${fmtM(totals.totalCogs)} (${pct(totals.totalCogs, totals.revenue)} of rev)`, subItems: getCogsItems(totals) },
     { label: "GP", value: totals.grossProfit, base: 0, color: COLORS.profit, type: "line", sign: "subtotal", tooltip: `Gross Profit: ${fmtM(totals.grossProfit)} (${pct(totals.grossProfit, totals.revenue)} margin)` },
     { label: "OpEx", value: totals.totalOpex, base: totals.grossProfit - totals.totalOpex, color: COLORS.cost, type: "bar", sign: "negative", tooltip: `Operating Expenses: ${fmtM(totals.totalOpex)} (${pct(totals.totalOpex, totals.revenue)} of rev)`, subItems: getOpexItems(totals) },
