@@ -43,13 +43,21 @@ export function ChartMoMChange({ data }: MoMChangeProps) {
     }
   })
 
-  const maxAbs = Math.max(...changes.map(c => Math.abs(c.pctChange)), 10)
+  if (changes.length === 0) {
+    return (
+      <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+        <p className="text-sm text-slate-400 text-center py-8">Select a longer period to see month-over-month changes</p>
+      </div>
+    )
+  }
+
+  const maxAbs = Math.max(...changes.map(c => Math.abs(c.pctChange)), 5)
   const chartW = 440
-  const chartH = 200
-  const pad = { top: 20, right: 16, bottom: 28, left: 36 }
+  const chartH = 220
+  const pad = { top: 24, right: 16, bottom: 28, left: 40 }
   const plotW = chartW - pad.left - pad.right
   const plotH = chartH - pad.top - pad.bottom
-  const barW = plotW / changes.length - 4
+  const barW = Math.min(plotW / changes.length - 4, 34)
   const midY = pad.top + plotH / 2
 
   function yPos(pct: number): number {
@@ -104,9 +112,9 @@ export function ChartMoMChange({ data }: MoMChangeProps) {
 
           {/* Bars */}
           {changes.map((c, i) => {
-            const x = pad.left + i * (plotW / changes.length) + 2
+            const slotW = plotW / changes.length
+            const x = pad.left + i * slotW + (slotW - barW) / 2
             const isPositive = c.pctChange >= 0
-            const barTop = isPositive ? yPos(c.pctChange) : midY
             const barH = Math.abs(yPos(c.pctChange) - midY)
             const color = isPositive ? COLORS.profit : COLORS.cost
             const isHov = hovered === i
@@ -123,26 +131,24 @@ export function ChartMoMChange({ data }: MoMChangeProps) {
                 {/* Bar */}
                 <rect
                   x={x}
-                  y={barTop}
+                  y={isPositive ? yPos(c.pctChange) : midY}
                   width={barW}
-                  height={Math.max(barH, 1)}
-                  rx={2}
+                  height={Math.max(barH, 3)}
+                  rx={3}
                   fill={color}
-                  opacity={isHov ? 1 : 0.75}
+                  opacity={isHov ? 1 : 0.8}
                 />
-                {/* Value label on hover */}
-                {isHov && (
-                  <text
-                    x={x + barW / 2}
-                    y={isPositive ? barTop - 6 : barTop + barH + 12}
-                    textAnchor="middle"
-                    fontSize={8}
-                    fontWeight={600}
-                    fill={color}
-                  >
-                    {fmtPct(c.pctChange)}
-                  </text>
-                )}
+                {/* Value label — always visible */}
+                <text
+                  x={x + barW / 2}
+                  y={isPositive ? Math.min(yPos(c.pctChange) - 5, midY - 8) : Math.max(midY + barH + 11, midY + 14)}
+                  textAnchor="middle"
+                  fontSize={8}
+                  fontWeight={600}
+                  fill={color}
+                >
+                  {fmtPct(c.pctChange)}
+                </text>
                 {/* Month label */}
                 <text x={x + barW / 2} y={chartH - 6} textAnchor="middle" fontSize={9} fill="#94a3b8">
                   {c.month}
@@ -154,7 +160,8 @@ export function ChartMoMChange({ data }: MoMChangeProps) {
           {/* Tooltip */}
           {hovered !== null && (() => {
             const c = changes[hovered]
-            const x = pad.left + hovered * (plotW / changes.length) + barW / 2
+            const slotW = plotW / changes.length
+            const x = pad.left + hovered * slotW + slotW / 2
             return (
               <foreignObject x={Math.max(0, Math.min(x - 70, chartW - 140))} y={0} width={140} height={36}>
                 <div style={{ background: "#1e293b", borderRadius: 6, padding: "4px 8px", color: "white", fontSize: 10, textAlign: "center", lineHeight: 1.4 }}>
