@@ -36,8 +36,8 @@ export function Chart3Scatter({ locationData }: Chart3ScatterProps) {
 
   return (
     <div>
-      <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-5 overflow-x-auto">
-        <svg viewBox={`0 0 ${w} ${h}`} className="w-full" style={{ minWidth: 380, minHeight: 280 }} preserveAspectRatio="xMidYMid meet">
+      <div className="rounded-xl border border-slate-200 bg-white p-2 shadow-sm sm:p-5">
+        <svg viewBox={`0 0 ${w} ${h}`} className="w-full" preserveAspectRatio="xMidYMid meet">
           {/* Quadrant backgrounds */}
           <rect x={xScale(midRev)} y={pad.top} width={plotW / 2} height={plotH / 2} fill="#f0fdfa" rx={4} opacity={0.3} />
           <rect x={pad.left} y={pad.top + plotH / 2} width={plotW / 2} height={plotH / 2} fill="#fef2f2" rx={4} opacity={0.2} />
