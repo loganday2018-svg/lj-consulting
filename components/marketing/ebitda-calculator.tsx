@@ -381,11 +381,6 @@ export function EbitdaCalculator() {
                     : "border-slate-200 bg-white"
                 }`}
               >
-                {i === 1 && (
-                  <span className="mb-3 inline-block rounded-full bg-primary px-3 py-0.5 text-xs font-semibold text-primary-foreground">
-                    Most Common
-                  </span>
-                )}
                 <h3 className="text-lg font-semibold text-foreground">{r.label}</h3>
                 <p className="mt-1 text-xs text-slate-500 sm:text-sm">
                   {view === "revenue" ? r.revenueDescription
