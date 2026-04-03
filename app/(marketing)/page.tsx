@@ -39,7 +39,7 @@ const VALUE_PROPS = [
     icon: "Cog" as const,
     title: "Your Ops Team Stops Drowning in Manual Work",
     description:
-      "Contract reviews, compliance checks, inventory. AI handles the repetitive stuff so your operators can operate.",
+      "Contract reviews, compliance checks, inventory. AI handles the repetitive stuff so your team can focus.",
     useCases: [
       "Vendor contracts analyzed and renegotiation opportunities flagged",
       "Transform raw, messy data into clear options your operators can act on immediately",
@@ -89,9 +89,7 @@ export default function HomePage() {
               Months of Fumbling vs. Weeks to Full Adoption
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-slate-700">
-              Most teams buy Claude Code or Codex, watch a few demos, and then
-              adoption stalls. We compress the learning curve so your people are
-              productive in weeks, not quarters.
+              Most teams watch a few demos, then adoption stalls. We compress the curve — weeks, not quarters.
             </p>
           </div>
           <div className="mt-12">

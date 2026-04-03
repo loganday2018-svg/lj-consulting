@@ -55,12 +55,10 @@ export default function AboutPage() {
             <div className="border-l-4 border-primary pl-8">
               <h2 className="mb-6 text-3xl font-semibold">Why We Exist</h2>
               <p className="mb-4 leading-relaxed text-slate-700">
-                PE-backed portfolio companies are under constant pressure to do more
-                with less. AI tools like Claude, Codex, and Copilot can deliver that
-                leverage. But only if they&apos;re actually adopted by real teams
-                doing real work. Most AI initiatives die in the pilot stage because
-                they&apos;re led by people who&apos;ve never used the tools
-                themselves.
+                Most AI initiatives die in the pilot stage because they&apos;re led
+                by people who&apos;ve never used the tools themselves. The leverage
+                is real — but only if it&apos;s actually adopted by real teams
+                doing real work.
               </p>
               <p className="mb-4 leading-relaxed text-slate-700">
                 We started {BRAND.name} because we saw the gap firsthand. As

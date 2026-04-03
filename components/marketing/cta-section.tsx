@@ -11,7 +11,7 @@ interface CTASectionProps {
 
 export function CTASection({
   heading = "Free Portfolio Analysis. Live on the Call.",
-  description = "Pick one of your portfolio companies. We'll analyze it live and show you exactly where AI fits — no slides, no theory, just a real demo with your data.",
+  description = "Pick a portfolio company. We'll analyze it live with your data — no slides, no pitch, just real insight.",
   secondaryLabel,
   secondaryHref,
 }: CTASectionProps) {

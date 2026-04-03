@@ -238,9 +238,7 @@ export function EbitdaCalculator() {
     <div>
       {/* Disclaimer */}
       <p className="mb-6 text-center text-xs text-slate-400">
-        Projections are illustrative estimates based on industry benchmarks, not
-        guarantees of specific results. Actual impact varies by company, industry,
-        and implementation scope.
+        Illustrative estimates based on industry benchmarks. Actual impact varies by company and implementation scope.
       </p>
 
       {/* Industry Presets */}
@@ -447,19 +445,10 @@ export function EbitdaCalculator() {
             ))}
           </div>
 
-          {/* Disclaimer + CTA */}
           <div className="mt-10 text-center">
-            <p className="mx-auto max-w-xl text-xs text-slate-400">
-              Estimates based on industry benchmarks for AI implementation across
-              PE-backed portfolio companies. Revenue lift assumes new revenue flows
-              through at current gross margin. Actual results vary by company size,
-              industry, and implementation scope.
-            </p>
-            <div className="mt-6">
-              <Button size="lg" render={<a href={CTA.primary.href} />}>
-                Talk to Us About Your Portfolio
-              </Button>
-            </div>
+            <Button size="lg" render={<a href={CTA.primary.href} />}>
+              Talk to Us About Your Portfolio
+            </Button>
           </div>
         </div>
       )}

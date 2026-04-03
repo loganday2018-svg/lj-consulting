@@ -17,12 +17,12 @@ const services = [
     icon: <GraduationCap size={32} />,
     title: "AI Training Programs",
     description:
-      "We sit down with your team, open the AI tools, and walk them through building something real with their own messy data. That's the lightbulb moment. 'I finally understand all of the AI hype.' After that, they're finding new uses on their own immediately.",
+      "We sit down with your team and build something real with their own messy data. After that, they're finding new uses on their own.",
     scope: [
       "Hands-on sessions, not slides or lectures",
       "Live build session using your team's actual unstructured data",
       "Custom prompts and workflows tailored to their day-to-day",
-      "Recorded walkthroughs so new hires get the same lightbulb moment",
+      "Recorded walkthroughs for new hire onboarding",
     ],
     timeline: "1-2 weeks per program",
     price: "From $5,000",
@@ -31,7 +31,7 @@ const services = [
     icon: <Compass size={32} />,
     title: "AI Tool Selection & Setup",
     description:
-      "Claude Code, Codex, Gemini, Copilot, Cursor. We work with all of them. We'll help your team find the right fit and get everyone up and running.",
+      "Claude Code, Codex, Gemini, Copilot, Cursor — we'll help you pick the right one and get everyone up and running.",
     scope: [
       "Guidance on which AI tool fits your team's needs",
       "Hands-on setup and walkthrough for every team member",
@@ -45,7 +45,7 @@ const services = [
     icon: <Headphones size={32} />,
     title: "Ongoing Retainer",
     description:
-      "The AI landscape changes weekly. New tools, new updates, new ways to work. We stay plugged into your team so they're always on the latest and never fall behind.",
+      "The AI landscape evolves constantly. We stay plugged in so your team never falls behind.",
     scope: [
       "Dedicated Slack/Teams channel with your team",
       "We track the AI landscape so your team doesn't have to",
@@ -59,7 +59,7 @@ const services = [
     icon: <Workflow size={32} />,
     title: "AI-Powered Acceleration",
     description:
-      "Reports, analysis, research, document writing. The work that used to take hours now takes minutes. We find where your team is spending the most time and show them how to get it done exponentially faster with AI.",
+      "Reports, analysis, research, document writing — we audit where your team spends the most manual time and show them how to accelerate it with AI.",
     scope: [
       "Audit of where your team spends the most manual time",
       "AI-powered workflows for reports, research, and analysis",
