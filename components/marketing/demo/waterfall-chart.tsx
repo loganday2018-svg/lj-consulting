@@ -64,44 +64,7 @@ export function WaterfallChart({ totals }: WaterfallChartProps) {
   const yPos = (v: number) => topPad + drawH - (v / niceMax) * drawH
   const totalW = leftPad + cols.length * (barW + gap) + gap
 
-  // Precompute positions for flow connectors
   function colX(i: number) { return leftPad + i * (barW + gap) + gap / 2 }
-  function colTop(col: Col) { return yPos(col.base + col.value) }
-  function colBot(col: Col) { return col.type === "line" ? yPos(col.value) : yPos(col.base) }
-
-  // Build tapered flow paths between columns
-  function flowPath(fromIdx: number, toIdx: number): string | null {
-    const from = cols[fromIdx]
-    const to = cols[toIdx]
-    if (!from || !to) return null
-
-    const x1 = colX(fromIdx) + barW
-    const x2 = colX(toIdx)
-    const midX = (x1 + x2) / 2
-
-    // From top of source connection point to top of dest connection point
-    const fromY = from.type === "line" ? yPos(from.value) : colTop(from)
-    const toY = to.type === "line" ? yPos(to.value) : colTop(to)
-
-    // Bottom of flow = the lower of the two connection bottoms
-    const fromBotY = from.type === "line" ? yPos(from.value) : colBot(from)
-    const toBotY = to.type === "line" ? yPos(to.value) : colBot(to)
-
-    // For the flow, top edge goes from fromY to toY, bottom edge stays at fromBotY level
-    // Actually for a proper tapered connector: top goes across, bottom goes across
-    const topFromY = fromY
-    const topToY = toY
-
-    return `M${x1},${topFromY} C${midX},${topFromY} ${midX},${topToY} ${x2},${topToY} L${x2},${toBotY} C${midX},${toBotY} ${midX},${fromBotY} ${x1},${fromBotY} Z`
-  }
-
-  // Flow connections: Revenue→COGS, COGS→GP, GP→OpEx, OpEx→EBITDA
-  const flows = [
-    { from: 0, to: 1, color: COLORS.cost, opacity: 0.08 },
-    { from: 1, to: 2, color: COLORS.profit, opacity: 0.06 },
-    { from: 2, to: 3, color: COLORS.cost, opacity: 0.08 },
-    { from: 3, to: 4, color: COLORS.ebitda, opacity: 0.08 },
-  ]
 
   return (
     <div ref={ref} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
@@ -113,13 +76,6 @@ export function WaterfallChart({ totals }: WaterfallChartProps) {
             <text x={leftPad - 6} y={yPos(t) + 3} textAnchor="end" fontSize={9} fill="#94a3b8">{fmtM(t)}</text>
           </g>
         ))}
-
-        {/* Tapered flow connectors */}
-        {flows.map(({ from, to, color, opacity }) => {
-          const d = flowPath(from, to)
-          if (!d) return null
-          return <path key={`${from}-${to}`} d={d} fill={color} opacity={opacity} />
-        })}
 
         {/* Columns */}
         {cols.map((col, i) => {
@@ -138,11 +94,12 @@ export function WaterfallChart({ totals }: WaterfallChartProps) {
               >
                 {/* Hit area */}
                 <rect x={x - 4} y={lineY - 16} width={barW + 8} height={32} fill="transparent" />
+                {/* Connector from COGS */}
+                <line x1={colX(i - 1) + barW} x2={x} y1={lineY} y2={lineY} stroke="#e2e8f0" strokeDasharray="3 3" />
                 {/* The GP line */}
                 <line x1={x} x2={x + barW} y1={lineY} y2={lineY} stroke={col.color} strokeWidth={isHovered ? 4 : 3} strokeLinecap="round" />
-                {/* Bracket ticks */}
-                <line x1={x} x2={x} y1={lineY - 5} y2={lineY + 5} stroke={col.color} strokeWidth={2} strokeLinecap="round" />
-                <line x1={x + barW} x2={x + barW} y1={lineY - 5} y2={lineY + 5} stroke={col.color} strokeWidth={2} strokeLinecap="round" />
+                {/* Connector to OpEx */}
+                <line x1={x + barW} x2={colX(i + 1)} y1={lineY} y2={lineY} stroke="#e2e8f0" strokeDasharray="3 3" />
                 {/* Value label */}
                 <text x={centerX} y={lineY - 10} textAnchor="middle" fontSize={9} fontWeight={600} fill={col.color}>{fmtM(col.value)}</text>
                 {/* X-axis label */}
