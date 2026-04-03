@@ -16,6 +16,7 @@ import { WaterfallChart } from "./waterfall-chart"
 import { Chart6AreaThreshold } from "./chart-6-area-threshold"
 import { Chart3Scatter } from "./chart-3-scatter"
 import { Chart4Heatmap } from "./chart-4-heatmap"
+import { ChartMoMChange } from "./chart-mom-change"
 
 const dateRanges: { key: DateRange; label: string }[] = [
   { key: "full", label: "Full Year" },
@@ -94,8 +95,14 @@ export function AfterDashboard({ company }: AfterDashboardProps) {
           <Chart3Scatter locationData={company.locationData} />
         </motion.div>
 
-        {/* #5 — Spot the Patterns */}
+        {/* #5 — Momentum */}
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.32 }} className="space-y-3">
+          <SectionTitle title="Momentum" />
+          <ChartMoMChange data={filteredData} />
+        </motion.div>
+
+        {/* #6 — Spot the Patterns */}
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.38 }} className="space-y-3">
           <SectionTitle title="Spot the Patterns" />
           <Chart4Heatmap monthlyData={filteredData} />
         </motion.div>
