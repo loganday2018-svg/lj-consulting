@@ -57,7 +57,7 @@ export default function BattenPage() {
       />
 
       {/* The Problem */}
-      <section className="bg-slate-50 py-10">
+      <section className="bg-white py-10">
         <div className="mx-auto max-w-4xl px-6">
           <AnimatedSection>
             <div className="border-l-4 border-primary pl-8">
@@ -80,7 +80,7 @@ export default function BattenPage() {
       </section>
 
       {/* Phased Timeline */}
-      <section className="py-10">
+      <section className="bg-slate-50 py-10">
         <div className="mx-auto max-w-4xl px-6">
           <AnimatedSection>
             <h2 className="mb-4 text-center text-3xl font-semibold">
@@ -127,7 +127,7 @@ export default function BattenPage() {
       </section>
 
       {/* What You Get */}
-      <section className="bg-slate-50 py-10">
+      <section className="bg-white py-10">
         <div className="mx-auto max-w-4xl px-6">
           <AnimatedSection>
             <h2 className="mb-6 text-center text-3xl font-semibold">
@@ -154,7 +154,7 @@ export default function BattenPage() {
       </section>
 
       {/* Who We Are */}
-      <section className="py-10">
+      <section className="bg-slate-50 py-10">
         <div className="mx-auto max-w-4xl px-6">
           <AnimatedSection>
             <h2 className="mb-6 text-center text-3xl font-semibold">
@@ -185,7 +185,7 @@ export default function BattenPage() {
       </section>
 
       {/* Pricing anchor */}
-      <section className="bg-slate-50 py-8">
+      <section className="bg-white py-8">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <p className="text-lg text-slate-700">
             Engagements start at <span className="font-semibold">$5,000</span>.
