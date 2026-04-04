@@ -91,24 +91,37 @@ export default function BattenPage() {
               probably use AI&quot; to actually using it.
             </p>
           </AnimatedSection>
-          <div className="space-y-3">
-            {phases.map((phase, i) => (
-              <AnimatedSection key={phase.number} delay={i * 0.1}>
-                <div className="rounded-lg border border-slate-200 bg-white p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
-                      {phase.number}
+          <div className="relative">
+            {/* Vertical connecting line */}
+            <div className="absolute left-3 top-6 bottom-6 w-px bg-slate-200" />
+
+            <div className="space-y-0">
+              {phases.map((phase, i) => {
+                const borderColors = [
+                  "border-l-slate-300",
+                  "border-l-slate-400",
+                  "border-l-slate-500",
+                  "border-l-slate-700",
+                ]
+                return (
+                  <AnimatedSection key={phase.number} delay={i * 0.1}>
+                    <div className="relative flex items-start gap-5 py-5">
+                      {/* Timeline dot */}
+                      <div className="relative z-10 mt-1 h-[7px] w-[7px] shrink-0 rounded-full bg-slate-400" />
+                      {/* Card */}
+                      <div className={`border-l-4 ${borderColors[i]} pl-5`}>
+                        <h3 className="text-sm font-bold uppercase tracking-wide text-slate-900">
+                          {phase.title}
+                        </h3>
+                        <p className="mt-2 text-sm leading-relaxed text-slate-700">
+                          {phase.description}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="font-semibold">{phase.title}</h3>
-                      <p className="mt-2 text-sm leading-relaxed text-slate-700">
-                        {phase.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </AnimatedSection>
-            ))}
+                  </AnimatedSection>
+                )
+              })}
+            </div>
           </div>
         </div>
       </section>
