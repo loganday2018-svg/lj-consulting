@@ -5,6 +5,7 @@ import { CTASection } from "@/components/marketing/cta-section"
 import { PageHeader } from "@/components/marketing/page-header"
 import { AnimatedSection } from "@/components/marketing/animated-section"
 import { AnimatedSteps } from "@/components/marketing/animated-steps"
+import { ScrollTimeline } from "@/components/marketing/scroll-timeline"
 
 export const metadata: Metadata = {
   title: "Our Playbook",
@@ -94,39 +95,8 @@ export default function BattenPage() {
               One engagement. Four phases. From zero to productive.
             </p>
           </AnimatedSection>
-          <div className="relative">
-            {/* Vertical connecting line */}
-            <div className="absolute left-3 top-6 bottom-6 w-px bg-slate-200" />
-
-            <div className="space-y-0">
-              {phases.map((phase, i) => {
-                const borderColors = [
-                  "border-l-slate-300",
-                  "border-l-slate-400",
-                  "border-l-slate-500",
-                  "border-l-slate-700",
-                ]
-                return (
-                  <AnimatedSection key={phase.number} delay={i * 0.1}>
-                    <div className="relative flex items-start gap-5 py-5">
-                      {/* Timeline dot */}
-                      <div className="relative z-10 mt-1 h-[7px] w-[7px] shrink-0 rounded-full bg-slate-400" />
-                      {/* Card */}
-                      <div className={`border-l-4 ${borderColors[i]} pl-5`}>
-                        <h3 className="text-sm font-bold uppercase tracking-wide text-slate-900">
-                          {phase.title}
-                        </h3>
-                        <p className="mt-2 text-sm leading-relaxed text-slate-700">
-                          {phase.description}
-                        </p>
-                      </div>
-                    </div>
-                  </AnimatedSection>
-                )
-              })}
-            </div>
-          </div>
         </div>
+        <ScrollTimeline phases={phases} />
       </section>
 
       {/* What You Get */}
