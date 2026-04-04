@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState, useEffect } from "react"
+import { useRef, useState, useEffect, useCallback } from "react"
 
 interface Phase {
   number: number
@@ -14,34 +14,36 @@ interface ScrollTimelineProps {
 
 export function ScrollTimeline({ phases }: ScrollTimelineProps) {
   const sectionRef = useRef<HTMLDivElement>(null)
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([])
   const [progress, setProgress] = useState(0)
-  const [activePhase, setActivePhase] = useState(0)
+  const rafRef = useRef<number>(0)
 
-  useEffect(() => {
-    const section = sectionRef.current
-    if (!section) return
+  const handleScroll = useCallback(() => {
+    cancelAnimationFrame(rafRef.current)
+    rafRef.current = requestAnimationFrame(() => {
+      const section = sectionRef.current
+      if (!section) return
 
-    const handleScroll = () => {
       const rect = section.getBoundingClientRect()
-      const sectionTop = rect.top
-      const sectionHeight = rect.height
       const windowHeight = window.innerHeight
-
-      // Calculate how far through the section we've scrolled
       const scrollStart = windowHeight * 0.6
-      const scrollEnd = -sectionHeight + windowHeight * 0.4
+      const scrollEnd = -rect.height + windowHeight * 0.4
       const total = scrollStart - scrollEnd
-      const current = scrollStart - sectionTop
+      const current = scrollStart - rect.top
       const pct = Math.min(Math.max(current / total, 0), 1)
 
       setProgress(pct)
-      setActivePhase(Math.min(Math.floor(pct * phases.length), phases.length - 1))
-    }
+    })
+  }, [])
 
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true })
     handleScroll()
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [phases.length])
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+      cancelAnimationFrame(rafRef.current)
+    }
+  }, [handleScroll])
 
   const borderColors = [
     "border-l-slate-300",
@@ -49,6 +51,9 @@ export function ScrollTimeline({ phases }: ScrollTimelineProps) {
     "border-l-slate-500",
     "border-l-slate-700",
   ]
+
+  // Continuous phase progress (0 to phases.length)
+  const phaseProgress = progress * phases.length
 
   return (
     <div ref={sectionRef}>
@@ -59,12 +64,15 @@ export function ScrollTimeline({ phases }: ScrollTimelineProps) {
           <div className="mb-2 flex justify-between">
             {phases.map((phase, i) => {
               const label = phase.title.split(":")[0]
+              const labelOpacity = phaseProgress >= i ? 1 : 0.35
               return (
                 <span
                   key={phase.number}
-                  className={`text-xs font-semibold transition-colors duration-300 ${
-                    i <= activePhase ? "text-slate-900" : "text-slate-400"
-                  }`}
+                  style={{
+                    opacity: labelOpacity,
+                    transition: "opacity 0.4s ease",
+                  }}
+                  className="text-xs font-semibold text-slate-900"
                 >
                   {label}
                 </span>
@@ -74,15 +82,17 @@ export function ScrollTimeline({ phases }: ScrollTimelineProps) {
           {/* Track */}
           <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-slate-200">
             <div
-              className="absolute left-0 top-0 h-full rounded-full bg-primary transition-all duration-150 ease-out"
-              style={{ width: `${progress * 100}%` }}
+              className="absolute left-0 top-0 h-full rounded-full bg-primary"
+              style={{
+                width: `${progress * 100}%`,
+                transition: "width 0.08s linear",
+              }}
             />
           </div>
           {/* Dots on track */}
-          <div className="relative -mt-[9px] flex justify-between px-0">
+          <div className="relative -mt-[9px] flex justify-between">
             {phases.map((phase, i) => {
-              const dotPos = ((i + 0.5) / phases.length) * 100
-              const isActive = i <= activePhase
+              const isActive = phaseProgress >= i + 0.3
               return (
                 <div
                   key={phase.number}
@@ -90,11 +100,17 @@ export function ScrollTimeline({ phases }: ScrollTimelineProps) {
                   style={{ width: `${100 / phases.length}%` }}
                 >
                   <div
-                    className={`h-3 w-3 rounded-full border-2 transition-colors duration-300 ${
-                      isActive
-                        ? "border-primary bg-primary"
-                        : "border-slate-300 bg-white"
-                    }`}
+                    className="h-3 w-3 rounded-full border-2"
+                    style={{
+                      borderColor: isActive
+                        ? "var(--color-primary)"
+                        : "#cbd5e1",
+                      backgroundColor: isActive
+                        ? "var(--color-primary)"
+                        : "white",
+                      transition:
+                        "border-color 0.4s ease, background-color 0.4s ease",
+                    }}
                   />
                 </div>
               )
@@ -105,21 +121,31 @@ export function ScrollTimeline({ phases }: ScrollTimelineProps) {
 
       {/* Phase cards */}
       <div className="mx-auto max-w-4xl px-6 pt-4">
-        {phases.map((phase, i) => (
-          <div
-            key={phase.number}
-            className={`border-l-4 ${borderColors[i]} mb-6 py-4 pl-5 transition-opacity duration-300 ${
-              i <= activePhase ? "opacity-100" : "opacity-40"
-            }`}
-          >
-            <h3 className="text-sm font-bold uppercase tracking-wide text-slate-900">
-              {phase.title}
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-slate-700">
-              {phase.description}
-            </p>
-          </div>
-        ))}
+        {phases.map((phase, i) => {
+          // Smooth opacity: ramp from 0.3 to 1 as the phase becomes active
+          const cardOpacity = Math.min(
+            Math.max((phaseProgress - i + 0.5) * 1.4, 0.3),
+            1
+          )
+          return (
+            <div
+              key={phase.number}
+              ref={(el) => { cardsRef.current[i] = el }}
+              className={`border-l-4 ${borderColors[i]} mb-6 py-4 pl-5`}
+              style={{
+                opacity: cardOpacity,
+                transition: "opacity 0.3s ease",
+              }}
+            >
+              <h3 className="text-sm font-bold uppercase tracking-wide text-slate-900">
+                {phase.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-700">
+                {phase.description}
+              </p>
+            </div>
+          )
+        })}
       </div>
     </div>
   )
