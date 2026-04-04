@@ -57,7 +57,7 @@ export default function BattenPage() {
       />
 
       {/* The Problem */}
-      <section className="bg-slate-50 py-16">
+      <section className="bg-slate-50 py-10">
         <div className="mx-auto max-w-4xl px-6">
           <AnimatedSection>
             <div className="border-l-4 border-primary pl-8">
@@ -80,18 +80,18 @@ export default function BattenPage() {
       </section>
 
       {/* Phased Timeline */}
-      <section className="py-16">
+      <section className="py-10">
         <div className="mx-auto max-w-4xl px-6">
           <AnimatedSection>
             <h2 className="mb-4 text-center text-3xl font-semibold">
               How It Works
             </h2>
-            <p className="mx-auto mb-12 max-w-2xl text-center text-slate-700">
+            <p className="mx-auto mb-8 max-w-2xl text-center text-slate-700">
               One engagement. Four phases. Your team goes from &quot;we should
               probably use AI&quot; to actually using it.
             </p>
           </AnimatedSection>
-          <div className="space-y-6">
+          <div className="space-y-3">
             {phases.map((phase, i) => (
               <AnimatedSection key={phase.number} delay={i * 0.1}>
                 <div className="rounded-lg border border-slate-200 bg-white p-6">
@@ -114,14 +114,14 @@ export default function BattenPage() {
       </section>
 
       {/* What You Get */}
-      <section className="bg-slate-50 py-16">
+      <section className="bg-slate-50 py-10">
         <div className="mx-auto max-w-4xl px-6">
           <AnimatedSection>
-            <h2 className="mb-8 text-center text-3xl font-semibold">
+            <h2 className="mb-6 text-center text-3xl font-semibold">
               What You Get
             </h2>
             <div className="mx-auto max-w-2xl">
-              <ul className="space-y-4">
+              <ul className="space-y-3">
                 {deliverables.map((item) => (
                   <li
                     key={item}
@@ -141,10 +141,10 @@ export default function BattenPage() {
       </section>
 
       {/* Who We Are */}
-      <section className="py-16">
+      <section className="py-10">
         <div className="mx-auto max-w-4xl px-6">
           <AnimatedSection>
-            <h2 className="mb-8 text-center text-3xl font-semibold">
+            <h2 className="mb-6 text-center text-3xl font-semibold">
               Who We Are
             </h2>
             <div className="grid gap-6 md:grid-cols-2">
@@ -172,7 +172,7 @@ export default function BattenPage() {
       </section>
 
       {/* Pricing anchor */}
-      <section className="bg-slate-50 py-12">
+      <section className="bg-slate-50 py-8">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <p className="text-lg text-slate-700">
             Engagements start at <span className="font-semibold">$5,000</span>.
