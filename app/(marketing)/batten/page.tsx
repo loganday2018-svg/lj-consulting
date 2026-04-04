@@ -22,13 +22,13 @@ const phases = [
     number: 2,
     title: "Week 1: Setup & First Wins",
     description:
-      "We pick the right AI tools for your stack, set everyone up, and run the first hands-on session. Your team builds something real with their own data on day one.",
+      "We set up Claude Code, Cowork, or Codex for your team and run the first hands-on session. Your team builds something real with their own data on day one. Not a chatbot demo. An actual tool they built themselves.",
   },
   {
     number: 3,
     title: "Weeks 2-3: Training & Workflows",
     description:
-      "Deeper sessions tailored to each role. Custom prompts, agents for recurring tasks, and AI-powered workflows for the manual work eating your team's time.",
+      "Deeper sessions tailored to each role. Custom agents for recurring tasks, automated pipelines, and internal tools your team builds themselves. This is where people stop thinking of AI as a chatbot.",
   },
   {
     number: 4,
@@ -62,17 +62,19 @@ export default function BattenPage() {
           <AnimatedSection>
             <div className="border-l-4 border-primary pl-8">
               <p className="text-lg leading-relaxed text-slate-700">
-                Your team is small. There&apos;s no dedicated IT person. The
-                founder is doing sales, ops, and hiring at the same time. Nobody
-                has 40 hours to evaluate AI tools, figure out which ones
-                actually fit, and train the rest of the team.
+                Most teams stop at chatbots. They ask ChatGPT a question, get
+                an answer, and think that&apos;s AI adoption. It&apos;s not.
               </p>
               <p className="mt-4 text-lg leading-relaxed text-slate-700">
-                So people try ChatGPT a few times and move on. The real
-                productivity gains never happen.
+                The real leverage is in agentic coding tools like Claude Code,
+                Claude Cowork, and Codex. Tools that don&apos;t just answer
+                questions but actually build things: dashboards from raw data,
+                automated reports, custom internal tools, workflows that run
+                on their own. Your team doesn&apos;t need to know how to code.
+                They just need someone to show them what&apos;s possible.
               </p>
               <p className="mt-4 text-lg font-semibold text-slate-900">
-                That&apos;s what we fix.
+                That&apos;s what we do.
               </p>
             </div>
           </AnimatedSection>
