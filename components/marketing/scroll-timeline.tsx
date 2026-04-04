@@ -70,7 +70,6 @@ export function ScrollTimeline({ phases }: ScrollTimelineProps) {
                   key={phase.number}
                   style={{
                     opacity: labelOpacity,
-                    transition: "opacity 0.4s ease",
                   }}
                   className="text-xs font-semibold text-slate-900"
                 >
@@ -85,7 +84,6 @@ export function ScrollTimeline({ phases }: ScrollTimelineProps) {
               className="absolute left-0 top-0 h-full rounded-full bg-primary"
               style={{
                 width: `${progress * 100}%`,
-                transition: "width 0.08s linear",
               }}
             />
           </div>
@@ -110,8 +108,6 @@ export function ScrollTimeline({ phases }: ScrollTimelineProps) {
                       backgroundColor: isActive
                         ? "var(--color-primary)"
                         : "white",
-                      transition:
-                        "border-color 0.4s ease, background-color 0.4s ease",
                     }}
                   />
                 </div>
@@ -134,10 +130,7 @@ export function ScrollTimeline({ phases }: ScrollTimelineProps) {
               key={phase.number}
               ref={(el) => { cardsRef.current[i] = el }}
               className={`border-l-4 ${borderColors[i]} mb-6 py-4 pl-5`}
-              style={{
-                opacity: cardOpacity,
-                transition: "opacity 0.3s ease",
-              }}
+              style={{ opacity: cardOpacity }}
             >
               <h3 className="text-sm font-bold uppercase tracking-wide text-slate-900">
                 {phase.title}
