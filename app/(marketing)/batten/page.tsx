@@ -6,9 +6,9 @@ import { AnimatedSection } from "@/components/marketing/animated-section"
 import { AnimatedSteps } from "@/components/marketing/animated-steps"
 
 export const metadata: Metadata = {
-  title: "AI Playbook for Startups",
+  title: "Our Playbook",
   description:
-    "A step-by-step playbook for deploying AI tools across your startup team. Training, setup, and ongoing support.",
+    "How we deploy AI tools across small business teams. Training, setup, and ongoing support.",
 }
 
 const phases = [
@@ -52,8 +52,8 @@ export default function BattenPage() {
   return (
     <>
       <PageHeader
-        title="AI Playbook for Startups"
-        description="A step-by-step playbook for getting your team up and running with AI."
+        title="Our Playbook"
+        description="How we get your team up and running with AI."
       />
 
       {/* The Problem */}
