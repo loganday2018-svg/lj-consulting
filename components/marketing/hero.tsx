@@ -35,7 +35,7 @@ export function HeroSection() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="mt-6 max-w-2xl text-lg text-slate-300 md:text-xl"
           >
-            We&apos;re Logan & James. We help PE-backed teams deploy Claude,
+            We&apos;re Logan & Matt. We help PE-backed teams deploy Claude,
             Codex, and Copilot. Then we stick around to make sure they actually
             use them.
           </motion.p>

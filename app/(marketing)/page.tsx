@@ -9,7 +9,7 @@ import { AdoptionCurve } from "@/components/marketing/adoption-curve"
 export const metadata: Metadata = {
   title: "AI Implementation for PE Portfolio Companies",
   description:
-    "Logan & James help PE-backed teams deploy Claude, Codex, and Copilot across their portfolio companies. Training, setup, and ongoing support. Then we stick around to make sure they actually use them.",
+    "Logan & Matt help PE-backed teams deploy Claude, Codex, and Copilot across their portfolio companies. Training, setup, and ongoing support. Then we stick around to make sure they actually use them.",
 }
 
 const VALUE_PROPS = [

@@ -38,7 +38,7 @@ export function Header() {
                 : "bg-white/25 text-white ring-1 ring-white/20"
             }`}
           >
-            L&J
+            Day Horrigan
           </div>
           <span
             className={`text-lg font-bold transition-colors duration-300 ${

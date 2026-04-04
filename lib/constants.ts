@@ -1,5 +1,5 @@
 export const BRAND = {
-  name: 'L&J AI Consulting',
+  name: 'Day Horrigan',
   tagline: 'AI Implementation for PE Portfolio Companies',
   description:
     'We help PE-backed portfolio companies deploy AI tools fast -- training, setup, and ongoing support that drives measurable operating leverage.',
