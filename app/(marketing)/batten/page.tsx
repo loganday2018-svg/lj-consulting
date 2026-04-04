@@ -104,28 +104,6 @@ export default function BattenPage() {
         description="A playbook for deploying AI tools at Darden-connected startups."
       />
 
-      {/* Darden Connection */}
-      <section className="py-16">
-        <div className="mx-auto max-w-4xl px-6">
-          <AnimatedSection>
-            <div className="border-l-4 border-primary pl-8">
-              <h2 className="mb-6 text-3xl font-semibold">Why Batten?</h2>
-              <p className="mb-4 leading-relaxed text-slate-700">
-                We&apos;re both Darden MBAs. We built this practice because we
-                adopted AI tools early and saw the impact firsthand. Now we want
-                to bring that to the Darden startup community.
-              </p>
-              <p className="leading-relaxed text-slate-700">
-                We&apos;re looking to work with Batten-connected startups to
-                help their teams get up and running with AI. In exchange, we get
-                reps and real case studies. The startups get a team that actually
-                knows how to deploy this stuff.
-              </p>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
       {/* The Problem */}
       <section className="bg-slate-50 py-16">
         <div className="mx-auto max-w-4xl px-6">
