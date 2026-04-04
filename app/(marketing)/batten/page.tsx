@@ -62,16 +62,13 @@ export default function BattenPage() {
           <AnimatedSection>
             <div className="border-l-4 border-primary pl-8">
               <p className="text-lg leading-relaxed text-slate-700">
-                Most teams stop at chatbots. They ask ChatGPT a question, get
-                an answer, and think that&apos;s AI adoption. It&apos;s not.
+                Asking ChatGPT a question is not AI adoption.
               </p>
               <p className="mt-4 text-lg leading-relaxed text-slate-700">
-                The real leverage is in agentic coding tools like Claude Code,
-                Claude Cowork, and Codex. Tools that don&apos;t just answer
-                questions but actually build things: dashboards from raw data,
-                automated reports, custom internal tools, workflows that run
-                on their own. Your team doesn&apos;t need to know how to code.
-                They just need someone to show them what&apos;s possible.
+                Claude Code, Cowork, and Codex build things. Dashboards
+                from raw data. Automated reports. Custom internal tools.
+                Your team doesn&apos;t need to know how to code. They need
+                someone to show them what&apos;s possible.
               </p>
               <p className="mt-4 text-lg leading-relaxed text-slate-700">
                 You couldn&apos;t run your business without Excel. You
