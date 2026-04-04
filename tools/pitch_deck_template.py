@@ -98,7 +98,7 @@ add_text_box(slide, Inches(0.8), Inches(4.6), Inches(11), Inches(0.6),
              "AI Implementation & Automation for the Heartland", 16, MUTED, False)
 
 add_text_box(slide, Inches(0.8), Inches(6.2), Inches(11), Inches(0.6),
-             "lj-consulting.vercel.app", 14, ACCENT, False)
+             "dayhorrigan.vercel.app", 14, ACCENT, False)
 
 # ═══════════════════════════════════════════
 # SLIDE 2: THE PITCH
@@ -344,7 +344,7 @@ add_text_box(slide, Inches(2.0), Inches(3.5), Inches(9.3), Inches(0.6),
 tf = add_text_box(slide, Inches(2.0), Inches(4.5), Inches(9.3), Inches(2.5),
              "logan.day2018@gmail.com", 22, DARK, True, PP_ALIGN.CENTER)
 add_para(tf, "", 14, DARK)
-add_para(tf, "lj-consulting.vercel.app", 16, ACCENT, False, Pt(12), PP_ALIGN.CENTER)
+add_para(tf, "dayhorrigan.vercel.app", 16, ACCENT, False, Pt(12), PP_ALIGN.CENTER)
 add_para(tf, "", 10, DARK)
 add_para(tf, "Logan Day  •  Matt Horrigan", 16, MUTED, False, Pt(12), PP_ALIGN.CENTER)
 

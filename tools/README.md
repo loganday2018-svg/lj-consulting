@@ -21,7 +21,7 @@ A plug-and-play system for generating bespoke pitch decks for PE firms. Each dec
 - Texture: `dot_grid.png` (subtle dot grid for dark slide backgrounds)
 
 ### Vercel Pages
-- `/natural-capital` — Live at lj-consulting.vercel.app/natural-capital. Source: `app/(marketing)/natural-capital/page.tsx`. Same content as the deck but as a scrollable web page. Includes a PowerPoint download button.
+- `/natural-capital` — Live at dayhorrigan.vercel.app/natural-capital. Source: `app/(marketing)/natural-capital/page.tsx`. Same content as the deck but as a scrollable web page. Includes a PowerPoint download button.
 - No Vercel page for Great Range Capital yet.
 
 ## How to generate a new deck
@@ -125,4 +125,4 @@ pip3 install python-pptx Pillow
 
 - Logan Day — logan.day2018@gmail.com
 - Matt Horrigan — co-founder
-- Website: lj-consulting.vercel.app
+- Website: dayhorrigan.vercel.app

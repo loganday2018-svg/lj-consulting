@@ -237,7 +237,7 @@ export default function NaturalCapitalPage() {
               href="/"
               className="text-[#8A9E8A] text-sm hover:text-white transition-colors"
             >
-              lj-consulting.vercel.app
+              dayhorrigan.vercel.app
             </Link>
             <a
               href="/LJ_Consulting_x_Natural_Capital.pptx"
