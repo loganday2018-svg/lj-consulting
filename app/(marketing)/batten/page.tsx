@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Image from "next/image"
 import { Check } from "lucide-react"
 import { CTASection } from "@/components/marketing/cta-section"
 import { PageHeader } from "@/components/marketing/page-header"
@@ -163,22 +164,34 @@ export default function BattenPage() {
               Who We Are
             </h2>
             <div className="grid gap-6 md:grid-cols-2">
-              <div className="rounded-lg border border-slate-200 bg-white p-6">
-                <h3 className="text-lg font-semibold">Logan Day</h3>
+              <div className="rounded-lg border border-slate-200 bg-white p-6 text-center">
+                <Image
+                  src="/images/logan.jpg"
+                  alt="Logan Day"
+                  width={120}
+                  height={120}
+                  className="mx-auto rounded-full object-cover"
+                />
+                <h3 className="mt-4 text-lg font-semibold">Logan Day</h3>
                 <p className="mt-1 text-sm text-primary">Darden MBA</p>
                 <p className="mt-3 text-sm leading-relaxed text-slate-700">
-                  Builds AI tools and automation daily. Wrote a 4-level training
-                  curriculum from real deployments. Has trained teams from
-                  skeptical to self-sufficient in under 3 months.
+                  Builds AI tools daily. Created a training curriculum from
+                  real deployments. Gets teams productive in under 3 months.
                 </p>
               </div>
-              <div className="rounded-lg border border-slate-200 bg-white p-6">
-                <h3 className="text-lg font-semibold">Matt Horrigan</h3>
+              <div className="rounded-lg border border-slate-200 bg-white p-6 text-center">
+                <Image
+                  src="/images/matt.jpg"
+                  alt="Matt Horrigan"
+                  width={120}
+                  height={120}
+                  className="mx-auto rounded-full object-cover"
+                />
+                <h3 className="mt-4 text-lg font-semibold">Matt Horrigan</h3>
                 <p className="mt-1 text-sm text-primary">Darden MBA</p>
                 <p className="mt-3 text-sm leading-relaxed text-slate-700">
-                  Strategy and finance background. Builds the business case for
-                  AI adoption and identifies where automation delivers the most
-                  leverage across your operations.
+                  Strategy and finance. Builds the business case for AI
+                  adoption and finds where automation delivers the most leverage.
                 </p>
               </div>
             </div>
