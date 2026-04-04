@@ -1,87 +1,40 @@
 import type { Metadata } from "next"
-import { GraduationCap, Compass, Headphones, Workflow, Check } from "lucide-react"
-import { ServiceCard } from "@/components/marketing/service-card"
+import { Check } from "lucide-react"
 import { CTASection } from "@/components/marketing/cta-section"
 import { PageHeader } from "@/components/marketing/page-header"
 import { AnimatedSection } from "@/components/marketing/animated-section"
 import { AnimatedSteps } from "@/components/marketing/animated-steps"
 
 export const metadata: Metadata = {
-  title: "Day Horrigan × Batten Institute",
+  title: "AI Playbook for Startups",
   description:
-    "How Day Horrigan works with Darden-connected startups to deploy AI tools across their teams.",
+    "A step-by-step playbook for deploying AI tools across your startup team. Training, setup, and ongoing support.",
 }
 
-const services = [
-  {
-    icon: <GraduationCap size={32} />,
-    title: "AI Training",
-    description:
-      "A 4-level curriculum built from real deployments. Your team builds something real on day one with their own data.",
-    scope: [
-      "Beginner: first project in the first session. Dashboards, reports, slides from raw data",
-      "Intermediate: version control, test-driven design, custom agents",
-      "Advanced: API integrations, agentic workflows, automation pipelines",
-      "Leadership: 60-minute overview for execs. Where the value is, where the risk is, what to budget",
-    ],
-    timeline: "1-2 weeks",
-  },
-  {
-    icon: <Compass size={32} />,
-    title: "Tool Selection & Setup",
-    description:
-      "Claude, Codex, Copilot, Cursor, Gemini. There are a lot of options. We help you pick the right one and get everyone running.",
-    scope: [
-      "Recommendation based on your team's workflows and stack",
-      "Model selection strategy so you're not overspending on tokens",
-      "Hands-on setup for every team member",
-    ],
-    timeline: "2-4 weeks",
-  },
-  {
-    icon: <Headphones size={32} />,
-    title: "Ongoing Support",
-    description:
-      "AI tools change fast. We stay plugged in so your team doesn't fall behind.",
-    scope: [
-      "Dedicated Slack or Teams channel",
-      "Quick-start calls for new hires",
-      "Troubleshooting when updates break existing workflows",
-    ],
-    timeline: "Monthly",
-  },
-  {
-    icon: <Workflow size={32} />,
-    title: "Workflow Acceleration",
-    description:
-      "We audit where your team spends the most manual time and show them how to collapse it with AI.",
-    scope: [
-      "Audit of your team's most repetitive work",
-      "AI-powered workflows for reports, research, analysis, data pulls",
-      "Before-and-after time benchmarks on key tasks",
-    ],
-    timeline: "4-8 weeks",
-  },
-]
-
-const steps = [
+const phases = [
   {
     number: 1,
-    title: "Discovery Call",
+    title: "Week 0: Discovery",
     description:
-      "30 minutes. We learn how your team works, where the bottlenecks are, and which AI tools make sense.",
+      "30-minute call. We learn how your team works, where the bottlenecks are, and which tools make sense. You walk away with a clear plan.",
   },
   {
     number: 2,
-    title: "Tool Setup & Training",
+    title: "Week 1: Setup & First Wins",
     description:
-      "We pick the right tools, set them up, and run hands-on sessions with your team using their real data.",
+      "We pick the right AI tools for your stack, set everyone up, and run the first hands-on session. Your team builds something real with their own data on day one.",
   },
   {
     number: 3,
-    title: "Support & Iteration",
+    title: "Weeks 2-3: Training & Workflows",
     description:
-      "We stick around. Check-ins, troubleshooting, and new workflows as your team finds more uses on their own.",
+      "Deeper sessions tailored to each role. Custom prompts, agents for recurring tasks, and AI-powered workflows for the manual work eating your team's time.",
+  },
+  {
+    number: 4,
+    title: "Week 4+: Support",
+    description:
+      "Dedicated Slack channel. Check-ins as your team finds new uses. Troubleshooting when tools update. We stick around until it's working.",
   },
 ]
 
@@ -99,63 +52,73 @@ export default function BattenPage() {
   return (
     <>
       <PageHeader
-        title="Day Horrigan × Batten Institute"
-        description="A playbook for deploying AI tools at Darden-connected startups."
+        title="AI Playbook for Startups"
+        description="A step-by-step playbook for getting your team up and running with AI."
       />
 
       {/* The Problem */}
       <section className="bg-slate-50 py-16">
         <div className="mx-auto max-w-4xl px-6">
           <AnimatedSection>
-            <h2 className="mb-6 text-center text-3xl font-semibold">
-              The Problem
-            </h2>
-            <p className="mx-auto max-w-2xl text-center leading-relaxed text-slate-700">
-              Most startups know AI matters. But the team is already stretched
-              thin, and nobody has time to evaluate tools, figure out
-              integrations, and train everyone. So people try ChatGPT a few
-              times and move on. The real productivity gains never happen.
-            </p>
+            <div className="border-l-4 border-primary pl-8">
+              <p className="text-lg leading-relaxed text-slate-700">
+                Your team is small. There&apos;s no dedicated IT person. The
+                founder is doing sales, ops, and hiring at the same time. Nobody
+                has 40 hours to evaluate AI tools, figure out which ones
+                actually fit, and train the rest of the team.
+              </p>
+              <p className="mt-4 text-lg leading-relaxed text-slate-700">
+                So people try ChatGPT a few times and move on. The real
+                productivity gains never happen.
+              </p>
+              <p className="mt-4 text-lg font-semibold text-slate-900">
+                That&apos;s what we fix.
+              </p>
+            </div>
           </AnimatedSection>
         </div>
       </section>
 
-      {/* Services */}
+      {/* Phased Timeline */}
       <section className="py-16">
-        <div className="mx-auto max-w-6xl px-6">
+        <div className="mx-auto max-w-4xl px-6">
           <AnimatedSection>
             <h2 className="mb-4 text-center text-3xl font-semibold">
-              What We Do
+              How It Works
             </h2>
             <p className="mx-auto mb-12 max-w-2xl text-center text-slate-700">
-              Four services. Each one scoped and priced for where your team is
-              right now.
+              One engagement. Four phases. Your team goes from &quot;we should
+              probably use AI&quot; to actually using it.
             </p>
           </AnimatedSection>
-          <div className="mx-auto grid max-w-4xl gap-4 px-6 md:grid-cols-2">
-            {services.map((service) => (
-              <ServiceCard key={service.title} {...service} />
+          <div className="space-y-6">
+            {phases.map((phase, i) => (
+              <AnimatedSection key={phase.number} delay={i * 0.1}>
+                <div className="rounded-lg border border-slate-200 bg-white p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+                      {phase.number}
+                    </div>
+                    <div>
+                      <h3 className="font-semibold">{phase.title}</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-slate-700">
+                        {phase.description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </AnimatedSection>
             ))}
           </div>
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="bg-slate-50 py-16">
-        <div className="mx-auto max-w-4xl px-6">
-          <h2 className="mb-8 text-center text-3xl font-semibold">
-            How an Engagement Works
-          </h2>
-          <AnimatedSteps steps={steps} />
-        </div>
-      </section>
-
       {/* What You Get */}
-      <section className="py-16">
+      <section className="bg-slate-50 py-16">
         <div className="mx-auto max-w-4xl px-6">
           <AnimatedSection>
             <h2 className="mb-8 text-center text-3xl font-semibold">
-              What Your Startup Gets
+              What You Get
             </h2>
             <div className="mx-auto max-w-2xl">
               <ul className="space-y-4">
@@ -178,7 +141,7 @@ export default function BattenPage() {
       </section>
 
       {/* Who We Are */}
-      <section className="bg-slate-50 py-16">
+      <section className="py-16">
         <div className="mx-auto max-w-4xl px-6">
           <AnimatedSection>
             <h2 className="mb-8 text-center text-3xl font-semibold">
@@ -187,26 +150,20 @@ export default function BattenPage() {
             <div className="grid gap-6 md:grid-cols-2">
               <div className="rounded-lg border border-slate-200 bg-white p-6">
                 <h3 className="text-lg font-semibold">Logan Day</h3>
-                <p className="mt-1 text-sm text-primary">
-                  Darden MBA &bull; U.S. Army Captain &bull; Walmart FLDP
-                </p>
+                <p className="mt-1 text-sm text-primary">Darden MBA</p>
                 <p className="mt-3 text-sm leading-relaxed text-slate-700">
-                  Finance at Walmart, where he builds AI tools and automation
-                  for executive teams. Duke undergrad. Started using Claude Code
-                  and AI tooling before anyone asked him to, saw the productivity
-                  impact, and hasn&apos;t stopped since.
+                  Builds AI tools and automation daily. Wrote a 4-level training
+                  curriculum from real deployments. Has trained teams from
+                  skeptical to self-sufficient in under 3 months.
                 </p>
               </div>
               <div className="rounded-lg border border-slate-200 bg-white p-6">
                 <h3 className="text-lg font-semibold">Matt Horrigan</h3>
-                <p className="mt-1 text-sm text-primary">
-                  Darden MBA &bull; Strategy &amp; Finance &bull; WEX
-                </p>
+                <p className="mt-1 text-sm text-primary">Darden MBA</p>
                 <p className="mt-3 text-sm leading-relaxed text-slate-700">
-                  Strategy and finance at WEX, with corporate strategy
-                  experience at Comcast. Concentrations in Strategy Consulting,
-                  Corporate Finance, Asset Management, and Business Analytics.
-                  Sees the business case before the technology.
+                  Strategy and finance background. Builds the business case for
+                  AI adoption and identifies where automation delivers the most
+                  leverage across your operations.
                 </p>
               </div>
             </div>
@@ -214,19 +171,12 @@ export default function BattenPage() {
         </div>
       </section>
 
-      {/* Pricing */}
-      <section className="py-16">
-        <div className="mx-auto max-w-4xl px-6">
-          <AnimatedSection>
-            <div className="rounded-lg border border-primary/20 bg-primary/[0.03] p-8 text-center">
-              <h2 className="text-2xl font-semibold">Flexible Pricing</h2>
-              <p className="mx-auto mt-4 max-w-xl leading-relaxed text-slate-700">
-                We&apos;re building this practice and want to work with
-                early-stage teams. If your startup is connected to Batten,
-                let&apos;s talk about what fits your budget.
-              </p>
-            </div>
-          </AnimatedSection>
+      {/* Pricing anchor */}
+      <section className="bg-slate-50 py-12">
+        <div className="mx-auto max-w-4xl px-6 text-center">
+          <p className="text-lg text-slate-700">
+            Engagements start at <span className="font-semibold">$5,000</span>.
+          </p>
         </div>
       </section>
 
