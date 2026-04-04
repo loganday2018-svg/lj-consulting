@@ -62,24 +62,31 @@ export default function BattenPage() {
       <section className="bg-white py-10">
         <div className="mx-auto max-w-4xl px-6">
           <AnimatedSection>
-            <div className="border-l-4 border-primary pl-8">
-              <p className="text-lg leading-relaxed text-slate-700">
-                Asking ChatGPT a question is not AI adoption.
-              </p>
-              <p className="mt-4 text-lg leading-relaxed text-slate-700">
-                Claude Code, Cowork, and Codex build things. Dashboards
-                from raw data. Automated reports. Custom internal tools.
-                Your team doesn&apos;t need to know how to code. They need
-                someone to show them what&apos;s possible.
-              </p>
-              <p className="mt-4 text-lg leading-relaxed text-slate-700">
-                You couldn&apos;t run your business without Excel. You
-                won&apos;t be able to compete without AI.
-              </p>
-              <p className="mt-4 text-lg font-semibold text-slate-900">
-                We get your team there.
-              </p>
-            </div>
+            <p className="text-lg leading-relaxed text-slate-700">
+              Asking ChatGPT a question is not AI adoption.
+            </p>
+            <p className="mt-4 text-lg leading-relaxed text-slate-700">
+              Claude Code, Cowork, and Codex build things. Dashboards
+              from raw data. Automated reports. Custom internal tools.
+              Your team doesn&apos;t need to know how to code. They need
+              someone to show them what&apos;s possible.
+            </p>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* Callout */}
+      <section className="bg-primary py-12">
+        <div className="mx-auto max-w-4xl px-6 text-center">
+          <AnimatedSection>
+            <p className="font-display text-2xl font-bold text-primary-foreground md:text-3xl">
+              You couldn&apos;t run your business without Excel.
+              <br />
+              You won&apos;t be able to compete without AI.
+            </p>
+            <p className="mt-4 text-lg font-semibold text-slate-300">
+              We get your team there.
+            </p>
           </AnimatedSection>
         </div>
       </section>
@@ -98,6 +105,11 @@ export default function BattenPage() {
         </div>
         <ScrollTimeline phases={phases} />
       </section>
+
+      {/* Divider */}
+      <div className="flex justify-center bg-white py-6">
+        <div className="h-px w-16 bg-primary" />
+      </div>
 
       {/* What You Get */}
       <section className="bg-white py-10">
