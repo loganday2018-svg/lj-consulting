@@ -111,7 +111,7 @@ def generate_deck(config_path, output_path=None):
 
     if output_path is None:
         safe_name = firm.replace(" ", "_")
-        output_path = f"LJ_Consulting_x_{safe_name}.pptx"
+        output_path = f"Day_Horrigan_x_{safe_name}.pptx"
 
     prs = Presentation()
     prs.slide_width = Inches(13.333)

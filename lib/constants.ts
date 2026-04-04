@@ -3,8 +3,8 @@ export const BRAND = {
   tagline: 'AI Implementation for PE Portfolio Companies',
   description:
     'We help PE-backed portfolio companies deploy AI tools fast -- training, setup, and ongoing support that drives measurable operating leverage.',
-  email: 'contact@ljconsulting.com',
-  domain: 'ljconsulting.com',
+  email: 'logan.day2018@gmail.com',
+  domain: 'dayhorrigan.vercel.app',
 } as const
 
 export const NAV_LINKS = [
@@ -19,6 +19,6 @@ export const CTA = {
   primary: {
     label: 'Book a Free Portfolio Analysis',
     // TODO: Replace with real Cal.com link once account is created
-    href: 'https://cal.com/lj-consulting/discovery',
+    href: 'https://cal.com/day-horrigan/discovery',
   },
 } as const

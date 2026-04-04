@@ -74,7 +74,7 @@ Key fields:
 
 ```bash
 cd ~/Projects/lj-consulting/tools
-python3 generate_deck.py --config firms/firm_name.json --output ~/Desktop/LJ_x_FirmName.pptx
+python3 generate_deck.py --config firms/firm_name.json --output ~/Desktop/DH_x_FirmName.pptx
 ```
 
 ### 5. Optionally create a Vercel page
