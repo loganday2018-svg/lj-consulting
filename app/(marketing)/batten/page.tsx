@@ -73,8 +73,12 @@ export default function BattenPage() {
                 on their own. Your team doesn&apos;t need to know how to code.
                 They just need someone to show them what&apos;s possible.
               </p>
+              <p className="mt-4 text-lg leading-relaxed text-slate-700">
+                You couldn&apos;t run your business without Excel. You
+                won&apos;t be able to compete without AI.
+              </p>
               <p className="mt-4 text-lg font-semibold text-slate-900">
-                That&apos;s what we do.
+                We get your team there.
               </p>
             </div>
           </AnimatedSection>
