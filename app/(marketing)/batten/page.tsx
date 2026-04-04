@@ -5,7 +5,6 @@ import { CTASection } from "@/components/marketing/cta-section"
 import { PageHeader } from "@/components/marketing/page-header"
 import { AnimatedSection } from "@/components/marketing/animated-section"
 import { AnimatedSteps } from "@/components/marketing/animated-steps"
-import { AnimatedServicesGrid } from "@/components/marketing/animated-services-grid"
 
 export const metadata: Metadata = {
   title: "Day Horrigan × Batten Institute",
@@ -133,11 +132,11 @@ export default function BattenPage() {
               right now.
             </p>
           </AnimatedSection>
-          <AnimatedServicesGrid>
+          <div className="mx-auto grid max-w-4xl gap-4 px-6 md:grid-cols-2">
             {services.map((service) => (
               <ServiceCard key={service.title} {...service} />
             ))}
-          </AnimatedServicesGrid>
+          </div>
         </div>
       </section>
 
