@@ -92,7 +92,9 @@ export function ScrollTimeline({ phases }: ScrollTimelineProps) {
           {/* Dots on track */}
           <div className="relative -mt-[9px] flex justify-between">
             {phases.map((phase, i) => {
-              const isActive = phaseProgress >= i + 0.3
+              // Dot sits at center of its segment: (i + 0.5) / phases.length
+              const dotPosition = (i + 0.5) / phases.length
+              const isActive = progress >= dotPosition
               return (
                 <div
                   key={phase.number}
