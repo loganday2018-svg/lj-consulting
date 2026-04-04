@@ -90,8 +90,7 @@ export default function BattenPage() {
               How It Works
             </h2>
             <p className="mx-auto mb-8 max-w-2xl text-center text-slate-700">
-              One engagement. Four phases. Your team goes from &quot;we should
-              probably use AI&quot; to actually using it.
+              One engagement. Four phases. From zero to productive.
             </p>
           </AnimatedSection>
           <div className="relative">

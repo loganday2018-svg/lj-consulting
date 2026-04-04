@@ -8,7 +8,7 @@ import { AnimatedTeam } from "@/components/marketing/animated-team"
 
 export const metadata: Metadata = {
   title: "About",
-  description: `Meet Logan & Matt. Two operators who got obsessed with AI tools and now help PE-backed portfolio companies do the same.`,
+  description: `Meet Logan & Matt. Operators who deploy AI tools at PE-backed portfolio companies.`,
 }
 
 const team = [
@@ -20,7 +20,7 @@ const team = [
       "Walmart Finance Leadership Development Program",
       "U.S. Army Captain (Reserve)",
     ],
-    bio: "Logan brings an operator's mindset to every AI engagement. Built through a career that spans the U.S. Army, Fortune 1 finance, and the Darden MBA program at UVA.\n\nAs a Company Commander in the Army Reserve, he learned to execute under pressure with limited resources. A skillset that translates directly to fast-moving portfolio company environments. At Walmart's Finance Leadership Development Program, he works at the intersection of large-scale operations and financial performance, exactly where AI automation delivers the most leverage.\n\nA Duke graduate, Logan adopted Claude Code and AI tooling before anyone told him to, and immediately saw the productivity impact firsthand. He co-founded Day Horrigan to give every PE-backed operator access to the same edge.",
+    bio: "U.S. Army Company Commander turned Walmart finance. Duke undergrad, Darden MBA. Adopted Claude Code before anyone asked him to, saw the impact, and built Day Horrigan to give every PE-backed operator the same edge.",
     initials: "LD",
     imageSrc: "/images/logan.jpg",
     linkedIn: "https://linkedin.com/in/loganday1",
@@ -33,7 +33,7 @@ const team = [
       "WEX, Strategy & Finance",
       "Comcast, Corporate Strategy",
     ],
-    bio: "Matt brings a strategist's lens to every AI engagement. A Darden MBA with concentrations in Strategy Consulting, Corporate Finance, Asset Management, and Business Analytics — he knows how to connect AI capabilities to the metrics that matter.\n\nAt WEX, he works across strategy and finance, giving him firsthand insight into the process inefficiencies that AI tools eliminate fastest. His corporate strategy experience at Comcast sharpened his ability to identify where automation delivers the most leverage across complex organizations.\n\nHe specializes in building the business case that gets PE partners and portfolio operators aligned.",
+    bio: "Strategy and finance at WEX. Corporate strategy at Comcast. Darden MBA. Connects AI tools to the metrics that matter and builds the business case that gets operators and partners aligned.",
     initials: "MH",
     imageSrc: "/images/matt.jpg",
     linkedIn: "https://linkedin.com/in/matthew-horrigan",
@@ -55,24 +55,17 @@ export default function AboutPage() {
             <div className="border-l-4 border-primary pl-8">
               <h2 className="mb-6 text-3xl font-semibold">Why We Exist</h2>
               <p className="mb-4 leading-relaxed text-slate-700">
-                Most AI initiatives die in the pilot stage because they&apos;re led
-                by people who&apos;ve never used the tools themselves. The leverage
-                is real — but only if it&apos;s actually adopted by real teams
-                doing real work.
+                Most AI initiatives die in the pilot. They&apos;re led by people
+                who&apos;ve never used the tools. Adoption is everything.
               </p>
               <p className="mb-4 leading-relaxed text-slate-700">
-                We started {BRAND.name} because we saw the gap firsthand. As
-                operators at a Fortune 1 company, we adopted AI tools before anyone
-                asked us to. And watched our own productivity transform. Now we
-                help other portfolio companies do the same thing, without the
-                six-month consulting engagement or the 50-slide deck that gathers
-                dust.
+                We adopted AI tools before anyone asked us to. The productivity
+                impact was immediate. Now we help portfolio companies get the same
+                results in weeks, not quarters.
               </p>
               <p className="leading-relaxed text-slate-700">
-                Our approach is simple: we show up, we set up the tools, we train
-                your teams, and we stay until it&apos;s working. No theory, no
-                frameworks, no jargon. Just working AI tools in the hands of the
-                people who need them.
+                We show up, set up the tools, train your teams, and stay until it
+                works.
               </p>
             </div>
           </AnimatedSection>

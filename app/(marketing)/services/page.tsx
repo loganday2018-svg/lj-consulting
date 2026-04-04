@@ -17,7 +17,7 @@ const services = [
     icon: <GraduationCap size={32} />,
     title: "AI Training Programs",
     description:
-      "We sit down with your team and build something real with their own messy data. After that, they're finding new uses on their own.",
+      "We build working tools with your data. After that, your team finds new uses on its own.",
     scope: [
       "Hands-on sessions, not slides or lectures",
       "Live build session using your team's actual unstructured data",
@@ -31,7 +31,7 @@ const services = [
     icon: <Compass size={32} />,
     title: "AI Tool Selection & Setup",
     description:
-      "Claude Code, Codex, Gemini, Copilot, Cursor — we'll help you pick the right one and get everyone up and running.",
+      "Claude Code, Codex, Gemini, Copilot, Cursor. We pick the right one and set up your team.",
     scope: [
       "Guidance on which AI tool fits your team's needs",
       "Hands-on setup and walkthrough for every team member",
@@ -45,7 +45,7 @@ const services = [
     icon: <Headphones size={32} />,
     title: "Ongoing Retainer",
     description:
-      "The AI landscape evolves constantly. We stay plugged in so your team never falls behind.",
+      "AI tools change fast. We track updates so your team doesn't have to.",
     scope: [
       "Dedicated Slack/Teams channel with your team",
       "We track the AI landscape so your team doesn't have to",
@@ -59,7 +59,7 @@ const services = [
     icon: <Workflow size={32} />,
     title: "AI-Powered Acceleration",
     description:
-      "Reports, analysis, research, document writing — we audit where your team spends the most manual time and show them how to accelerate it with AI.",
+      "We find where your team spends the most manual hours and automate it.",
     scope: [
       "Audit of where your team spends the most manual time",
       "AI-powered workflows for reports, research, and analysis",
@@ -76,13 +76,13 @@ const steps = [
     number: 1,
     title: "Free Portfolio Analysis",
     description:
-      "Pick a portfolio company. We'll analyze it live on the call and show you where AI fits.",
+      "Pick a portfolio company. We analyze it live on the call.",
   },
   {
     number: 2,
     title: "Scoped Proposal",
     description:
-      "Clear deliverables, timeline, and price. No 50-page deck. No surprises.",
+      "Clear scope, timeline, price. No 50-page deck.",
   },
   {
     number: 3,
@@ -97,7 +97,7 @@ export default function ServicesPage() {
     <>
       <PageHeader
         title="What We Do"
-        description="Every engagement is scoped, priced, and built to get your teams using AI. Not talking about it."
+        description="Every engagement is scoped, priced, and built to get your teams using AI."
       />
 
       {/* Services Grid */}

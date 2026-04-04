@@ -29,9 +29,7 @@ export default function NaturalCapitalPage() {
       <section className="px-6 md:px-16 py-20 md:py-28">
         <div className="max-w-3xl">
           <p className="text-2xl md:text-3xl leading-relaxed text-[#2c2c2c]">
-            Companies are struggling to realize the full value of AI.
-            If your portcos are only using chat features, they&apos;re
-            leaving most of the opportunity on the table.
+            Your portcos are using chat. They&apos;re missing most of the opportunity.
           </p>
           <p className="mt-6 text-xl font-semibold text-[#5A6E5A]">
             We fix that. Weeks, not quarters.
@@ -46,10 +44,8 @@ export default function NaturalCapitalPage() {
             Your portfolio. Some questions.
           </h2>
           <p className="text-[#444] text-lg mb-10">
-            We spent time looking at your operating companies.
-            We don&apos;t pretend to know your businesses from the inside &mdash;
-            but these are the patterns we see over and over in companies
-            at this stage.
+            We looked at your operating companies. These are the patterns
+            we see in companies at this stage.
           </p>
           <div className="space-y-4">
 
@@ -104,10 +100,8 @@ export default function NaturalCapitalPage() {
             We&apos;ve done this before.
           </h2>
           <p className="text-lg text-[#444] leading-relaxed">
-            We started with companies in our network &mdash; Heartland
-            operators, mid-market, leadership teams that were curious
-            but hadn&apos;t had someone show them what&apos;s actually possible.
-            The results speak for themselves.
+            We started with Heartland operators who were curious but
+            hadn&apos;t had someone show them what&apos;s possible.
           </p>
         </div>
       </section>
@@ -165,11 +159,10 @@ export default function NaturalCapitalPage() {
                 Darden MBA &bull; U.S. Army Captain
               </p>
               <p className="text-[#bbb] text-sm leading-relaxed">
-                Finance at Walmart by day, where I build AI tools
-                and automation for executive teams. Built the dashboards
-                and AI workflows at Randy&apos;s Worldwide. This is a
-                focused side practice &mdash; we do this because we&apos;re
-                genuinely good at it and the demand found us.
+                Finance at Walmart, where I build AI tools for executive
+                teams. Built the dashboards and workflows at Randy&apos;s
+                Worldwide. We do this because we&apos;re good at it and the
+                demand found us.
               </p>
             </div>
             <div className="bg-[#2c2c2c] rounded-xl p-8">

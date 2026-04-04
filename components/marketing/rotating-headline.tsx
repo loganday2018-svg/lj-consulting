@@ -8,7 +8,7 @@ const HEADLINES = [
   "Put AI on the P&L",
   "Deploy AI and Move the Multiple",
   "Get More Margin With the Same Headcount",
-  "Automate the Back Office and Accelerate the Top Line",
+  "Automate Operations, Grow Revenue",
 ]
 
 const INTERVAL = 4500
