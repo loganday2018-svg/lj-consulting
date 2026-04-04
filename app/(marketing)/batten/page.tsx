@@ -63,13 +63,9 @@ export default function BattenPage() {
         <div className="mx-auto max-w-4xl px-6">
           <AnimatedSection>
             <p className="text-lg leading-relaxed text-slate-700">
-              Asking ChatGPT a question is not AI adoption.
-            </p>
-            <p className="mt-4 text-lg leading-relaxed text-slate-700">
-              Claude Code, Cowork, and Codex build things. Dashboards
-              from raw data. Automated reports. Custom internal tools.
-              Your team doesn&apos;t need to know how to code. They need
-              someone to show them what&apos;s possible.
+              Asking ChatGPT a question is not AI adoption. Claude Code,
+              Cowork, and Codex build dashboards, reports, and custom
+              tools from raw data. No coding required.
             </p>
           </AnimatedSection>
         </div>
