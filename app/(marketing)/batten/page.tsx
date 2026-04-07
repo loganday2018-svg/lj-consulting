@@ -18,36 +18,36 @@ const phases = [
     number: 1,
     title: "Week 0: Discovery",
     description:
-      "30-minute call. We learn how your team works, where the bottlenecks are, and which tools make sense. You walk away with a clear plan.",
+      "30-minute call. We map your team's workflows, find the tasks eating the most hours, and identify where agentic tools will hit hardest. You leave with a deployment plan, not a sales pitch.",
   },
   {
     number: 2,
-    title: "Week 1: Setup & First Wins",
+    title: "Week 1: Setup & First Builds",
     description:
-      "We set up Claude Code, Cowork, or Codex for your team and run the first hands-on session. Your team builds something real with their own data on day one. Not a chatbot demo. An actual tool they built themselves.",
+      "We deploy Claude Code and Cowork across your team and run a live build session. Your people bring real data and walk out with a working tool they built themselves: a dashboard, a report pipeline, an automated workflow. Not a chatbot demo. Something they can use tomorrow.",
   },
   {
     number: 3,
-    title: "Weeks 2-3: Training & Workflows",
+    title: "Weeks 2-3: Deep Training",
     description:
-      "Deeper sessions tailored to each role. Custom agents for recurring tasks, automated pipelines, and internal tools your team builds themselves. This is where people stop thinking of AI as a chatbot.",
+      "Role-specific sessions where each team builds the tools they actually need. Finance builds automated variance reports. Ops builds vendor analysis pipelines. Sales builds prospect research agents. Custom AI agents that run multi-step tasks autonomously, not one-question-one-answer prompts.",
   },
   {
     number: 4,
-    title: "Week 4+: Support",
+    title: "Week 4+: Support & Expansion",
     description:
-      "Dedicated Slack channel. Check-ins as your team finds new uses. Troubleshooting when tools update. We stick around until it's working.",
+      "Dedicated Slack channel. Weekly check-ins as your team discovers new use cases. Troubleshooting when tools update. We stay until your team is building on their own, not just using what we set up.",
   },
 ]
 
 const deliverables = [
-  "Every team member trained and using AI tools independently",
-  "Custom prompts and workflows built for your specific operations",
-  "Custom agents built for your team's recurring tasks",
+  "Every team member building with agentic tools independently",
+  "Custom AI agents for your team's highest-volume recurring tasks",
+  "Automated pipelines: raw data in, finished deliverables out",
+  "Internal tools your team built themselves, not vendor software",
   "Recorded walkthroughs for onboarding future hires",
-  "Written playbook documenting every workflow we set up",
-  "Before-and-after time benchmarks on key tasks",
-  "Dedicated support channel for ongoing questions",
+  "Before-and-after time benchmarks on key workflows",
+  "Dedicated support channel with ongoing access to our team",
 ]
 
 export default function BattenPage() {
@@ -55,17 +55,61 @@ export default function BattenPage() {
     <>
       <PageHeader
         title="Our Playbook"
-        description="How we get your team up and running with AI."
+        description="We don't teach your team to use a chatbot. We train them to build with agentic AI tools that do real work."
       />
 
       {/* The Problem */}
       <section className="bg-white py-10">
         <div className="mx-auto max-w-4xl px-6">
           <AnimatedSection>
+            <h2 className="mb-4 text-2xl font-semibold text-foreground md:text-3xl">
+              Chatbots answer questions. Agentic tools do the work.
+            </h2>
             <p className="text-lg leading-relaxed text-slate-700">
-              Asking ChatGPT a question is not AI adoption. Claude Code,
-              Cowork, and Codex build dashboards, reports, and custom
-              tools from raw data. No coding required.
+              Most &quot;AI adoption&quot; stops at asking ChatGPT a question and
+              copy-pasting the answer. That&apos;s a search engine with better
+              grammar. Agentic coding tools are a fundamentally different
+              category: they read your data, write code, build tools, and
+              execute multi-step workflows autonomously. Your team gives
+              instructions. The AI builds dashboards, generates reports,
+              analyzes contracts, and automates pipelines. No coding
+              required. No copy-paste. No back-and-forth.
+            </p>
+            <p className="mt-4 text-lg leading-relaxed text-slate-700">
+              This is the difference between asking &quot;what were our top
+              expenses last quarter?&quot; and saying &quot;build me a
+              dashboard that tracks expenses by category, flags anomalies,
+              and updates automatically from our accounting data.&quot; One
+              is a chatbot. The other is a tool your team built in 10
+              minutes.
+            </p>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* The Gap */}
+      <section className="border-t border-slate-200 bg-slate-50 py-10">
+        <div className="mx-auto max-w-4xl px-6">
+          <AnimatedSection>
+            <h2 className="mb-4 text-2xl font-semibold text-foreground md:text-3xl">
+              Almost nobody has used these tools yet.
+            </h2>
+            <p className="text-lg leading-relaxed text-slate-700">
+              Right now, less than 1% of business teams have touched an
+              agentic coding tool. Not because they&apos;re not ready. Because
+              they don&apos;t know these tools exist. Most people&apos;s
+              mental model of AI is still &quot;type a question, get a
+              paragraph back.&quot; They have no idea that the same
+              technology can build a full financial dashboard from a
+              spreadsheet, write and run code, create internal tools, and
+              execute complex workflows end to end.
+            </p>
+            <p className="mt-4 text-lg leading-relaxed text-slate-700">
+              That gap is the opportunity. The teams that get trained now
+              aren&apos;t just early adopters. They&apos;re operating with
+              capabilities their competitors don&apos;t even know are
+              possible. By the time everyone else catches on, your team has
+              months of compounding experience.
             </p>
           </AnimatedSection>
         </div>
@@ -76,12 +120,13 @@ export default function BattenPage() {
         <div className="mx-auto max-w-4xl px-6 text-center">
           <AnimatedSection>
             <p className="font-display text-2xl font-bold text-primary-foreground md:text-3xl">
-              You couldn&apos;t run your business without Excel.
+              The companies that figure this out first don&apos;t just
+              save time.
               <br />
-              You won&apos;t be able to compete without AI.
+              They operate at a level their competitors can&apos;t match.
             </p>
             <p className="mt-4 text-lg font-semibold text-slate-300">
-              We get your team there.
+              We get your team there in weeks, not quarters.
             </p>
           </AnimatedSection>
         </div>
