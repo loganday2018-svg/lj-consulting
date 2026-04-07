@@ -3,7 +3,7 @@ import Link from "next/link"
 import { Download } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Day Horrigan × Natural Capital",
+  title: "Rubicon × Natural Capital",
   description:
     "Turning AI into EBITDA for Natural Capital's portfolio companies.",
 }
@@ -230,7 +230,7 @@ export default function NaturalCapitalPage() {
               href="/"
               className="text-[#8A9E8A] text-sm hover:text-white transition-colors"
             >
-              dayhorrigan.vercel.app
+              rubiconaiconsulting.com
             </Link>
             <a
               href="/LJ_Consulting_x_Natural_Capital.pptx"

@@ -6,7 +6,7 @@ import { motion, useInView, animate, useMotionValue } from "framer-motion"
 // Without consulting: slow S-curve, takes ~12 months to reach meaningful adoption
 const WITHOUT = [0, 2, 5, 9, 14, 22, 32, 43, 54, 64, 72, 78, 82]
 
-// With Day Horrigan: steep ramp, reaches high adoption in weeks
+// With Rubicon: steep ramp, reaches high adoption in weeks
 const WITH_LJ = [0, 28, 58, 80, 90, 94, 96, 97, 97, 98, 98, 98, 98]
 
 const CHART_WIDTH = 700
@@ -461,7 +461,7 @@ function MorphingChart({ isInView }: { isInView: boolean }) {
             >
               <line x1={0} y1={0} x2={18} y2={0} stroke="#1e293b" strokeWidth={3} strokeLinecap="round" />
               <text x={24} y={4} className="fill-slate-700 text-[11px] font-medium">
-                With Day Horrigan
+                With Rubicon
               </text>
             </motion.g>
             <motion.g
@@ -540,7 +540,7 @@ export function AdoptionCurve() {
         </div>
         <div className="rounded-lg border border-primary/20 bg-primary/[0.03] p-5 text-center">
           <p className="text-sm font-medium tracking-wide text-primary/70 uppercase">
-            With Day Horrigan
+            With Rubicon
           </p>
           <p className="mt-1 text-2xl font-semibold text-primary">
             {phase === "after" ? (

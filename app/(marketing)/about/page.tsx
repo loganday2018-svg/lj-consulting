@@ -20,7 +20,7 @@ const team = [
       "Walmart Finance Leadership Development Program",
       "U.S. Army Captain (Reserve)",
     ],
-    bio: "U.S. Army Company Commander turned Walmart finance. Duke undergrad, Darden MBA. Adopted Claude Code before anyone asked him to, saw the impact, and built Day Horrigan to give every PE-backed operator the same edge.",
+    bio: "U.S. Army Company Commander turned Walmart finance. Duke undergrad, Darden MBA. Adopted Claude Code before anyone asked him to, saw the impact, and built Rubicon to give every PE-backed operator the same edge.",
     initials: "LD",
     imageSrc: "/images/logan.jpg",
     linkedIn: "https://linkedin.com/in/loganday1",
