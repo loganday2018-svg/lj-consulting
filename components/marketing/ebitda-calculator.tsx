@@ -373,11 +373,7 @@ export function EbitdaCalculator() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.1 + i * 0.15 }}
-                className={`rounded-lg border p-4 sm:p-6 ${
-                  i === 1
-                    ? "border-primary bg-primary/5 ring-1 ring-primary/20"
-                    : "border-slate-200 bg-white"
-                }`}
+                className="rounded-lg border border-slate-200 bg-white p-4 sm:p-6"
               >
                 <h3 className="text-lg font-semibold text-foreground">{r.label}</h3>
                 <p className="mt-1 text-xs text-slate-500 sm:text-sm">
