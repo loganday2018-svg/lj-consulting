@@ -5,6 +5,7 @@ import { LogoTicker } from "@/components/marketing/logo-ticker"
 import { ValueProps } from "@/components/marketing/value-props"
 import { EbitdaCalculator } from "@/components/marketing/ebitda-calculator"
 import { AdoptionCurve } from "@/components/marketing/adoption-curve"
+import { VideoDemo } from "@/components/marketing/video-demo"
 
 export const metadata: Metadata = {
   title: "AI Implementation for PE Portfolio Companies",
@@ -97,6 +98,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <VideoDemo />
 
       {/* EBITDA Calculator */}
       <section className="border-t border-slate-200 bg-slate-50 py-16 md:py-24">
