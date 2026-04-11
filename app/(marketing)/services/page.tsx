@@ -74,18 +74,24 @@ const services = [
 const steps = [
   {
     number: 1,
-    title: "Free Portfolio Analysis",
+    title: "15-Minute Intro",
     description:
-      "Pick a portfolio company. We analyze it live on the call.",
+      "Tell us about your team and where AI could help. We'll tell you if we're a fit.",
   },
   {
     number: 2,
+    title: "Live Demo",
+    description:
+      "We show Claude, Codex, and Copilot doing real work on real data. See exactly what these tools deliver.",
+  },
+  {
+    number: 3,
     title: "Scoped Proposal",
     description:
       "Clear scope, timeline, price. No 50-page deck.",
   },
   {
-    number: 3,
+    number: 4,
     title: "We Show Up and Set It Up",
     description:
       "Hands-on deployment with your teams. We stay until it's working.",

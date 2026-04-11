@@ -5,13 +5,17 @@ import Link from "next/link"
 interface CTASectionProps {
   heading?: string
   description?: string
+  primaryLabel?: string
+  primaryHref?: string
   secondaryLabel?: string
   secondaryHref?: string
 }
 
 export function CTASection({
-  heading = "Free Portfolio Analysis. Live on the Call.",
-  description = "Pick a portfolio company. We'll show you where AI moves the needle.",
+  heading = "Start With a 15-Minute Intro.",
+  description = "Tell us what your team is trying to do. We'll tell you if we can help and where the fastest wins live.",
+  primaryLabel = CTA.primary.label,
+  primaryHref = CTA.primary.href,
   secondaryLabel,
   secondaryHref,
 }: CTASectionProps) {
@@ -23,8 +27,8 @@ export function CTASection({
         </h2>
         <p className="mt-4 text-lg text-slate-300">{description}</p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-6">
-          <Button size="lg" variant="secondary" render={<a href={CTA.primary.href} />}>
-            {CTA.primary.label}
+          <Button size="lg" variant="secondary" render={<a href={primaryHref} />}>
+            {primaryLabel}
           </Button>
           {secondaryLabel && secondaryHref && (
             <Link
