@@ -233,7 +233,7 @@ export default function NaturalCapitalPage() {
               rubiconaiconsulting.com
             </Link>
             <a
-              href="/LJ_Consulting_x_Natural_Capital.pptx"
+              href="/Rubicon_x_Natural_Capital.pptx"
               download
               className="inline-flex items-center gap-2 rounded-lg bg-[#5A6E5A] px-5 py-2.5 text-white text-sm font-medium hover:bg-[#4a5e4a] transition-colors"
             >

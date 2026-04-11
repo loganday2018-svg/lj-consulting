@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { Geist, Geist_Mono, DM_Serif_Display } from "next/font/google"
+import { Analytics } from "@vercel/analytics/next"
 import { BRAND } from "@/lib/constants"
 import "./globals.css"
 
@@ -20,6 +21,7 @@ const dmSerifDisplay = DM_Serif_Display({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(`https://${BRAND.domain}`),
   title: {
     default: `${BRAND.name} - ${BRAND.tagline}`,
     template: `%s | ${BRAND.name}`,
@@ -29,6 +31,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: BRAND.name,
+  },
+  twitter: {
+    card: "summary_large_image",
   },
 }
 
@@ -51,6 +56,7 @@ export default function RootLayout({
       </head>
       <body className="bg-background text-foreground min-h-full flex flex-col">
         {children}
+        <Analytics />
       </body>
     </html>
   )
