@@ -24,6 +24,16 @@ const DEMOS = [
     description:
       "A raw employee roster becomes a fully interactive org chart. 4 minutes of real work, no templates or drag-and-drop.",
   },
+  {
+    id: "crm",
+    tab: "CRM Insights",
+    src: "/demo-crm.mp4",
+    poster: "",
+    eyebrow: "See it in action",
+    heading: "CRM Data to Actionable Insights in 7 Minutes",
+    description:
+      "Watch a messy CRM export get turned into pipeline insights your sales team can act on. 7 minutes from raw file to clear direction.",
+  },
 ] as const
 
 function VideoPlayer({
@@ -214,7 +224,7 @@ export function VideoDemo() {
     <section className="border-t border-slate-200 bg-white py-16 md:py-24">
       <div className="mx-auto max-w-5xl px-6">
         {/* Tabs */}
-        <div className="mx-auto mb-8 flex max-w-sm gap-1 rounded-full border border-slate-200 bg-slate-100 p-1">
+        <div className="mx-auto mb-8 flex max-w-md gap-1 rounded-full border border-slate-200 bg-slate-100 p-1">
           {DEMOS.map((demo, i) => (
             <button
               key={demo.id}
