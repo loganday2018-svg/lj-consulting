@@ -16,9 +16,6 @@ export const NAV_LINKS = [
   { label: 'About', href: '/about' },
 ] as const
 
-// NOTE: 60-min Live Demo currently lives at the /30min slug because it was
-// renamed from Cal.com's default event without updating the URL. Update this
-// href once the slug is cleaned up (e.g. /demo).
 export const CTA = {
   primary: {
     label: 'Book a 15-Min Intro',
@@ -26,6 +23,6 @@ export const CTA = {
   },
   demo: {
     label: 'Book a Live Demo',
-    href: 'https://cal.com/logan-rubicon/30min',
+    href: 'https://cal.com/logan-rubicon/60min',
   },
 } as const
