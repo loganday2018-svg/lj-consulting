@@ -84,7 +84,7 @@ export function ValueProps({ items }: ValuePropsProps) {
           return (
             <div
               key={prop.title}
-              className="rounded-lg border border-slate-200 bg-white p-8 transition-all duration-200 hover:border-primary/40 hover:shadow-lg hover:-translate-y-0.5"
+              className="h-full rounded-lg border border-slate-200 bg-white p-8 transition-all duration-200 hover:border-primary/40 hover:shadow-lg hover:-translate-y-0.5"
             >
               <Icon className="mb-4 size-8 text-primary md:size-10" />
               <h3 className="mb-3 text-xl font-semibold text-foreground">

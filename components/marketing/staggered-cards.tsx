@@ -17,6 +17,7 @@ export function StaggeredCards({ children, className }: StaggeredCardsProps) {
       {children.map((child, i) => (
         <motion.div
           key={i}
+          className="h-full"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{
