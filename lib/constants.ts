@@ -18,11 +18,7 @@ export const NAV_LINKS = [
 
 export const CTA = {
   primary: {
-    label: 'Book a 15-Min Intro',
-    href: 'https://cal.com/logan-rubicon/15min',
-  },
-  demo: {
-    label: 'Book a Live Demo',
-    href: 'https://cal.com/logan-rubicon/60min',
+    label: 'Book a Call',
+    href: 'https://cal.com/logan-rubicon',
   },
 } as const

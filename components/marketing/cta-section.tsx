@@ -12,8 +12,8 @@ interface CTASectionProps {
 }
 
 export function CTASection({
-  heading = "Start With a 15-Minute Intro.",
-  description = "Tell us what your team is trying to do. We'll tell you if we can help and where the fastest wins live.",
+  heading = "Ready to Talk?",
+  description = "Pick a time that works. 15-minute intro, 30-minute deep dive, or a full 60-minute live demo.",
   primaryLabel = CTA.primary.label,
   primaryHref = CTA.primary.href,
   secondaryLabel,
@@ -27,7 +27,7 @@ export function CTASection({
         </h2>
         <p className="mt-4 text-lg text-slate-300">{description}</p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-6">
-          <Button size="lg" variant="secondary" render={<a href={primaryHref} />}>
+          <Button size="lg" variant="secondary" render={<a href={primaryHref} target="_blank" rel="noopener noreferrer" />}>
             {primaryLabel}
           </Button>
           {secondaryLabel && secondaryHref && (

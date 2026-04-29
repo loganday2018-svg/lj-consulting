@@ -64,7 +64,7 @@ export function Header() {
               {link.label}
             </Link>
           ))}
-          <Button render={<a href={CTA.primary.href} />}>
+          <Button render={<a href={CTA.primary.href} target="_blank" rel="noopener noreferrer" />}>
             {CTA.primary.label}
           </Button>
         </nav>
@@ -114,7 +114,7 @@ export function Header() {
             <Button
               size="sm"
               className="mt-2 w-full"
-              render={<a href={CTA.primary.href} />}
+              render={<a href={CTA.primary.href} target="_blank" rel="noopener noreferrer" />}
             >
               {CTA.primary.label}
             </Button>

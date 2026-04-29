@@ -2,7 +2,6 @@ import type { Metadata } from "next"
 import { PageHeader } from "@/components/marketing/page-header"
 import { CTASection } from "@/components/marketing/cta-section"
 import { DemoShowcase } from "@/components/marketing/demo/demo-showcase"
-import { CTA } from "@/lib/constants"
 
 export const metadata: Metadata = {
   title: "Before & After: AI-Powered Financial Reporting",
@@ -24,11 +23,9 @@ export default function DemoPage() {
 
       <CTASection
         heading="Ready to See This Live on Your Data?"
-        description="In a 60-minute demo, we'll show you Claude, Codex, and Copilot doing real work on your team's actual workflows."
-        primaryLabel={CTA.demo.label}
-        primaryHref={CTA.demo.href}
-        secondaryLabel="Just want a quick intro? Book 15 minutes →"
-        secondaryHref={CTA.primary.href}
+        description="Book a call and pick the format that works — a quick intro, a deep dive, or a full live demo."
+        secondaryLabel="See our services →"
+        secondaryHref="/services"
       />
     </>
   )

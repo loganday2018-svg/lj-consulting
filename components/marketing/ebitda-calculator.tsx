@@ -442,7 +442,7 @@ export function EbitdaCalculator() {
           </div>
 
           <div className="mt-10 text-center">
-            <Button size="lg" render={<a href={CTA.primary.href} />}>
+            <Button size="lg" render={<a href={CTA.primary.href} target="_blank" rel="noopener noreferrer" />}>
               Talk to Us About Your Portfolio
             </Button>
           </div>

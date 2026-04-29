@@ -44,7 +44,7 @@ export function HeroSection() {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="mt-10 flex flex-wrap items-center gap-6"
           >
-            <Button size="lg" variant="secondary" render={<a href={CTA.primary.href} />}>
+            <Button size="lg" variant="secondary" render={<a href={CTA.primary.href} target="_blank" rel="noopener noreferrer" />}>
               {CTA.primary.label}
             </Button>
             <Link
